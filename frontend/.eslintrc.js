@@ -1,53 +1,27 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
+    es2021: true,
+    node: true,
   },
   extends: [
+    'airbnb-base',
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'airbnb',
-    'prettier',
+    'eslint-config-prettier',
   ],
 
-  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 2018,
+    ecmaVersion: 12,
     sourceType: 'module',
-    project: './tsconfig.json',
   },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
+  plugins: ['react'],
   rules: {
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    'prettier/prettier': 'error',
-    'react/jsx-filename-extension': [
-      2,
-      { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
-    ],
-    'react/prop-types': ['off'],
-    'no-use-before-define': 'off',
-    '@typescript-eslint/no-use-before-define': ['error'],
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
-      },
-    ],
-  },
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-    },
+    'no-extra-semi': 'error',
+    'react/prop-types': 'off',
+    'no-alert': 'off',
   },
 };
