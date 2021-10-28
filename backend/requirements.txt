@@ -1,0 +1,4 @@
+django==3.2.6
+coverage==5.3
+pylint==2.6.0
+pylint-django==2.3.0
