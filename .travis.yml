@@ -1,29 +1,31 @@
+# CI environment
+
 dist: bionic
 
 jobs:
   include:
-      - language:python
-        python: "3.7.9"
-        install:
-          - cd backend
-          - pip install -r requirements.txt
-        script:
-          - pylint **/*.py --load-plugins pylint_dango
-          - coverage run --source='.' manage.py test
-          - coverage xml
+    - language:python
+      python: "3.7.9"
+      install:
+        - cd backend
+        - pip install -r requirements.txt
+      script:
+        - pylint **/*.py --load-plugins pylint_dango
+        - coverage run --source='.' manage.py test
+        - coverage xml
         
-        - language: node_js
-          node_js : 
-            - '10'
-            addons:
-              sonarcloud:
-                organization:"swsnu"
-                token:
-                  secure:"QbkaJG13VG1NLXuAaQFyWRTJ4S+p8ijEmjBFGlYM3/jX3w5T4Ka8pOlk8Su61g0UCGSQO7yYASOc8HbmBaz9/J1bKdzcqioTnln6D+2pSAx7lcHaEn4HWnwSghHEQTeM3m5DK8avW3P5vQEZherUc+KzL+UAuAEkzl45Pylqek6CEzpo6nHl8Bmuq7DXy2niekrSYkSp7Fnosew/acR9+Erm4mPUePZTq/K1u9lzMGyj7PzxCHHudRIK08lr1Pa/7TNzwWwyky2DEgF45AuTDhce+OfBNujjVx+jqjuctUpK7jyJ1prkjNngClU4wObHEEF0nHYbg93T0hCvJ/085U4WVx+KJ0Amh0VMbvoGrJswtOIDO57t8I+SIUrtbniebFoQlznbHOXyjPNza92qCJgf0QqMFHuVXdaIDrUK8Ir4S9tUdF3n22DuAAH9lbDLdighHsNutyxrJ1qeLsB7hcQdoALmfZC8fQBzKoAZif5eI0rxi/VL7UkHlEaTl3K5U44hvHgkIUMa9YeaaTxhO4oJEnFPgVVmWOiKY7LThN4IfKenk1Zv6nTpU89oaLaKYtuDOB0tbjAMsSalYlp/pxm027roC+Wl1g14wsPf9Cw7fMRR+otyyZpQ8E5G0ARe2/c302fvqLbOHE54tKp0hBMHJUgyD0Mib795DqAz8OQ="
-          install:
-            - cd frontend
-            - yarn install
-          script:
-            - ./node_modules/.bin/eslint src
-            - yarn test --coverage --watclAll=false
-            - cd .. && sonar-scanner
+    - language: node_js
+      node_js : 
+        - '14'
+        addons:
+          sonarcloud:
+            organization:"swsnu"
+            token:
+              secure:"QbkaJG13VG1NLXuAaQFyWRTJ4S+p8ijEmjBFGlYM3/jX3w5T4Ka8pOlk8Su61g0UCGSQO7yYASOc8HbmBaz9/J1bKdzcqioTnln6D+2pSAx7lcHaEn4HWnwSghHEQTeM3m5DK8avW3P5vQEZherUc+KzL+UAuAEkzl45Pylqek6CEzpo6nHl8Bmuq7DXy2niekrSYkSp7Fnosew/acR9+Erm4mPUePZTq/K1u9lzMGyj7PzxCHHudRIK08lr1Pa/7TNzwWwyky2DEgF45AuTDhce+OfBNujjVx+jqjuctUpK7jyJ1prkjNngClU4wObHEEF0nHYbg93T0hCvJ/085U4WVx+KJ0Amh0VMbvoGrJswtOIDO57t8I+SIUrtbniebFoQlznbHOXyjPNza92qCJgf0QqMFHuVXdaIDrUK8Ir4S9tUdF3n22DuAAH9lbDLdighHsNutyxrJ1qeLsB7hcQdoALmfZC8fQBzKoAZif5eI0rxi/VL7UkHlEaTl3K5U44hvHgkIUMa9YeaaTxhO4oJEnFPgVVmWOiKY7LThN4IfKenk1Zv6nTpU89oaLaKYtuDOB0tbjAMsSalYlp/pxm027roC+Wl1g14wsPf9Cw7fMRR+otyyZpQ8E5G0ARe2/c302fvqLbOHE54tKp0hBMHJUgyD0Mib795DqAz8OQ="
+      install:
+        - cd frontend
+        - yarn install
+      script:
+        - ./node_modules/.bin/eslint src
+        - yarn test --coverage --watchAll=false
+        - cd .. && sonar-scanner
