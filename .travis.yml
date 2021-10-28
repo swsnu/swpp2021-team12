@@ -20,7 +20,7 @@ jobs:
         - "cd frontend"
         - "yarn install"
       language: node_js
-      node_js: "-'10'"
+      node_js: "-'14'"
       script: 
         - "./node_modules/.bin/eslint src"
         - "yarn test --coverage --watchAll=false"
