@@ -1,0 +1,23 @@
+# CI environment
+dist: bionic
+
+jobs:
+  include:
+    - language: python
+      python: "3.7.9"
+      install:
+        - cd backend
+        - pip install -r requrements.txt
+      script:
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source='.' manage.py test
+        - coverage xml
+        
+    - language: node_js
+      node_js: 14
+      install:
+        - cd frontend
+        - yarn install
+      script:
+        - ./node_modules/.bin/eslint src
+        - yarn test --coverage --watchAll=false
