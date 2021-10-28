@@ -10,12 +10,8 @@ function SignUpPage() {
   return (
     <AuthTemplate>
       <SignUp
-        onSignUp={(email, name, password, checkPassword) => {
-          if (password !== checkPassword) {
-            alert('check password again');
-          } else {
-            dispatch(signup({ email, name, password }));
-          }
+        onClickConfirmButton={(email, name, password) => {
+          dispatch(signup({ email, name, password }));
         }}
       />
     </AuthTemplate>
