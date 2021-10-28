@@ -7,14 +7,20 @@ function SignUp(props) {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
-  const { onSignUp, history } = props;
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidName, setIsValidName] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(true);
+  const { onClickConfirmButton, history } = props;
+  const onClickSignInButton = () => history.push('/sign_in');
+  const mailReg = /^[^@\s]+@[^@.\s]+.[a-zA-Z]{2,3}$/;
+
   return (
     <Segment placeholder>
       <Grid relaxed="very" stackable>
         <Grid.Column>
           <Form
             onSubmit={() => {
-              onSignUp(email, name, password, checkPassword);
+              onClickConfirmButton(email, name, password);
             }}
           >
             <Form.Input
@@ -22,14 +28,41 @@ function SignUp(props) {
               iconPosition="left"
               label="Email"
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              error={
+                !isValidEmail && email
+                  ? {
+                      content: 'Please enter a valid email form',
+                      pointing: 'below',
+                    }
+                  : null
+              }
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (mailReg.test(e.target.value)) {
+                  setIsValidEmail(true);
+                } else {
+                  setIsValidEmail(false);
+                }
+              }}
             />
             <Form.Input
               icon="lock"
               iconPosition="left"
               label="Name"
               placeholder="Name"
-              onChange={(e) => setName(e.target.value)}
+              error={
+                !isValidName && name
+                  ? { content: 'Please enter your name', pointing: 'below' }
+                  : null
+              }
+              onChange={(e) => {
+                setName(e.target.value);
+                if (e.target.value) {
+                  setIsValidName(true);
+                } else {
+                  setIsValidName(false);
+                }
+              }}
             />
             <Form.Input
               icon="mail"
@@ -45,14 +78,30 @@ function SignUp(props) {
               label="PasswordCheck"
               placeholder="PasswordCheck"
               type="password"
-              onChange={(e) => setCheckPassword(e.target.value)}
+              error={
+                !isValidPassword && checkPassword
+                  ? {
+                      content: "PasswordCheck doesn't match with Password",
+                      pointing: 'below',
+                    }
+                  : null
+              }
+              onChange={(e) => {
+                setCheckPassword(e.target.value);
+                if (password && password === e.target.value) {
+                  setIsValidPassword(true);
+                } else {
+                  setIsValidPassword(false);
+                }
+              }}
             />
 
-            <Button content="Confirm" primary />
             <Button
-              content="Sign In"
-              onClick={() => history.push('/sign_in')}
+              content="Confirm"
+              disabled={!isValidEmail || !isValidName || !isValidPassword}
+              primary
             />
+            <Button content="Sign In" onClick={onClickSignInButton} />
           </Form>
         </Grid.Column>
       </Grid>
