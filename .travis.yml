@@ -16,7 +16,7 @@ jobs:
 
     - language: node_js
       node_js : 
-        - '14'
+        -'14'
         addons:
           sonarcloud:
             organization:"swsnu"
