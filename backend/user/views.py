@@ -10,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
-@csrf_exempt
 def signin(request):
     if request.method == 'POST':
         try:
@@ -30,7 +29,6 @@ def signin(request):
     return HttpResponseNotAllowed(['POST'])
 
 
-@csrf_exempt
 def signup(request):
     if request.method == 'POST':
         try:
@@ -50,7 +48,6 @@ def signup(request):
         return HttpResponseNotAllowed(['POST'])
 
 
-@csrf_exempt
 def signout(request):
     if request.method == 'GET':
         if request.user.is_authenticated:
