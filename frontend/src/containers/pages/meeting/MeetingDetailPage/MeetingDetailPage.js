@@ -10,14 +10,11 @@ import {
 
 // TODO: Comments, Photo, Access, Tag, Location
 function MeetingDetailPage(props) {
-  const { auth_, meetings_, users_, currentMembers_, maxMembers_ } =
-    useSelector(({ auth, meetings }) => ({
-      meetings_: meetings.meetings,
-      users_: auth.users,
-      auth_: auth.auth,
-      currentMembers_: meetings.currentMembers,
-      maxMembers_: meetings.maxMembers,
-    }));
+  const { auth_, meetings_, users_ } = useSelector(({ auth, meetings }) => ({
+    meetings_: meetings.meetings,
+    users_: auth.users,
+    auth_: auth.auth,
+  }));
   const { params } = props.match;
   const dispatch = useDispatch();
   return (
@@ -33,8 +30,6 @@ function MeetingDetailPage(props) {
           deleteMeeting={() =>
             dispatch(deleteMeeting({ id: parseInt(params.id, 10) }))
           }
-          currentMembers={currentMembers_}
-          maxMembers={maxMembers_}
           joinMeeting={() =>
             dispatch(joinMeeting({ auth: auth_, id: parseInt(params.id, 10) }))
           }
