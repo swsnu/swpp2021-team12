@@ -1,7 +1,7 @@
 import { handleActions } from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import * as actionTypes from '../../actions/actionTypes';
-import createRequestSaga from '../../../components/auth/createRequestSaga';
+import createRequestSaga from '../../../components/meeting/createRequestSaga';
 import * as meetingsAPI from '../../../lib/api/meetings';
 
 const getMeetingsSaga = createRequestSaga(
