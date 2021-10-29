@@ -24,11 +24,23 @@ const deleteMeetingSaga = createRequestSaga(
   meetingsAPI.meetings,
 );
 
+const joinMeetingSaga = createRequestSaga(
+  actionTypes.JOINMEETING,
+  meetingsAPI.meetings,
+);
+
+const quitMeetingSaga = createRequestSaga(
+  actionTypes.QUITMEETING,
+  meetingsAPI.meetings,
+);
+
 export function* meetingSaga() {
   yield takeLatest(actionTypes.GETMEETINGS, getMeetingsSaga);
   yield takeLatest(actionTypes.CREATEMEETING, createMeetingSaga);
   yield takeLatest(actionTypes.EDITMEETING, editMeetingSaga);
   yield takeLatest(actionTypes.DELETEMEETING, deleteMeetingSaga);
+  yield takeLatest(actionTypes.JOINMEETING, joinMeetingSaga);
+  yield takeLatest(actionTypes.QUITMEETING, quitMeetingSaga);
 }
 
 const initialState = {
@@ -93,6 +105,38 @@ const meetings = handleActions(
       meetingsError: null,
     }),
     [actionTypes.DELETEMEETING_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      submitted: -1,
+      meetingsError: error,
+    }),
+    [actionTypes.JOINMEETING_SUCCESS]: (
+      state,
+      { payload: modifiedMeeting },
+    ) => ({
+      ...state,
+      meetings: state.meetings.map((meeting) =>
+        meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
+      ),
+      submitted: -1,
+      meetingsError: null,
+    }),
+    [actionTypes.JOINMEETING_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      submitted: -1,
+      meetingsError: error,
+    }),
+    [actionTypes.QUITMEETING_SUCCESS]: (
+      state,
+      { payload: modifiedMeeting },
+    ) => ({
+      ...state,
+      meetings: state.meetings.map((meeting) =>
+        meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
+      ),
+      submitted: -1,
+      meetingsError: null,
+    }),
+    [actionTypes.QUITMEETING_FAILURE]: (state, { payload: error }) => ({
       ...state,
       submitted: -1,
       meetingsError: error,

@@ -22,3 +22,13 @@ export const deleteMeeting = createAction(
   actionTypes.DELETEMEETING,
   ({ id }) => ({ id }),
 );
+
+export const joinMeeting = createAction(
+  actionTypes.JOINMEETING,
+  ({ auth, meetingId }) => ({ auth, meetingId }),
+);
+
+export const quitMeeting = createAction(
+  actionTypes.QUITMEETING,
+  ({ auth, meetingId }) => ({ auth, meetingId }),
+);
