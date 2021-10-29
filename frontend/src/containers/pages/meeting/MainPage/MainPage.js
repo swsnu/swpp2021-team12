@@ -4,9 +4,11 @@ import Main from '../../../../components/meeting/Main';
 
 import PageTemplate from '../../../common/PageTemplate';
 
-function MainPage() {
+function MainPage(props) {
+  const { history } = props;
+
   return (
-    <div className="MainPgae">
+    <div className="MainPage">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
@@ -18,7 +20,7 @@ function MainPage() {
             visible
             width="thin"
           >
-            <Menu.Item as="a">
+            <Menu.Item as="a" onClick={() => history.push('/meeting')}>
               <Icon name="list" />
               Show Whole Meetings
             </Menu.Item>
