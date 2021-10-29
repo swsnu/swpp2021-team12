@@ -3,14 +3,14 @@ import { Form, Grid, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 function MeetingEdit(props) {
-    const [title, setTitle] = useState(props.title);
-    const [content, setContent] = useState(props.content);
-    const [maxMembers, setMaxMembers] = useState(props.maxMembers);
+    const {onClickConfirmHandler, history, user, meeting} = props;
+    const [title, setTitle] = useState(meeting.title);
+    const [content, setContent] = useState(meeting.content);
+    const [maxMembers, setMaxMembers] = useState(meeting.maxMembers);
     const [isDisable, setIsDisable] = useState(false);
-    const {onClickConfirmHandler, history, user} = props;
 
     useEffect(() => {
-        if (title === props.title && content === props.content && maxMembers === props.maxMembers) {
+        if (title === meeting.title && content === meeting.content && maxMembers === meeting.maxMembers) {
             setIsDisable(true);
         } else {
             setIsDisable(false);
@@ -18,14 +18,14 @@ function MeetingEdit(props) {
     }, [title, content]);
 
     const clickBackHander = () => {
-        if (title !== props.title || content !== props.content || maxMembers !== props.maxMember) {
+        if (title !== meeting.title || content !== meeting.content || maxMembers !== meeting.maxMember) {
             const check = window.confirm("Are you sure?");
             if(check) {
-                history.push('/');
+                history.push(`/meetings/${meeting.id}`);
             }
         } 
         else {
-            history.push('/');
+            history.push(`/meetings/${meeting.id}`);
         }
     }
 
@@ -47,7 +47,7 @@ function MeetingEdit(props) {
                             id='meeting-title-input' 
                             label='Title'
                             style={{ width: 600 }}
-                            value={props.title}
+                            value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             />
                             <Form.TextArea
@@ -55,7 +55,7 @@ function MeetingEdit(props) {
                             id='meeting-content-input'
                             label='Content' 
                             style={{ minHeight: 200 }}
-                            value={props.content}
+                            value={content}
                             onChange={(e) => setContent(e.target.value)}
                             />
                             <Form.Input
@@ -64,7 +64,7 @@ function MeetingEdit(props) {
                             label={`Maximum Members: ${maxMembers}`}
                             style={{ width: 500 }}
                             type='range'
-                            value={props.maxMembers}
+                            value={maxMembers}
                             min='0'
                             max='20'
                             onChange={(e) => setMaxMembers(e.target.value)}

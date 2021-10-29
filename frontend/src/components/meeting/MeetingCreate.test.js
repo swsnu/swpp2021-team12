@@ -15,7 +15,29 @@ describe('<MeetingCreate />', () => {
         )
     });
     it('should render without error', () => {
-        const wrapper = component.find('.MeetingEdit');
+        const wrapper = component.find('.MeetingCreate');
         expect(wrapper.length).toBe(1);
     });
+    it('should post properly when confirm button clicked', () => {
+        const spyCreateMeeting = jest.fn();
+        component = mount(
+            <BrowserRouter>
+                <MeetingCreate onClickConfirmHandler={spyCreateMeeting} user={{user: 1}}/>
+            </BrowserRouter>
+        );
+        const titleInput = component.find('#meeting-title-input').find('input');
+        titleInput.simulate('change', { target: { value: 'title' } });
+        const contentInput = component.find('#meeting-content-input').find('textarea');
+        contentInput.simulate('change', { target: { value: 'content'} });
+        const maxMembersInput = component.find('#meeting-max-members-input').find('input');
+        maxMembersInput.simulate('change', { target: { value: 9} });
+        const submit = component.find('#meeting-create-form').find('Form');
+        submit.simulate('submit');
+        expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
+    });
+    it('should go back properly when back button clicked', () => {
+        const backButton = component.find('#back-button').find('button');
+        backButton.simulate('click');
+        expect(backButton.length).toBe(1);
+    })
 });
