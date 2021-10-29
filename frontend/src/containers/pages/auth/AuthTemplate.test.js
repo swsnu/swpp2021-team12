@@ -8,6 +8,7 @@ import AuthTemplate from './AuthTemplate';
 
 describe('<AuthTemplate/>', () => {
   const mockStore = configureMockStore();
+  // eslint-disable-next-line no-unused-vars
   let component;
 
   it('should go back after signup succeed', () => {
@@ -22,25 +23,17 @@ describe('<AuthTemplate/>', () => {
         </BrowserRouter>
       </Provider>,
     );
-    const authTemplate = component.find('AuthTemplate');
-    expect(authTemplate.length).toBe(1);
-    expect(window.alert).toHaveBeenCalledTimes(1);
-  });
-
-  it('should go back after signiin succeed', () => {
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
-    const store = mockStore({
+    const newstore = mockStore({
       auth: { auth: { type: 'SIGNIN' }, authError: null },
     });
     component = mount(
-      <Provider store={store}>
+      <Provider store={newstore}>
         <BrowserRouter>
           <AuthTemplate />
         </BrowserRouter>
       </Provider>,
     );
-    const authTemplate = component.find('AuthTemplate');
-    expect(authTemplate.length).toBe(1);
-    expect(window.alert).toHaveBeenCalledTimes(1);
+
+    expect(window.alert).toHaveBeenCalledTimes(2);
   });
 });

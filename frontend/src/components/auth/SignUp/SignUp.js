@@ -93,7 +93,11 @@ function SignUp(props) {
               }
               onChange={(e) => {
                 setCheckPassword(e.target.value);
-                if (password && password === e.target.value) {
+                if (
+                  password &&
+                  password === e.target.value &&
+                  e.target.value.length >= 6
+                ) {
                   setIsValidPassword(true);
                 } else {
                   setIsValidPassword(false);
