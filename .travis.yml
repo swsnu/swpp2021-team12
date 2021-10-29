@@ -27,5 +27,5 @@ jobs:
         - yarn install
       script:
         - ./node_modules/.bin/eslint src
-#         - yarn test --coverage --watchAll=false
-#         - cd .. && sonar-scanner
+        - yarn test --coverage --watchAll=false
+        - cd .. && sonar-scanner
