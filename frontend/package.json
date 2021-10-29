@@ -56,5 +56,14 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/index.js",
+      "!src/serviceWorker.js",
+      "!src/store/actions/index.js",
+      "!src/store/reducers/index.js"
+    ]
+  },
   "proxy": "http://localhost:8000"
 }
