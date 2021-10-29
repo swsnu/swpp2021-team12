@@ -126,7 +126,15 @@ disable=print-statement,
         next-method-defined,
         dict-items-not-iterating,
         dict-keys-not-iterating,
-        dict-values-not-iterating
+        dict-values-not-iterating,
+        missing-final-newline,
+        missing-module-docstring,
+        missing-class-docstring,
+        trailing-whitespace,
+        unused-import,
+        invalid-name,
+        no-else-return,
+        wrong-import-order
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
