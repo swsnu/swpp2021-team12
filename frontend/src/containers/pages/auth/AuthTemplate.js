@@ -52,7 +52,7 @@ function AuthTemplate({ children, history }) {
       }
       history.push('/main');
     }
-  });
+  }, [currentAuth]);
 
   return (
     <div>

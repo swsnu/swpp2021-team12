@@ -34,7 +34,7 @@ function MainPage() {
 
           <Sidebar.Pusher>
             <Segment
-              teatAlign="center"
+              textAlign="center"
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >

@@ -12,9 +12,12 @@ function SignIn(props) {
     <Segment placeholder>
       <Grid relaxed="very" stackable>
         <Grid.Column>
-          <Form onSubmit={() => onClickSignInButton(email, password)}>
+          <Form
+            id="form_signin"
+            onSubmit={() => onClickSignInButton(email, password)}
+          >
             <Form.Input
-              className="SigninEmailInput"
+              id="input_email"
               icon="mail"
               iconPosition="left"
               label="Email"
@@ -30,7 +33,7 @@ function SignIn(props) {
               onChange={(e) => setEmail(e.target.value)}
             />
             <Form.Input
-              className="SigninPasswordInput"
+              id="input_password"
               icon="lock"
               iconPosition="left"
               label="Password"
@@ -46,9 +49,9 @@ function SignIn(props) {
               }
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button className="SigninButton" content="Login" primary />
+            <Button id="button_signin" content="Login" primary />
             <Button
-              className="SignupButton"
+              id="button_signup"
               content="Sign Up"
               onClick={onClickSignUpButton}
             />
