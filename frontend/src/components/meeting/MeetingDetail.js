@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 // TODO: Comments, Location
@@ -8,8 +8,6 @@ function MeetingDetail(props) {
     auth,
     meetingDetail,
     deleteMeeting,
-    currentMembers,
-    maxMembers,
     joinMeeting,
     quitMeeting,
     history,
@@ -44,7 +42,9 @@ function MeetingDetail(props) {
         </>
       ) : (
         <>
-          {currentMembers.find((member) => member.id === (auth && auth.id)) ? (
+          {meetingDetail.currentMembers.find(
+            (member) => member === (auth && auth.id),
+          ) ? (
             <button
               className="QuitButton"
               id="quitMeetingButton"
@@ -57,7 +57,9 @@ function MeetingDetail(props) {
               className="JoinButton"
               id="joinMeetingButton"
               onClick={() => joinMeeting()}
-              disabled={currentMembers.size() === maxMembers}
+              disabled={
+                meetingDetail.currentMembers.length === meetingDetail.maxMembers
+              }
             >
               JOIN
             </button>
@@ -76,4 +78,4 @@ function MeetingDetail(props) {
   );
 }
 
-export default MeetingDetail;
+export default withRouter(MeetingDetail);
