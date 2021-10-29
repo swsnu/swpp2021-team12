@@ -87,6 +87,16 @@ export default function createRequestSaga(type, request) {
         }
         break;
 
+      // TODO
+      // case actionTypes.JOINMEETING:
+      //   yield axios;
+      //   break;
+
+      // TODO
+      // case actionTypes.QUITMEETING:
+      //   yield axios;
+      //   break;
+
       default:
         break;
     }
