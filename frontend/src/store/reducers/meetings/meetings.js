@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import { handleActions } from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import * as actionTypes from '../../actions/actionTypes';
