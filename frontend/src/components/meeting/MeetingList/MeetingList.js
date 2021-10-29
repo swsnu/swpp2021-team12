@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, List, Modal } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
@@ -13,7 +13,10 @@ function Meeting({ meeting }) {
 }
 
 function MeetingList(props) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [location, setLocation] = useState(false);
+  const [time, setTime] = useState(false);
+  const [tag, setTag] = useState(false);
 
   const { history, meetinglist } = props;
 
@@ -26,13 +29,52 @@ function MeetingList(props) {
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
               open={open}
-              trigger={<Button>Filter</Button>}
+              trigger={
+                <Button
+                  onClick={() => {
+                    setLocation(true);
+                    setTime(false);
+                    setTag(false);
+                  }}
+                >
+                  Filter
+                </Button>
+              }
             >
               <Modal.Header>Filter</Modal.Header>
               <Modal.Description>
-                <Button>Location</Button>
-                <Button>Time</Button>
-                <Button>#Tag</Button>
+                <Button
+                  onClick={() => {
+                    setLocation(true);
+                    setTime(false);
+                    setTag(false);
+                  }}
+                >
+                  Location
+                </Button>
+                <Button
+                  onClick={() => {
+                    setLocation(false);
+                    setTime(true);
+                    setTag(false);
+                  }}
+                >
+                  Time
+                </Button>
+                <Button
+                  onClick={() => {
+                    setLocation(false);
+                    setTime(false);
+                    setTag(true);
+                  }}
+                >
+                  #Tag
+                </Button>
+              </Modal.Description>
+              <Modal.Description>
+                {location === true && <h1>Should contain Map</h1>}
+                {time === true && <h1>Should contain Calendar</h1>}
+                {tag === true && <h1>Should contain list of tags</h1>}
               </Modal.Description>
               <Modal.Actions>
                 <Button onClick={() => setOpen(false)}>Back</Button>
