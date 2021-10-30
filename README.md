@@ -1,3 +1,5 @@
+### Badges
+
 [![Build
 Status](https://travis-ci.com/swsnu/swpp2021-team12.svg?branch=master)](https://travis-ci.com/swsnu/swpp2021-team12)
 [![Quality Gate
