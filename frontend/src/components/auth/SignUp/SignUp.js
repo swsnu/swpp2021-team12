@@ -96,16 +96,17 @@ function SignUp(props) {
                 setCheckPassword(e.target.value);
 
                 if (password && password === e.target.value) {
-                if (
-                  password &&
-                  password === e.target.value &&
-                  e.target.value.length >= 6
-                ) {
-                  setIsValidPassword(true);
-                } else {
-                  setIsValidPassword(false);
+                  if (
+                    password &&
+                    password === e.target.value &&
+                    e.target.value.length >= 6
+                  ) {
+                    setIsValidPassword(true);
+                  } else {
+                    setIsValidPassword(false);
+                  }
                 }
-              }}}
+              }}
             />
 
             <Button
@@ -113,9 +114,6 @@ function SignUp(props) {
               disabled={!isValidEmail || !isValidName || !isValidPassword}
               primary
               id="button_confirm"
-              content="Confirm"
-              disabled={!isValidEmail || !isValidName || !isValidPassword}
-              primary
             />
             <Button
               id="button_signin"

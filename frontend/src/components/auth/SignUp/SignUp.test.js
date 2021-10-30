@@ -35,6 +35,8 @@ describe('<SignUp />', () => {
     nameInput.simulate('change', { target: { value: 'na' } });
     emailInput.simulate('change', { target: { value: 'ema' } });
     nameInput.simulate('change', { target: { value: 'validname' } });
+    passwordInput.simulate('change', { target: { value: 'pass' } });
+    passwordCheckInput.simulate('change', { target: { value: 'pass' } });
     passwordCheckInput.simulate('change', { target: { value: 'p' } });
     expect(emailInput.length).toBe(1);
     expect(passwordInput.length).toBe(1);
