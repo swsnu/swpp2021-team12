@@ -20,7 +20,11 @@ function MainPage(props) {
             visible
             width="thin"
           >
-            <Menu.Item as="a" onClick={() => history.push('/meeting')}>
+            <Menu.Item
+              id="item_meetinglist"
+              as="a"
+              onClick={() => history.push('/meeting')}
+            >
               <Icon name="list" />
               Show Whole Meetings
             </Menu.Item>

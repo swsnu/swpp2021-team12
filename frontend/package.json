@@ -52,21 +52,10 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.1.0",
     "enzyme-to-json": "^3.6.2",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!src/index.js",
-      "!src/serviceWorker.js",
-      "!src/store/actions/index.js",
-      "!src/store/reducers/index.js",
-      "!src/reportWebVitals.js"
-    ]
   },
   "jest": {
     "collectCoverageFrom": [

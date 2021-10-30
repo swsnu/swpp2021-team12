@@ -60,6 +60,7 @@ function SignUp(props) {
               }
               onChange={(e) => {
                 setName(e.target.value);
+
                 if (e.target.value && e.target.value.length >= 3) {
                   setIsValidName(true);
                 } else {
@@ -93,29 +94,33 @@ function SignUp(props) {
               }
               onChange={(e) => {
                 setCheckPassword(e.target.value);
-                if (
-                  password &&
-                  password === e.target.value &&
-                  e.target.value.length >= 6
-                ) {
-                  setIsValidPassword(true);
-                } else {
-                  setIsValidPassword(false);
+
+                if (password && password === e.target.value) {
+                  if (
+                    password &&
+                    password === e.target.value &&
+                    e.target.value.length >= 6
+                  ) {
+                    setIsValidPassword(true);
+                  } else {
+                    setIsValidPassword(false);
+                  }
                 }
               }}
             />
 
             <Button
-              id="button_confirm"
               content="Confirm"
               disabled={!isValidEmail || !isValidName || !isValidPassword}
               primary
+              id="button_confirm"
             />
             <Button
               id="button_signin"
               content="Sign In"
               onClick={onClickSignInButton}
             />
+            <Button content="Sign In" onClick={onClickSignInButton} />
           </Form>
         </Grid.Column>
       </Grid>
