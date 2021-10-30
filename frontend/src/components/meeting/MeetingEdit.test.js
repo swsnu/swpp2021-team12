@@ -11,7 +11,7 @@ describe('<MeetingEdit />', () => {
     beforeEach(() => {
         component = mount(
             <BrowserRouter>
-                <MeetingEdit meeting={{title: 'title', content: 'content', maxMembers: 10}}/>
+                <MeetingEdit meeting={{meeting: {title: 'title', content: 'content', maxMembers: 10}}}/>
             </BrowserRouter>
         )
     });
@@ -37,7 +37,7 @@ describe('<MeetingEdit />', () => {
         expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
     });
     it('should go back properly', () => {
-        const spyConfirm = jest.spyOn(window, 'confirm')
+        let spyConfirm = jest.spyOn(window, 'confirm')
             .mockImplementation(() => true)
         const backButton = component.find('#back-button').find('button');
         backButton.simulate('click');
@@ -47,6 +47,9 @@ describe('<MeetingEdit />', () => {
         contentInput.simulate('change', { target: { value: 'edited content'} });
         const maxMembersInput = component.find('#meeting-max-members-input').find('input');
         maxMembersInput.simulate('change', { target: { value: 9} });
+        backButton.simulate('click');
+        spyConfirm = jest.spyOn(window, 'confirm')
+        .mockImplementation(() => false)
         backButton.simulate('click');
         expect(spyConfirm).toHaveBeenCalledTimes(2);
     })
