@@ -60,11 +60,14 @@ function MeetingCreate(props) {
                             <Grid centered>
                                 <Form.Select
                                 width='5'
-                                options={["tags"]}
+                                options={[{}]}
                                 />
-                                <Form.Button>Scope</Form.Button>
-                                <Form.Button>Location</Form.Button>
-                                <Form.Button>Time</Form.Button>
+                                <Form.Button
+                                key='scope'>Scope</Form.Button>
+                                <Form.Button
+                                key='location'>Location</Form.Button>
+                                <Form.Button
+                                key='time'>Time</Form.Button>
                             </Grid>
                             <Grid centered>
                                 <Form.Button

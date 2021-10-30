@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import MeetingEdit from './MeetingEdit';
 
 describe('<MeetingEdit />', () => {
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
     let component;
     beforeEach(() => {
         component = mount(
@@ -37,7 +38,7 @@ describe('<MeetingEdit />', () => {
     });
     it('should go back properly', () => {
         const spyConfirm = jest.spyOn(window, 'confirm')
-            .mockImplementation(() => {})
+            .mockImplementation(() => true)
         const backButton = component.find('#back-button').find('button');
         backButton.simulate('click');
         const titleInput = component.find('#meeting-title-input').find('input');
