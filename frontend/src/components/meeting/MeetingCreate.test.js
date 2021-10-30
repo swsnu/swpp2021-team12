@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import MeetingCreate from './MeetingCreate';
 
 describe('<MeetingCreate />', () => {
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
     let component;
     beforeEach(() => {
         component = mount(

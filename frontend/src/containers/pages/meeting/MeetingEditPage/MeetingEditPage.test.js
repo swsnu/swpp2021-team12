@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import MeetingEditPage from "./MeetingEditPage";
 
 describe('<MeetingEditPage />', () => {
+    jest.spyOn(window, 'alert').mockImplementation(() => {});
     const mockStore = configureMockStore();
   const store = mockStore({
     auth: { auth: null, authError: null },
