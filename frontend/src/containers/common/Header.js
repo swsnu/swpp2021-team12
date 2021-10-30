@@ -39,10 +39,16 @@ function Header({ children }) {
                 </Link>
               </Menu.Item>
               <Menu.Item position="right">
-                <Button inverted primary onClick={() => alert('/mypage')}>
+                <Button
+                  id="button_mypage"
+                  inverted
+                  primary
+                  onClick={() => alert('/mypage')}
+                >
                   My Page
                 </Button>
                 <Button
+                  id="button_signout"
                   inverted
                   primary
                   style={{ marginLeft: '0.5em' }}
