@@ -3,6 +3,9 @@ import axios from 'axios';
 import { startLoading, finishLoading } from '../../store/actions/loading';
 import * as actionTypes from '../../store/actions/actionTypes';
 
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
 export default function createRequestSaga(type, request) {
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
@@ -22,8 +25,6 @@ export default function createRequestSaga(type, request) {
           })
           .then((res) => {
             response = res.data;
-            // eslint-disable-next-line no-console
-            console.log(response);
           })
           .catch((error) => {
             err = error;
@@ -51,7 +52,7 @@ export default function createRequestSaga(type, request) {
             password: action.payload.password,
           })
           .then((res) => {
-            response = res;
+            response = res.data;
           })
           .catch((error) => {
             err = error;

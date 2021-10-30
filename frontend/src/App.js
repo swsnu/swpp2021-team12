@@ -6,6 +6,7 @@ import './App.css';
 import SignInPage from './containers/pages/auth/SignInPage/SignInPage';
 import SignUpPage from './containers/pages/auth/SignUpPage/SignUpPage';
 import MainPage from './containers/pages/meeting/MainPage/MainPage';
+import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 import MeetingListPage from './containers/pages/meeting/MeetingListPage/MeetingListPage';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/sign_up" exact component={SignUpPage} />
           <Route path="/main" exact component={MainPage} />
           <Route path="/meeting" exact component={MeetingListPage} />
+          <Route path="/meeting/:id" exact component={MeetingDetailPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>

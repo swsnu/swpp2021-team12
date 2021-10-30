@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
@@ -6,6 +7,7 @@ import { Provider } from 'react-redux';
 import MeetingListPage from './MeetingListPage';
 
 describe('<MeetingListPage />', () => {
+  jest.spyOn(window, 'alert').mockImplementation(() => {});
   const mockStore = configureMockStore();
   const store = mockStore({
     auth: { auth: null, authError: null },

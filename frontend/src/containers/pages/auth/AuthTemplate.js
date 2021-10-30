@@ -45,10 +45,14 @@ function AuthTemplate({ children, history }) {
 
   useEffect(() => {
     if (currentAuth) {
-      alert('You are logged in!\nMoving to main page..');
+      if (currentAuth.type === 'SIGNUP') {
+        alert('Sign up success!\nMoving to main page..');
+      } else {
+        alert('You are logged in!\nMoving to main page..');
+      }
       history.push('/main');
     }
-  });
+  }, [currentAuth]);
 
   return (
     <div>

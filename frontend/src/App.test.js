@@ -1,8 +1,31 @@
-import { render, screen } from '@testing-library/react';
+/* eslint-disable no-undef */
+import React from 'react';
+import { mount } from 'enzyme';
+import configureMockStore from 'redux-mock-store';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('App.js', () => {
+  const mockStore = configureMockStore();
+  const store = mockStore({
+    articles: {},
+    auth: {},
+    comments: {},
+  });
+  let component;
+  beforeEach(() => {
+    component = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>,
+    );
+  });
+
+  it('should render without error', () => {
+    const app = component.find('App');
+    expect(app.length).toBe(1);
+  });
 });

@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { Button, Grid, List, Modal } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
-function Meeting({ meeting }) {
+function Meeting({ meeting, history }) {
   return (
     <List divided relaxed>
       <List.Item>
-        <Button>{meeting.MeetingName}</Button>
+        <Button
+          className="meetingName"
+          onClick={() => history.push(`/meeting/${meeting.id}`)}
+        >
+          {meeting.MeetingName}
+        </Button>
       </List.Item>
     </List>
   );
@@ -26,11 +31,12 @@ function MeetingList(props) {
         <Grid.Row stretched>
           <Grid.Column>
             <Modal
-              onClose={() => setOpen(false)}
+              className="modal"
               onOpen={() => setOpen(true)}
               open={open}
               trigger={
                 <Button
+                  className="filterButton"
                   onClick={() => {
                     setLocation(true);
                     setTime(false);
@@ -44,6 +50,7 @@ function MeetingList(props) {
               <Modal.Header>Filter</Modal.Header>
               <Modal.Description>
                 <Button
+                  className="location"
                   onClick={() => {
                     setLocation(true);
                     setTime(false);
@@ -53,6 +60,7 @@ function MeetingList(props) {
                   Location
                 </Button>
                 <Button
+                  className="time"
                   onClick={() => {
                     setLocation(false);
                     setTime(true);
@@ -62,6 +70,7 @@ function MeetingList(props) {
                   Time
                 </Button>
                 <Button
+                  className="tag"
                   onClick={() => {
                     setLocation(false);
                     setTime(false);
@@ -77,8 +86,11 @@ function MeetingList(props) {
                 {tag === true && <h1>Should contain list of tags</h1>}
               </Modal.Description>
               <Modal.Actions>
-                <Button onClick={() => setOpen(false)}>Back</Button>
+                <Button className="back" onClick={() => setOpen(false)}>
+                  Back
+                </Button>
                 <Button
+                  className="confirm"
                   content="Confirm"
                   labelPosition="right"
                   icon="checkmark"
@@ -88,19 +100,18 @@ function MeetingList(props) {
               </Modal.Actions>
             </Modal>
 
-            {meetinglist.map((meeting) => (
-              <Meeting
-                meeting={meeting}
-                key={meeting.id}
-                onClick={() => history.push(`/meeting/${meeting.id}`)}
-              />
-            ))}
+            {meetinglist &&
+              meetinglist.map((meeting) => (
+                <Meeting meeting={meeting} history={history} key={meeting.id} />
+              ))}
             <h1>You are full of bullshit</h1>
           </Grid.Column>
         </Grid.Row>
       </Grid>
 
-      <Button onClick={() => history.push('/main')}>back</Button>
+      <Button className="BackButton" onClick={() => history.push('/main')}>
+        back
+      </Button>
     </div>
   );
 }
