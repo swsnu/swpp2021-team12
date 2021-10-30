@@ -6,7 +6,7 @@ import PageTemplate from '../../../common/PageTemplate';
 
 function MainPage() {
   return (
-    <div className="MainPgae">
+    <div className="MainPage">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar

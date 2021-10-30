@@ -2,6 +2,22 @@ import { put } from 'redux-saga/effects';
 import axios from 'axios';
 import { startLoading, finishLoading } from '../../store/actions/loading';
 import * as actionTypes from '../../store/actions/actionTypes';
+import { token } from '../../lib/api/auth';
+
+function getCookie(name) {
+  let cookieValue;
+  if (document.cookie && document.cookie !== '') {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i += 1) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === `${name}=`) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
 
 export default function createRequestSaga(type, request) {
   const SUCCESS = `${type}_SUCCESS`;
@@ -11,7 +27,13 @@ export default function createRequestSaga(type, request) {
   return function* (action) {
     let err = null;
     let response = null;
+    let csrftoken = null;
     yield put(startLoading(type));
+
+    yield axios.get(token).then(() => {
+      csrftoken = getCookie('csrftoken');
+      axios.defaults.headers.common['X-CSRFTOKEN'] = csrftoken;
+    });
 
     switch (type) {
       case actionTypes.SIGNIN:
@@ -22,8 +44,6 @@ export default function createRequestSaga(type, request) {
           })
           .then((res) => {
             response = res.data;
-            // eslint-disable-next-line no-console
-            console.log(response);
           })
           .catch((error) => {
             err = error;
@@ -51,7 +71,7 @@ export default function createRequestSaga(type, request) {
             password: action.payload.password,
           })
           .then((res) => {
-            response = res;
+            response = res.data;
           })
           .catch((error) => {
             err = error;

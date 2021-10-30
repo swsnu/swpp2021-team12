@@ -23,17 +23,18 @@ const auth = handleActions(
     [actionTypes.SIGNIN_SUCCESS]: (state, { payload: user }) => ({
       ...state,
       authError: null,
-      auth: user,
+      auth: { type: 'SIGNIN', user },
     }),
     [actionTypes.SIGNIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),
-    [actionTypes.SIGNUP_SUCCESS]: (state) => ({
+    [actionTypes.SIGNUP_SUCCESS]: (state, { payload: user }) => ({
       ...state,
+      auth: { type: 'SIGNUP', user },
       authError: null,
     }),
-    [actionTypes.SIGNIN_FAILURE]: (state, { payload: error }) => ({
+    [actionTypes.SIGNUP_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
     }),
