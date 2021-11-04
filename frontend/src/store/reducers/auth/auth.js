@@ -7,10 +7,15 @@ import * as authAPI from '../../../lib/api/auth';
 const signinSaga = createRequestSaga(actionTypes.SIGNIN, authAPI.signin);
 const signupSaga = createRequestSaga(actionTypes.SIGNUP, authAPI.signup);
 const signoutSaga = createRequestSaga(actionTypes.SIGNOUT, authAPI.signout);
+const checksigninSaga = createRequestSaga(
+  actionTypes.CHECKSIGNIN,
+  authAPI.checksignin,
+);
 export function* authSaga() {
   yield takeLatest(actionTypes.SIGNIN, signinSaga);
   yield takeLatest(actionTypes.SIGNUP, signupSaga);
   yield takeLatest(actionTypes.SIGNOUT, signoutSaga);
+  yield takeLatest(actionTypes.CHECKSIGNIN, checksigninSaga);
 }
 
 const initialState = {
@@ -23,7 +28,7 @@ const auth = handleActions(
     [actionTypes.SIGNIN_SUCCESS]: (state, { payload: user }) => ({
       ...state,
       authError: null,
-      auth: { type: 'SIGNIN', user },
+      auth: user,
     }),
     [actionTypes.SIGNIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
@@ -31,7 +36,7 @@ const auth = handleActions(
     }),
     [actionTypes.SIGNUP_SUCCESS]: (state, { payload: user }) => ({
       ...state,
-      auth: { type: 'SIGNUP', user },
+      auth: user,
       authError: null,
     }),
     [actionTypes.SIGNUP_FAILURE]: (state, { payload: error }) => ({
@@ -45,6 +50,16 @@ const auth = handleActions(
     }),
     [actionTypes.SIGNOUT_FAILURE]: (state, { payload: error }) => ({
       ...state,
+      authError: error,
+    }),
+    [actionTypes.CHECKSIGNIN_SUCCESS]: (state, { payload: user }) => ({
+      ...state,
+      auth: user,
+      authError: null,
+    }),
+    [actionTypes.CHECKSIGNIN_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      auth: null,
       authError: error,
     }),
   },

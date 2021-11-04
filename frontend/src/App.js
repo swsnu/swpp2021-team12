@@ -12,6 +12,7 @@ import MeetingCreatePage from './containers/pages/meeting/MeetingCreatePage/Meet
 import MeetingEditPage from './containers/pages/meeting/MeetingEditPage/MeetingEditPage';
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className="App">
