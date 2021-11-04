@@ -2,22 +2,9 @@ import { put } from 'redux-saga/effects';
 import axios from 'axios';
 import { startLoading, finishLoading } from '../../store/actions/loading';
 import * as actionTypes from '../../store/actions/actionTypes';
-import { token } from '../../lib/api/auth';
 
-function getCookie(name) {
-  let cookieValue;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i += 1) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === `${name}=`) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 export default function createRequestSaga(type, request) {
   const SUCCESS = `${type}_SUCCESS`;
@@ -27,13 +14,7 @@ export default function createRequestSaga(type, request) {
   return function* (action) {
     let err = null;
     let response = null;
-    let csrftoken = null;
     yield put(startLoading(type));
-
-    yield axios.get(token).then(() => {
-      csrftoken = getCookie('csrftoken');
-      axios.defaults.headers.common['X-CSRFTOKEN'] = csrftoken;
-    });
 
     switch (type) {
       case actionTypes.SIGNIN:
@@ -49,11 +30,13 @@ export default function createRequestSaga(type, request) {
             err = error;
           });
         if (!err) {
+          localStorage.user = response.id;
           yield put({
             type: SUCCESS,
             payload: response,
           });
         } else {
+          localStorage.clear();
           yield put({
             type: FAILURE,
             payload: {
@@ -77,11 +60,13 @@ export default function createRequestSaga(type, request) {
             err = error;
           });
         if (!err) {
+          localStorage.user = response.id;
           yield put({
             type: SUCCESS,
             payload: response,
           });
         } else {
+          localStorage.clear();
           yield put({
             type: FAILURE,
             payload: err,
@@ -94,10 +79,25 @@ export default function createRequestSaga(type, request) {
           err = error;
         });
         if (!err) {
+          localStorage.clear();
           yield put({ type: SUCCESS });
         } else {
+          localStorage.clear();
           yield put({ type: FAILURE, payload: err });
         }
+        break;
+
+      case actionTypes.CHECKSIGNIN:
+        yield axios.get(request).catch((error) => {
+          err = error;
+        });
+        if (!err) {
+          yield put({ type: SUCCESS, payload: action.payload.id });
+        } else {
+          localStorage.clear();
+          yield put({ type: FAILURE, payload: err });
+        }
+
         break;
 
       default:
