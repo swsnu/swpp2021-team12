@@ -14,7 +14,8 @@ class UserTestCase(TestCase):
     def test_sign(self):
         client = Client()
         response = client.post('/api/user/sign_up/',
-        json.dumps({'email':'tt@tt.tt','password':'tt','name':'tt'}),content_type="application/json")
+                               json.dumps({'email':'tt@tt.tt','password':'tt','name':'tt'}),
+                               content_type="application/json")
 
         self.assertEqual(response.status_code,200)
 
