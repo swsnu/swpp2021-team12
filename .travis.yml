@@ -26,6 +26,7 @@ jobs:
         - "gem install coveralls-lcov"
         - "cd ../backend"
         - "pip install coveralls"
+        - "cd ../frontend"
       script: 
         - "./node_modules/.bin/eslint src"
         - "yarn test --coverage --watchAll=false"
