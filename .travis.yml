@@ -7,6 +7,7 @@ jobs:
       install: 
         - "cd backend"
         - "pip install -r requirements.txt"
+        - "pip install coveralls"
       script: 
         - "pylint **/*.py --load-plugins pylint_django"
         - "coverage run --source='.' manage.py test"
@@ -21,6 +22,8 @@ jobs:
       install: 
         - "cd frontend"
         - "yarn install"
+        - "yarn global add coveralls"
+        - "gem install coveralls-lcov"
       script: 
         - "./node_modules/.bin/eslint src"
         - "yarn test --coverage --watchAll=false"
