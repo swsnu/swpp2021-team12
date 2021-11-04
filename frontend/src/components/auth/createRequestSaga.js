@@ -30,11 +30,13 @@ export default function createRequestSaga(type, request) {
             err = error;
           });
         if (!err) {
+          localStorage.user = response.id;
           yield put({
             type: SUCCESS,
             payload: response,
           });
         } else {
+          localStorage.clear();
           yield put({
             type: FAILURE,
             payload: {
@@ -58,11 +60,13 @@ export default function createRequestSaga(type, request) {
             err = error;
           });
         if (!err) {
+          localStorage.user = response.id;
           yield put({
             type: SUCCESS,
             payload: response,
           });
         } else {
+          localStorage.clear();
           yield put({
             type: FAILURE,
             payload: err,
@@ -75,10 +79,25 @@ export default function createRequestSaga(type, request) {
           err = error;
         });
         if (!err) {
+          localStorage.clear();
           yield put({ type: SUCCESS });
         } else {
+          localStorage.clear();
           yield put({ type: FAILURE, payload: err });
         }
+        break;
+
+      case actionTypes.CHECKSIGNIN:
+        yield axios.get(request).catch((error) => {
+          err = error;
+        });
+        if (!err) {
+          yield put({ type: SUCCESS, payload: action.payload.id });
+        } else {
+          localStorage.clear();
+          yield put({ type: FAILURE, payload: err });
+        }
+
         break;
 
       default:

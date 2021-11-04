@@ -61,6 +61,14 @@ def signout(request):
     else:
         return HttpResponseNotAllowed(['GET'])
 
+def checksignin(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return HttpResponse(status=200)
+        return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
 
 @ensure_csrf_cookie
 def token(request):

@@ -54,6 +54,20 @@ describe('Saga of auth', () => {
     ]);
   });
 
+  it('should work on CHECKSIGNIN', async () => {
+    axios.get.mockImplementation(() => Promise.resolve({ data: '' }));
+    const dispatched = [];
+    await runSaga(
+      {
+        dispatch: (action) => dispatched.push(action),
+      },
+      createRequestSaga(actionTypes.CHECKSIGNIN, authAPI.checksignin),
+    );
+    expect(dispatched).toEqual([
+      { payload: 'auth/CHECKSIGNIN', type: 'loading/START_LOADING' },
+    ]);
+  });
+
   it('should fail on SIGNIN', async () => {
     const dummyAuth = { password: 'tt', email: 'tt' };
     axios.post.mockImplementation(() => Promise.reject({ status: 500 }));
@@ -97,6 +111,20 @@ describe('Saga of auth', () => {
     );
     expect(dispatched).toEqual([
       { payload: 'auth/SIGNOUT', type: 'loading/START_LOADING' },
+    ]);
+  });
+
+  it('should fail on CHECKSIGNIN', async () => {
+    axios.get.mockImplementation(() => Promise.reject({ status: 500 }));
+    const dispatched = [];
+    await runSaga(
+      {
+        dispatch: (action) => dispatched.push(action),
+      },
+      createRequestSaga(actionTypes.CHECKSIGNIN, authAPI.checksignin),
+    );
+    expect(dispatched).toEqual([
+      { payload: 'auth/CHECKSIGNIN', type: 'loading/START_LOADING' },
     ]);
   });
 

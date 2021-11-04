@@ -1,18 +1,30 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Header from './Header';
+import { checksignin } from '../../store/actions/auth';
 
 function PageTemplate({ children, history }) {
-  const { currentAuth } = useSelector(({ auth }) => ({
+  const { currentAuth, authError } = useSelector(({ auth }) => ({
     currentAuth: auth.auth,
+    authError: auth.authError,
   }));
+  const dispatch = useDispatch();
   useEffect(() => {
     if (!currentAuth) {
-      alert('You are logged out; please log in to enjoy meethub!');
-      history.push('/sign_in');
+      if ('user' in localStorage) {
+        const id = localStorage.user;
+        dispatch(checksignin({ id }));
+      } else {
+        if (authError) {
+          alert('Error occured; please try loggin in again');
+        } else {
+          alert('You are logged out; please log in to enjoy meethub!');
+        }
+        history.push('/sign_in');
+      }
     }
-  }, [currentAuth, history]);
+  }, [currentAuth, localStorage.user]);
   return <Header>{children}</Header>;
 }
 

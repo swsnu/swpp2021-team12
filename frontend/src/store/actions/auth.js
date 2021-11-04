@@ -15,3 +15,7 @@ export const signup = createAction(
 );
 
 export const signout = createAction(actionTypes.SIGNOUT);
+
+export const checksignin = createAction(actionTypes.CHECKSIGNIN, ({ id }) => ({
+  id,
+}));
