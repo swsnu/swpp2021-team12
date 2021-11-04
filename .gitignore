@@ -7,3 +7,5 @@ yarn-error.log
 frontend/coverage
 
 __pycache__/
+
+.DS_Store
