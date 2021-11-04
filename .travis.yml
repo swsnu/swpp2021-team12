@@ -1,32 +1,31 @@
-# CI environment
+# CI Environment
 dist: bionic
-jobs: 
-  include: 
-    - language: python
-      python: "3.7"
-      install: 
-        - "cd backend"
-        - "pip install -r requirements.txt"
-        - "pip install coveralls"
-      script: 
-        - "pylint **/*.py --load-plugins pylint_django"
-        - "coverage run --source='.' manage.py test"
-        - "coverage xml"
+# Job Configurations
+jobs:
+include:
     - language: node_js
-      node_js: 14
-      addons: 
-        sonarcloud: 
-          organization: swsnu
-          token: 
-            secure: "QbkaJG13VG1NLXuAaQFyWRTJ4S+p8ijEmjBFGlYM3/jX3w5T4Ka8pOlk8Su61g0UCGSQO7yYASOc8HbmBaz9/J1bKdzcqioTnln6D+2pSAx7lcHaEn4HWnwSghHEQTeM3m5DK8avW3P5vQEZherUc+KzL+UAuAEkzl45Pylqek6CEzpo6nHl8Bmuq7DXy2niekrSYkSp7Fnosew/acR9+Erm4mPUePZTq/K1u9lzMGyj7PzxCHHudRIK08lr1Pa/7TNzwWwyky2DEgF45AuTDhce+OfBNujjVx+jqjuctUpK7jyJ1prkjNngClU4wObHEEF0nHYbg93T0hCvJ/085U4WVx+KJ0Amh0VMbvoGrJswtOIDO57t8I+SIUrtbniebFoQlznbHOXyjPNza92qCJgf0QqMFHuVXdaIDrUK8Ir4S9tUdF3n22DuAAH9lbDLdighHsNutyxrJ1qeLsB7hcQdoALmfZC8fQBzKoAZif5eI0rxi/VL7UkHlEaTl3K5U44hvHgkIUMa9YeaaTxhO4oJEnFPgVVmWOiKY7LThN4IfKenk1Zv6nTpU89oaLaKYtuDOB0tbjAMsSalYlp/pxm027roC+Wl1g14wsPf9Cw7fMRR+otyyZpQ8E5G0ARe2/c302fvqLbOHE54tKp0hBMHJUgyD0Mib795DqAz8OQ="
-      install: 
-        - "cd frontend"
-        - "yarn install"
-        - "yarn global add coveralls"
-        - "gem install coveralls-lcov"
-      script: 
-        - "./node_modules/.bin/eslint src"
-        - "yarn test --coverage --watchAll=false"
-        - "coveralls-lcov -v -n coverage/lcov.info > coverage.json"
-        - "cd ../backend"
-        - "coveralls --merge=../frontend/coverage.json"
+node_js: 14
+python: "3.7.9"
+addons:
+sonarcloud:
+organization: swsnu
+token:
+secure: "QbkaJG13VG1NLXuAaQFyWRTJ4S+p8ijEmjBFGlYM3/jX3w5T4Ka8pOlk8Su61g0UCGSQO7yYASOc8HbmBaz9/J1bKdzcqioTnln6D+2pSAx7lcHaEn4HWnwSghHEQTeM3m5DK8avW3P5vQEZherUc+KzL+UAuAEkzl45Pylqek6CEzpo6nHl8Bmuq7DXy2niekrSYkSp7Fnosew/acR9+Erm4mPUePZTq/K1u9lzMGyj7PzxCHHudRIK08lr1Pa/7TNzwWwyky2DEgF45AuTDhce+OfBNujjVx+jqjuctUpK7jyJ1prkjNngClU4wObHEEF0nHYbg93T0hCvJ/085U4WVx+KJ0Amh0VMbvoGrJswtOIDO57t8I+SIUrtbniebFoQlznbHOXyjPNza92qCJgf0QqMFHuVXdaIDrUK8Ir4S9tUdF3n22DuAAH9lbDLdighHsNutyxrJ1qeLsB7hcQdoALmfZC8fQBzKoAZif5eI0rxi/VL7UkHlEaTl3K5U44hvHgkIUMa9YeaaTxhO4oJEnFPgVVmWOiKY7LThN4IfKenk1Zv6nTpU89oaLaKYtuDOB0tbjAMsSalYlp/pxm027roC+Wl1g14wsPf9Cw7fMRR+otyyZpQ8E5G0ARe2/c302fvqLbOHE54tKp0hBMHJUgyD0Mib795DqAz8OQ="
+install:
+        - source ~/virtualenv/python3.7/bin/activate
+        - pip install -r requirements.txt
+        - pip install coveralls
+        - yarn install
+        - yarn global add coveralls
+        - gem install coveralls-lcov
+script:
+        - cd frontend
+        - ./node_modules/.bin/eslint src
+        - yarn test --coverage --watchAll=false
+        - coveralls-lcov -v -n coverage/lcov.info > coverage.json
+        - cd ../backend
+        - pylint **/*.py --load-plugins pylint_django
+        - coverage run --source='.' manage.py test
+        - coverage xml
+        - sonar-scanner
+        - coveralls --merge=../frontend/coverage.json
