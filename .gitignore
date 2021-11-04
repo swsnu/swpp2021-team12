@@ -5,3 +5,5 @@ frontend/node_modules
 yarn-error.log
 
 frontend/coverage
+
+__pycache__/
