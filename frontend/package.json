@@ -68,5 +68,12 @@
       "!src/reportWebVitals.js"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "!src/**/**/*.{js,jsx}",
+      "!src/**/**/**/*.{js.jsx}",
+      "!src/serviceWorker.js"
+    ]
+  },
   "proxy": "http://localhost:8000"
 }
