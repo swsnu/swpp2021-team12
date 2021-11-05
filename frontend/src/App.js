@@ -10,9 +10,10 @@ import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/Meet
 import MeetingListPage from './containers/pages/meeting/MeetingListPage/MeetingListPage';
 import MeetingCreatePage from './containers/pages/meeting/MeetingCreatePage/MeetingCreatePage';
 import MeetingEditPage from './containers/pages/meeting/MeetingEditPage/MeetingEditPage';
+import MyProfilePage from './containers/pages/room/MyProfilePage/MyProfilePage';
+import MyProfileEditPage from './containers/pages/room/MyProfileEditPage/MyProfileEditPage';
 
 function App() {
-
   return (
     <BrowserRouter>
       <div className="App">
@@ -24,6 +25,8 @@ function App() {
           <Route path="/meeting/:id" exact component={MeetingDetailPage} />
           <Route path="/meeting/:id/edit" exact component={MeetingEditPage} />
           <Route path="/meeting/create" exact component={MeetingCreatePage} />
+          <Route path="/mypage" exact component={MyProfilePage} />
+          <Route path="/mypage/edit" exact component={MyProfileEditPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>
