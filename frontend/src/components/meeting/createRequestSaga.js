@@ -87,15 +87,41 @@ export default function createRequestSaga(type, request) {
         }
         break;
 
-      // TODO
-      // case actionTypes.JOINMEETING:
-      //   yield axios;
-      //   break;
+      case actionTypes.JOINMEETING:
+        yield axios
+          .put(`${request}/${action.payload.meetingId}`, {
+            currentMembers: action.payload.currentMembers,
+          })
+          .then((res) => {
+            response = res.data;
+          })
+          .catch((error) => {
+            err = error;
+          });
+        if (!err) {
+          yield put({ type: SUCCESS, payload: response });
+        } else {
+          yield put({ type: FAILURE, payload: { error: err } });
+        }
+        break;
 
-      // TODO
-      // case actionTypes.QUITMEETING:
-      //   yield axios;
-      //   break;
+      case actionTypes.QUITMEETING:
+        yield axios
+          .put(`${request}/${action.payload.meetingId}`, {
+            currentMembers: action.payload.currentMembers,
+          })
+          .then((res) => {
+            response = res.data;
+          })
+          .catch((error) => {
+            err = error;
+          });
+        if (!err) {
+          yield put({ type: SUCCESS, payload: response });
+        } else {
+          yield put({ type: FAILURE, payload: { error: err } });
+        }
+        break;
 
       default:
         break;

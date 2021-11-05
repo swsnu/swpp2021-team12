@@ -20,6 +20,12 @@ function MeetingDetail(props) {
       </button>
       <h1 id="meetingTitle">{meetingDetail && meetingDetail.title}</h1>
       <p id="meetingContent">{meetingDetail && meetingDetail.content}</p>
+      <h5>Current Member: </h5>
+      {meetingDetail &&
+        meetingDetail.currentMembers.map((member) => (
+          <h5 key={member}>{member}</h5>
+        ))}
+      <h5>Max Member: {meetingDetail && meetingDetail.maxMembers}</h5>
       {auth && auth.id === meetingDetail.authorId ? (
         <>
           <button

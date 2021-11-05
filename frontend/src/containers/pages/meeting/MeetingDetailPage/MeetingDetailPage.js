@@ -1,19 +1,36 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import MeetingDetail from '../../../../components/meeting/MeetingDetail';
+import CommentList from '../../../../components/comment/CommentList/CommentList';
 import PageTemplate from '../../../common/PageTemplate';
 import {
   deleteMeeting,
   joinMeeting,
   quitMeeting,
 } from '../../../../store/actions/meetings';
+import {
+  createComment,
+  editComment,
+  deleteComment,
+} from '../../../../store/actions/comments';
 
-// TODO: Comments, Photo, Access, Tag, Location
+// TODO: Comments, Photo, Access, Tag, Location, Time
 function MeetingDetailPage(props) {
-  const { auth_, meetings_, users_ } = useSelector(({ auth, meetings }) => ({
-    meetings_: meetings.meetings,
+  const tempMeetings = [
+    {
+      id: 1,
+      title: 'Chicken Meeting',
+      content: 'Who wants to eat chicken?',
+      authorId: 3,
+      currentMembers: [3, 4, 5],
+      maxMembers: 5,
+    },
+  ];
+  const { auth_, users_, comments_ } = useSelector(({ auth }) => ({
+    // meetings_: meetings.meetings,
     users_: auth.users,
     auth_: auth.auth,
+    comments_: comments.comments,
   }));
   const { params } = props.match;
   const dispatch = useDispatch();
@@ -24,18 +41,56 @@ function MeetingDetailPage(props) {
           users={users_}
           auth={auth_}
           meetingDetail={
-            meetings_ &&
-            meetings_.find((meeting) => meeting.id === parseInt(params.id, 10))
+            tempMeetings &&
+            tempMeetings.find(
+              (meeting) => meeting.id === parseInt(params.id, 10),
+            )
           }
           deleteMeeting={() =>
             dispatch(deleteMeeting({ id: parseInt(params.id, 10) }))
           }
           joinMeeting={() =>
-            dispatch(joinMeeting({ auth: auth_, id: parseInt(params.id, 10) }))
+            dispatch(
+              joinMeeting({
+                currentMembers:
+                  tempMeetings &&
+                  tempMeetings.currentMembers.push(auth_ && auth_.id),
+                id: parseInt(params.id, 10),
+              }),
+            )
           }
           quitMeeting={() =>
-            dispatch(quitMeeting({ auth: auth_, id: parseInt(params.id, 10) }))
+            dispatch(
+              quitMeeting({
+                currentMembers:
+                  tempMeetings &&
+                  tempMeetings.currentMembers.map(
+                    (member) => member !== (auth_ && auth_.id),
+                  ),
+                id: parseInt(params.id, 10),
+              }),
+            )
           }
+        />
+        <CommentList
+          auth={auth_}
+          comments={
+            comments_ &&
+            comments_.filter(
+              (comment) => comment.articleId === parseInt(params.id, 10),
+            )
+          }
+          users={users_}
+          articleId={parseInt(params.id, 10)}
+          createComment={(content, authorId, articleId) => {
+            dispatch(createComment({ content, authorId, articleId }));
+          }}
+          editComment={(content, authorId, articleId, commentId) => {
+            dispatch(editComment({ content, authorId, articleId, commentId }));
+          }}
+          deleteComment={(commentId) => {
+            dispatch(deleteComment({ commentId }));
+          }}
         />
       </PageTemplate>
     </div>
