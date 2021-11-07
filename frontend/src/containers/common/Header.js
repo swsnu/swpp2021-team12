@@ -20,7 +20,7 @@ const { Media } = createMedia({
   },
 });
 
-function Header({ children }) {
+function Header({ children, history }) {
   const dispatch = useDispatch();
   return (
     <Media greaterThan="mobile">
@@ -43,7 +43,7 @@ function Header({ children }) {
                   id="button_mypage"
                   inverted
                   primary
-                  onClick={() => alert('/mypage')}
+                  onClick={() => history.push('/mypage')}
                 >
                   My Page
                 </Button>
