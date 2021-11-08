@@ -17,7 +17,6 @@ function MyRoomRegister(props) {
         <div className="MyRoomRegister">
             <Container text style={{ marginTop: '2em' }}>
                 <Form 
-                style={{ align: 'left' }}
                 onSubmit={() => {
                     onClickConfirmHandler(title, description, capacity)
                     history.push('/mypage/room')

@@ -1,15 +1,20 @@
 import React from 'react'
-import { Container, Header } from 'semantic-ui-react'
+import { Container, Segment, Header } from 'semantic-ui-react'
+import { withRouter } from 'react-router-dom';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
-
-function MyRoom(){
-
+function MyRoom(props){
+    const { title } = props;
     return (
         <Container text style={{marginTop: '4em' }}>
-            <Header as="h1" dividing>
-                My Room Title
-            </Header>
+            <Segment>
+                <Header as="h1" dividing>
+                    {title}
+                </Header>
+                <Calendar />
+            </Segment>
         </Container>
     )
 }
-export default MyRoom;
+export default withRouter(MyRoom);
