@@ -13,6 +13,10 @@ export const SIGNOUT = 'auth/SIGNOUT';
 export const SIGNOUT_SUCCESS = 'auth/SIGNOUT_SUCCESS';
 export const SIGNOUT_FAILURE = 'auth/SIGNOUT_FAILURE';
 
+export const CHECKSIGNIN = 'auth/CHECKSIGNIN';
+export const CHECKSIGNIN_SUCCESS = 'auth/CHECKSIGNIN_SUCCESS';
+export const CHECKSIGNIN_FAILURE = 'auth/CHECKSIGNIN_FAILURE';
+
 export const GETMEETINGS = 'meetings/GETMEETINGS';
 export const GETMEETINGS_SUCCESS = 'meetings/GETMEETINGS_SUCCESS';
 export const GETMEETINGS_FAILURE = 'meetings/GETMEETINGS_FAILURE';

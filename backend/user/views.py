@@ -41,9 +41,13 @@ def signup(request):
         try:
             User.objects.create_user(
                 name=name, password=password, email=email)
+            user = authenticate(email=email,password=password)
+            login(request,user)
+            u = User.objects.get(email=email)
+            userId = u.id
         except IntegrityError:
             return HttpResponse(status=409)
-        return HttpResponse(status=201)
+        return JsonResponse({"name":name, "id":userId},status=200,safe=False)
     else:
         return HttpResponseNotAllowed(['POST'])
 
@@ -53,6 +57,14 @@ def signout(request):
         if request.user.is_authenticated:
             logout(request)
             return HttpResponse(status=204)
+        return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+def checksignin(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return HttpResponse(status=200)
         return HttpResponse(status=401)
     else:
         return HttpResponseNotAllowed(['GET'])
