@@ -26,11 +26,23 @@ function MeetingDetailPage(props) {
       maxMembers: 5,
     },
   ];
-  const { auth_, users_, comments_ } = useSelector(({ auth }) => ({
+  const tempComments = [
+    {
+      id: 11,
+      articleId: 1,
+      content: 'Hello this is test comment',
+    },
+    {
+      id: 12,
+      articleId: 1,
+      content: 'second comment for test',
+    },
+  ];
+  const { auth_, users_ } = useSelector(({ auth }) => ({
     // meetings_: meetings.meetings,
     users_: auth.users,
     auth_: auth.auth,
-    comments_: comments.comments,
+    // comments_: comments.comments,
   }));
   const { params } = props.match;
   const dispatch = useDispatch();
@@ -75,12 +87,16 @@ function MeetingDetailPage(props) {
         <CommentList
           auth={auth_}
           comments={
-            comments_ &&
-            comments_.filter(
+            tempComments.filter(
               (comment) => comment.articleId === parseInt(params.id, 10),
             )
+            // comments_ &&
+            // comments_.filter(
+            //   (comment) => comment.articleId === parseInt(params.id, 10),
+            // )
           }
-          users={users_}
+          // users={users_}
+          users={[{ id: 3, name: 'Mario' }]}
           articleId={parseInt(params.id, 10)}
           createComment={(content, authorId, articleId) => {
             dispatch(createComment({ content, authorId, articleId }));
