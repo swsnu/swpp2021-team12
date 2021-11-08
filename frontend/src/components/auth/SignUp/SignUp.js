@@ -19,11 +19,13 @@ function SignUp(props) {
       <Grid relaxed="very" stackable>
         <Grid.Column>
           <Form
+            id="form_signup"
             onSubmit={() => {
               onClickConfirmButton(email, name, password);
             }}
           >
             <Form.Input
+              id="input_email"
               icon="mail"
               iconPosition="left"
               label="Email"
@@ -46,6 +48,7 @@ function SignUp(props) {
               }}
             />
             <Form.Input
+              id="input_name"
               icon="lock"
               iconPosition="left"
               label="Name"
@@ -57,7 +60,8 @@ function SignUp(props) {
               }
               onChange={(e) => {
                 setName(e.target.value);
-                if (e.target.value) {
+
+                if (e.target.value && e.target.value.length >= 3) {
                   setIsValidName(true);
                 } else {
                   setIsValidName(false);
@@ -65,6 +69,7 @@ function SignUp(props) {
               }}
             />
             <Form.Input
+              id="input_password"
               icon="mail"
               iconPosition="left"
               label="Password"
@@ -73,6 +78,7 @@ function SignUp(props) {
               onChange={(e) => setPassword(e.target.value)}
             />
             <Form.Input
+              id="input_passwordCheck"
               icon="lock"
               iconPosition="left"
               label="PasswordCheck"
@@ -88,10 +94,17 @@ function SignUp(props) {
               }
               onChange={(e) => {
                 setCheckPassword(e.target.value);
+
                 if (password && password === e.target.value) {
-                  setIsValidPassword(true);
-                } else {
-                  setIsValidPassword(false);
+                  if (
+                    password &&
+                    password === e.target.value &&
+                    e.target.value.length >= 6
+                  ) {
+                    setIsValidPassword(true);
+                  } else {
+                    setIsValidPassword(false);
+                  }
                 }
               }}
             />
@@ -100,6 +113,12 @@ function SignUp(props) {
               content="Confirm"
               disabled={!isValidEmail || !isValidName || !isValidPassword}
               primary
+              id="button_confirm"
+            />
+            <Button
+              id="button_signin"
+              content="Sign In"
+              onClick={onClickSignInButton}
             />
             <Button content="Sign In" onClick={onClickSignInButton} />
           </Form>

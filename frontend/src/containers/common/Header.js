@@ -20,7 +20,7 @@ const { Media } = createMedia({
   },
 });
 
-function Header({ children }) {
+function Header({ children, history }) {
   const dispatch = useDispatch();
   return (
     <Media greaterThan="mobile">
@@ -39,10 +39,16 @@ function Header({ children }) {
                 </Link>
               </Menu.Item>
               <Menu.Item position="right">
-                <Button inverted primary onClick={() => alert('/mypage')}>
+                <Button
+                  id="button_mypage"
+                  inverted
+                  primary
+                  onClick={() => history.push('/mypage')}
+                >
                   My Page
                 </Button>
                 <Button
+                  id="button_signout"
                   inverted
                   primary
                   style={{ marginLeft: '0.5em' }}
