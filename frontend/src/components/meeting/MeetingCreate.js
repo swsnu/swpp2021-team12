@@ -71,6 +71,7 @@ function MeetingCreate(props) {
                             </Grid>
                             <Grid centered>
                                 <Form.Button
+                                primary
                                 className="ConfirmButton"
                                 id='confirm-button'
                                 disabled={isDisable}

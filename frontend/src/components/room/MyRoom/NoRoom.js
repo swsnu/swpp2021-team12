@@ -4,16 +4,18 @@ import { withRouter } from 'react-router-dom';
 
 function NoRoom(props) {
     const { history } = props;
-    const onClickRegister = () => history.push('/mypage/room/register')
+
+    const onClickRegisterHandler = () => history.push('/mypage/room/register')
+
     return (
         <Container text style={{ marginTop: '4em' }}>
             <Segment placeholder style={{ height: '300px', width:'700px', marginBottom: '4em'}}>
                 <h1>No Room Registered!!</h1>
             </Segment>
-            <Button primary size="big" onClick={onClickRegister}>
+            <Button primary size="big" onClick={onClickRegisterHandler}>
                 Register
             </Button>
         </Container>
     )
 }
-export default withRouter(NoRoom)
+export default withRouter(NoRoom);

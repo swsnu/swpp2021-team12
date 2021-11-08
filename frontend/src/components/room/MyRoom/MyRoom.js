@@ -12,4 +12,4 @@ function MyRoom(){
         </Container>
     )
 }
-export default MyRoom
+export default MyRoom;

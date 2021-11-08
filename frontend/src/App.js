@@ -24,9 +24,9 @@ function App() {
           <Route path="/sign_up" exact component={SignUpPage} />
           <Route path="/main" exact component={MainPage} />
           <Route path="/meeting" exact component={MeetingListPage} />
+          <Route path="/meeting/create" exact component={MeetingCreatePage} />
           <Route path="/meeting/:id" exact component={MeetingDetailPage} />
           <Route path="/meeting/:id/edit" exact component={MeetingEditPage} />
-          <Route path="/meeting/create" exact component={MeetingCreatePage} />
           <Route path="/mypage" exact component={MyProfilePage} />
           <Route path="/mypage/edit" exact component={MyProfileEditPage} />
           <Route path="/mypage/room" exact component={MyRoomPage} />

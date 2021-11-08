@@ -11,4 +11,4 @@ function MyRoomPage() {
         </RoomTemplate>
     )
 }
-export default MyRoomPage
+export default MyRoomPage;

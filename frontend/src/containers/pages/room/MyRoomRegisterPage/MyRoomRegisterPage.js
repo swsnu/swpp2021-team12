@@ -7,7 +7,8 @@ function MyRoomRegisterPage() {
 
     return(
         <RoomTemplate>
-            <MyRoomRegister props/>
+            <MyRoomRegister onClickConfirmHandler={() => {
+            }}/>
         </RoomTemplate>
     )
 }
