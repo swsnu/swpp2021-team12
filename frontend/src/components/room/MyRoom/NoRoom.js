@@ -4,7 +4,6 @@ import { withRouter } from 'react-router-dom';
 
 function NoRoom(props) {
     const { history } = props;
-
     const onClickRegisterHandler = () => history.push('/mypage/room/register')
 
     return (

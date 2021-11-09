@@ -5,13 +5,24 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 function MyRoomRegister(props) {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [date, setDate] = useState(new Date());
-    const [capacity, setCapacity] = useState(0);
-    const { onClickConfirmHandler, history } = props;
+    const { room, onClickConfirmHandler, history } = props;
+    const [title, setTitle] = useState((room) ? room.title : '');
+    const [description, setDescription] = useState((room) ? room.description : '');
+    const [dates] = useState();
+    const [capacity, setCapacity] = useState((room) ? room.capacity : 0);
 
-    const onClickBackHandler = () => history.push('/mypage/room');
+    const onClickBackHandler = () => {
+        if (!room) {
+            history.push('/mypage/room');
+        }
+        else if (title !== room.title || description !== room.description || capacity !== room.capacity) {
+            const check = window.confirm("Are you sure?");
+            if (check) history.push('/mypage/room');
+        }
+        else {
+            history.push('/mypage/room');
+        }
+    };
 
     return (
         <div className="MyRoomRegister">
@@ -34,8 +45,7 @@ function MyRoomRegister(props) {
                         <Grid.Row>
                             <Grid.Column></Grid.Column>                        
                             <Calendar
-                            onChange={(dated) => setDate(dated)}
-                            value={date}
+                            value={dates}
                             />
                         </Grid.Row>
                     </Grid>
