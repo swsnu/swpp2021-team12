@@ -13,7 +13,7 @@ export default function createRequestSaga(type, request) {
     yield put(startLoading(type));
 
     switch (type) {
-      case actionTypes.GETCOMMENTS:
+      case actionTypes.GETMEETINGCOMMENTS:
         yield axios
           .get(request)
           .then((res) => {
