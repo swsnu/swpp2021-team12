@@ -9,7 +9,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 # TODO: access_scope, tag, location, photo
 def meeting(request):
     # get a whole meetings list
-    if request.methood == 'GET':
+    if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         meeting_all_list = []
@@ -33,11 +33,11 @@ def meeting(request):
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            body = request.body.decodde()
+            body = request.body.decode()
             req_data =  json.loads(body)
             meeting_title = req_data['title']
             meeting_content = req_data['content']
-            meeting_authhor = request.user
+            meeting_author = request.user
             meeting_max_members = req_data['maxMembers']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)

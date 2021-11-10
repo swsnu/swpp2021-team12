@@ -5,7 +5,7 @@ export const getMeetings = createAction(actionTypes.GETMEETINGS);
 
 export const createMeeting = createAction(
   actionTypes.CREATEMEETING,
-  ({ title, content, authorId }) => ({ title, content, authorId }),
+  ({ title, content, maxMembers }) => ({ title, content, maxMembers }),
 );
 
 export const editMeeting = createAction(

@@ -7,10 +7,10 @@ function MeetingCreate(props) {
     const [content, setContent] = useState('');
     const [maxMembers, setMaxMembers] = useState(10);
     const [isDisable, setIsDisable] = useState(false);
-    const {onClickConfirmHandler, history, user} = props;
+    const {onClickConfirmHandler, history} = props;
 
     useEffect(() => {
-        if (title !== '' || content !== '') {
+        if (title === '' || content === '') {
             setIsDisable(true);
         } else {
             setIsDisable(false);
@@ -28,7 +28,7 @@ function MeetingCreate(props) {
                         <Form
                         id='meeting-create-form'
                         onSubmit={() => {
-                            onClickConfirmHandler(title, content, maxMembers, user);
+                            onClickConfirmHandler(title, content, maxMembers);
                         }}>
                             <Form.Input
                             className="MeetingTitleInput"
