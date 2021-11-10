@@ -22,3 +22,26 @@ def register_room(request):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+def room(request, id):
+    if request.method == 'GET':
+        try:
+            room = Room.objects.get(id=id)
+        except (Room.DoesNotExist) as e:
+            return HttpResponseNotFound()
+        response_dict = {'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host_id': room.host.id}
+        return JsonResponse(response_dict)
+    else:
+        return HttpResponseNotAllowed(['GET'])
+
+def host_room(request, host_id):
+    if request.method == 'GET':
+        
+        return
+    elif request.method == 'PUT':
+
+        return
+    elif request.method == 'DELETE':
+
+        return
+    else:
+        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])

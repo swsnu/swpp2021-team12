@@ -4,7 +4,7 @@ import NoRoom from '../../../../components/room/MyRoom/NoRoom';
 import MyRoom from '../../../../components/room/MyRoom/MyRoom';
 
 function MyRoomPage() {
-    const [isRoomExists] = useState(true)
+    const [isRoomExists] = useState(false)
     const tempRoom = {title: 'MyRoomTitle', description:'Welcome to My Room!', capacity: 4}
     return (
         <RoomTemplate>
