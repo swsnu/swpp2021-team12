@@ -43,7 +43,13 @@ function MyRoomPending(props) {
             <Pending history={history} pending={pending} key={pending.id} />
           ))}
       </Segment>
-      <Button onClick={() => history.push('/mypage/room')}> Back </Button>
+      <Button
+        className="BackButton"
+        onClick={() => history.push('/mypage/room')}
+      >
+        {' '}
+        Back{' '}
+      </Button>
     </div>
   );
 }
