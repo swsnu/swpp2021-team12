@@ -33,7 +33,7 @@ def meeting(request):
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            body = request.body.decodde()
+            body = request.body.decode()
             req_data =  json.loads(body)
             meeting_title = req_data['title']
             meeting_content = req_data['content']
