@@ -39,8 +39,7 @@ function MeetingDetailPage(props) {
     },
   ];
   // const { auth_, users_, meetings_, comments_ } = useSelector(({ auth, meetings, comments }) => ({
-  const { auth_, users_, meetings_ } = useSelector(({ auth, meetings }) => ({
-    users_: auth.users,
+  const { auth_, meetings_ } = useSelector(({ auth, meetings }) => ({
     auth_: auth.auth,
     meetings_: meetings.meetings,
     // comments_: comments.comments,
@@ -54,7 +53,6 @@ function MeetingDetailPage(props) {
     <div className="MeetingDetailPage">
       <PageTemplate>
         <MeetingDetail
-          users={users_}
           auth={auth_}
           meetingDetail={
             // tempMeetings &&
@@ -87,8 +85,7 @@ function MeetingDetailPage(props) {
             //   (comment) => comment.articleId === parseInt(params.id, 10),
             // )
           }
-          users={users_}
-          // users={[{ id: 3, name: 'Mario' }]}
+          // users={users_}
           articleId={parseInt(params.id, 10)}
           createComment={(content, authorId, articleId) => {
             dispatch(createComment({ content, authorId, articleId }));

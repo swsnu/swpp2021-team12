@@ -1,23 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 // TODO: Location
 function MeetingDetail(props) {
-  const { users, auth, meetingDetail, deleteMeeting, toggleMeeting, history } =
-    props;
+  const { auth, meetingDetail, deleteMeeting, toggleMeeting, history } = props;
 
+  const [author, setAuthor] = useState(null);
+  useEffect(async () => {
+    await axios
+      .get(`/api/user/${meetingDetail.authorId}/`)
+      .then((res) => setAuthor(res.data));
+  });
+  const members = [];
+  meetingDetail.currentMembers.forEach((member) => async () => {
+    await axios
+      .get(`/api/user/${member}`)
+      .then((res) => members.append(res.data));
+  });
   return (
     <div className="MeetingDetail">
-      <button id="meetingAuthor">
-        Author: {users && users[meetingDetail.authorId - 1].name}
-      </button>
+      <button id="meetingAuthor">{author.name}</button>
       <h1 id="meetingTitle">{meetingDetail && meetingDetail.title}</h1>
       <p id="meetingContent">{meetingDetail && meetingDetail.content}</p>
       <h5>Current Member: </h5>
-      {meetingDetail &&
-        meetingDetail.currentMembers.map(
-          (member) => users && users[member - 1].name,
-        )}
+      {members.map((member) => (
+        <button key={member}>{member.name}</button>
+      ))}
       <h5>Max Member: {meetingDetail && meetingDetail.maxMembers}</h5>
       {auth && auth.id === meetingDetail.authorId ? (
         <>
