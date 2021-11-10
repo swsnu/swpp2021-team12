@@ -120,7 +120,6 @@ function SignUp(props) {
               content="Sign In"
               onClick={onClickSignInButton}
             />
-            <Button content="Sign In" onClick={onClickSignInButton} />
           </Form>
         </Grid.Column>
       </Grid>
