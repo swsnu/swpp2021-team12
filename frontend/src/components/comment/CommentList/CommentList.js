@@ -4,7 +4,7 @@ export default function CommentList(props) {
   const {
     auth,
     comments,
-    users,
+    // users,
     // meeting_or_room,
     articleId,
     createComment,
@@ -19,9 +19,9 @@ export default function CommentList(props) {
         comments.map((comment) => (
           <div className="CommentElement" key={comment.id}>
             <p className="CommentContent">
-              {`${users.find((user) => user.id === comment.authorId)?.name} : ${
+              {/* {`${users.find((user) => user.id === comment.authorId)?.name} : ${
                 comment.content
-              }`}
+              }`} */}
 
               {auth && auth.id === comment.authorId ? (
                 <>
