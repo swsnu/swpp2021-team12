@@ -1,3 +1,3 @@
-export const meetings = 'api/meeting/';
+export const meetings = '/api/meeting/';
 
-export const meetingDetail = 'api/meeting/33';
+export const meetingDetail = '/api/meeting/33';
