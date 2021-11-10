@@ -37,7 +37,7 @@ def meeting(request):
             req_data =  json.loads(body)
             meeting_title = req_data['title']
             meeting_content = req_data['content']
-            meeting_authhor = request.user
+            meeting_author = request.user
             meeting_max_members = req_data['maxMembers']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
@@ -48,7 +48,8 @@ def meeting(request):
             'title': meeting.title,
             'content': meeting.content,
             'authorId': meeting.author.id,
-            'maxMembers': meeting.max_members
+            'maxMembers': meeting.max_members,
+            'currentMembers': [request.user.id]
         }
         return JsonResponse(response_dict, status=201)
 
