@@ -45,7 +45,7 @@ export function* meetingSaga() {
 }
 
 const initialState = {
-  meetings: null,
+  meetings: [],
   submitted: -1,
   meetingsError: null,
 };

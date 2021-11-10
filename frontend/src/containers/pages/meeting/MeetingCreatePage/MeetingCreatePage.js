@@ -1,27 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import PageTemplate from '../../../common/PageTemplate';
 import MeetingCreate from "../../../../components/meeting/MeetingCreate";
 import { createMeeting } from "../../../../store/actions/meetings";
 
 function MeetingCreatePage() {
-    // const [isSubmitted, setSubmitted] = useState(false)
+    const [isSubmitted, setSubmitted] = useState(false)
     const { submittedId } = useSelector((state) => ({
         submittedId: state.meetings.submitted
     }))
-    // const history = useHistory();
+    const history = useHistory();
     useEffect(() => {
-        console.log(submittedId);
+        if (isSubmitted) {
+            history.push(`/meeting/${submittedId}`);
+        }
     }, [submittedId])
     const dispatch = useDispatch();
 
     return (
         <PageTemplate>
             <MeetingCreate onClickConfirmHandler={(title, content, maxMembers) => {
-                dispatch(createMeeting(title, content, maxMembers));
-                // setSubmitted(true)
+                dispatch(createMeeting({title, content, maxMembers}));
+                setSubmitted(true)
             }}
             />
         </PageTemplate>
