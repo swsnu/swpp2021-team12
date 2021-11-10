@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Container,
   Grid,
@@ -14,14 +14,21 @@ import {
 import { withRouter } from 'react-router-dom';
 
 function MyProfileEdit(props) {
-  const { profile, onClickConfirmButton, history } = props;
+  const { profile, profileImage, onClickConfirmButton, history } = props;
   const [newSelfIntro, setNewSelfIntro] = useState('');
   const [detailImageFile, setDeatilImageFile] = useState(null);
   const [detailImageUrl, setDetailImageUrl] = useState(null);
+  const [isImageModified, setIsImageModified] = useState(0);
+  // 0: not modified 1: modified 2: deleted
+
+  useEffect(() => {
+    setDetailImageUrl(profileImage);
+  }, [profileImage]);
 
   const onClickDeletePhotoButton = () => {
     setDetailImageUrl(null);
     setDeatilImageFile(null);
+    setIsImageModified(2);
   };
   const onClickBackButton = () => history.push('/mypage');
 
@@ -42,6 +49,7 @@ function MyProfileEdit(props) {
           setDetailImageUrl(result);
         },
       });
+      setIsImageModified(1);
     }
   };
 
@@ -54,14 +62,9 @@ function MyProfileEdit(props) {
           </Header>
           <Grid centered style={{ marginTop: '2em', marginBottom: '5em' }}>
             <Segment placeholder circular size="small">
-              {detailImageFile ? (
+              {detailImageUrl ? (
                 <div className="image_area">
-                  <Image
-                    size="medium"
-                    circular
-                    src={detailImageUrl}
-                    alt={detailImageFile.name}
-                  />
+                  <Image size="medium" circular src={detailImageUrl} />
                 </div>
               ) : (
                 <Header icon>
@@ -121,7 +124,12 @@ function MyProfileEdit(props) {
           <Button
             primary
             onClick={() =>
-              onClickConfirmButton(detailImageFile, newSelfIntro, history)
+              onClickConfirmButton(
+                detailImageFile,
+                newSelfIntro,
+                history,
+                isImageModified,
+              )
             }
           >
             Confirm

@@ -98,11 +98,14 @@ def user_deatil(request,user_id=0):
 def user_profile(request,user_id=0):
     if request.method == 'GET':
         if request.user.is_authenticated:
-            u = User.objects.get(id=user_id)
-            profile_image = u.profile_img
-            return HttpResponse(profile_image,content_type="image/jpeg")
+            try:
+                u = User.objects.get(id=user_id)
+                profile_image = u.profile_img
+                return HttpResponse(profile_image,content_type="image/jpeg")
+            except:
+                return HttpResponse(status=404)
         else:
-            return HttpResponse(401)
+            return HttpResponse(status=401)
     elif request.method == 'POST':
         if request.user.is_authenticated:
             try:
@@ -119,7 +122,7 @@ def user_profile(request,user_id=0):
     elif request.method == 'DELETE':
         if request.user.is_authenticated:
             u = User.objects.get(id = user_id)
-            u.profile_image.delete()
+            u.profile_img.delete()
             return HttpResponse(status=200)
         else:
             return HttpResponse(status=401)

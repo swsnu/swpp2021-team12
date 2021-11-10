@@ -17,9 +17,12 @@ function MyProfilePage() {
       await axios.get(`${authAPI.user + currentUser}/`).then((res) => {
         setProfile(res.data);
       });
-      await axios.get(`${authAPI.user + currentUser}/profile/`).then((res) => {
-        setProfileImage(res.data);
-      });
+      await axios
+        .get(`${authAPI.user + currentUser}/profile/`)
+        .then(() => {
+          setProfileImage(`/api/user/${currentUser}/profile/`);
+        })
+        .catch(() => setProfileImage(null));
     }
   }, [currentUser]);
 

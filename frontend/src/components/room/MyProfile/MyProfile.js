@@ -27,11 +27,7 @@ function MyProfile(props) {
               <Segment placeholder circular size="small">
                 {profileImage ? (
                   <div className="image_area">
-                    <Image
-                      size="medium"
-                      circular
-                      src={`data:image/jpg,${profileImage}`}
-                    />
+                    <Image size="medium" circular src={profileImage} />
                   </div>
                 ) : (
                   <Header icon>
