@@ -21,7 +21,7 @@ def meeting(request):
                 {
                     'title': meeting.title,
                     'content': meeting.content,
-                    'author': meeting.author.id,
+                    'authorId': meeting.author.id,
                     'maxMembers': meeting.max_members,
                     'currentMembers': member_list
                 }
@@ -47,7 +47,7 @@ def meeting(request):
             'id': meeting.id,
             'title': meeting.title,
             'content': meeting.content,
-            'author': meeting.author.id,
+            'authorId': meeting.author.id,
             'maxMembers': meeting.max_members
         }
         return JsonResponse(response_dict, status=201)
@@ -76,7 +76,7 @@ def specified_meeting(request, id):
         response_dict = {
             'title': title,
             'content': content,
-            'author': author.id,
+            'authorId': author.id,
             'maxMembers': max_members,
             'currentMembers': member_list
         }
@@ -112,7 +112,7 @@ def specified_meeting(request, id):
                 'id': target_meeting.id,
                 'title': target_meeting.title,
                 'content': target_meeting.content,
-                'author': target_meeting.author.id,
+                'authorId': target_meeting.author.id,
                 'maxMembers': target_meeting.max_members,
                 'currentMembers': member_list
             }
@@ -167,7 +167,7 @@ def toggle_meeting(request, id):
             'id': target_meeting.id,
             'title': target_meeting.title,
             'content': target_meeting.content,
-            'author': target_meeting.author.id,
+            'authorId': target_meeting.author.id,
             'maxMembers': target_meeting.max_members,
             'currentMembers': member_list
         }
@@ -192,7 +192,7 @@ def meeting_by_author(request, author_id):
                     {
                         'title': meeting.title,
                         'content': meeting.content,
-                        'author': meeting.author.id,
+                        'authorId': meeting.author.id,
                         'maxMembers': meeting.max_members,
                         'currentMembers': member_list
                     }
