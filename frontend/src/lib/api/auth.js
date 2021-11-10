@@ -1,9 +1,11 @@
-export const signin = 'api/user/sign_in/';
+export const user = '/api/user/';
 
-export const signup = 'api/user/sign_up/';
+export const signin = '/api/user/sign_in/';
 
-export const signout = 'api/user/sign_out/';
+export const signup = '/api/user/sign_up/';
 
-export const checksignin = 'api/user/check_signin/';
+export const signout = '/api/user/sign_out/';
 
-export const token = 'api/user/token/';
+export const checksignin = '/api/user/check_signin/';
+
+export const token = '/api/user/token/';

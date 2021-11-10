@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 import RoomTemplate from '../RoomTemplate';
 import MyProfile from '../../../../components/room/MyProfile/MyProfile';
+import * as authAPI from '../../../../lib/api/auth';
 
 function MyProfilePage() {
-  const tmpname = 'name';
-  const tmpemail = 'tmp@tmp.tmp';
-  const tmpintro = 'tmpintro';
+  const [profile, setProfile] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
+  const { currentUser } = useSelector(({ auth }) => ({
+    currentUser: auth.auth,
+  }));
+
+  useEffect(async () => {
+    if (currentUser) {
+      await axios.get(`${authAPI.user + currentUser}/`).then((res) => {
+        setProfile(res.data);
+      });
+      await axios.get(`${authAPI.user + currentUser}/profile/`).then((res) => {
+        setProfileImage(res.data);
+      });
+    }
+  }, [currentUser]);
+
   return (
     <RoomTemplate>
-      <MyProfile name={tmpname} email={tmpemail} selfIntro={tmpintro} />
+      <MyProfile profile={profile} profileImage={profileImage} />
     </RoomTemplate>
   );
 }
