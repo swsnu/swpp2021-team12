@@ -1,30 +1,23 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-// TODO: Comments, Location
+// TODO: Location
 function MeetingDetail(props) {
-  const {
-    users,
-    auth,
-    meetingDetail,
-    deleteMeeting,
-    joinMeeting,
-    quitMeeting,
-    history,
-  } = props;
+  const { users, auth, meetingDetail, deleteMeeting, toggleMeeting, history } =
+    props;
 
   return (
     <div className="MeetingDetail">
       <button id="meetingAuthor">
-        {users && users[meetingDetail.authorId - 1].name}
+        Author: {users && users[meetingDetail.authorId - 1].name}
       </button>
       <h1 id="meetingTitle">{meetingDetail && meetingDetail.title}</h1>
       <p id="meetingContent">{meetingDetail && meetingDetail.content}</p>
       <h5>Current Member: </h5>
       {meetingDetail &&
-        meetingDetail.currentMembers.map((member) => (
-          <h5 key={member}>{member}</h5>
-        ))}
+        meetingDetail.currentMembers.map(
+          (member) => users && users[member - 1].name,
+        )}
       <h5>Max Member: {meetingDetail && meetingDetail.maxMembers}</h5>
       {auth && auth.id === meetingDetail.authorId ? (
         <>
@@ -54,7 +47,7 @@ function MeetingDetail(props) {
             <button
               className="QuitButton"
               id="quitMeetingButton"
-              onClick={() => quitMeeting()}
+              onClick={() => toggleMeeting(0)}
             >
               QUIT
             </button>
@@ -62,7 +55,7 @@ function MeetingDetail(props) {
             <button
               className="JoinButton"
               id="joinMeetingButton"
-              onClick={() => joinMeeting()}
+              onClick={() => toggleMeeting(1)}
               disabled={
                 meetingDetail.currentMembers.length === meetingDetail.maxMembers
               }

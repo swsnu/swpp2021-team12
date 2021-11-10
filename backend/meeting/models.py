@@ -1,4 +1,3 @@
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from user.models import User
 
@@ -10,13 +9,10 @@ class Meeting(models.Model):
         on_delete=models.CASCADE,
         related_name='user'
     )
-    # current_members = ArrayField(
-    #     models.ForeignKey(
-    #         User,
-    #         on_delete=models.CASCADE,
-    #         realted_name='member'
-    #     )
-    # )
+    current_members = models.ManyToManyField(
+        User,
+        related_name='members'
+    )
     max_members = models.IntegerField()
     # access_scope
     # tag

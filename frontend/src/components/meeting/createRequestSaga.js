@@ -87,41 +87,23 @@ export default function createRequestSaga(type, request) {
         }
         break;
 
-      // case actionTypes.JOINMEETING:
-      //   yield axios
-      //     .put(`${request}/${action.payload.meetingId}`, {
-      //       currentMembers: action.payload.currentMembers,
-      //     })
-      //     .then((res) => {
-      //       response = res.data;
-      //     })
-      //     .catch((error) => {
-      //       err = error;
-      //     });
-      //   if (!err) {
-      //     yield put({ type: SUCCESS, payload: response });
-      //   } else {
-      //     yield put({ type: FAILURE, payload: { error: err } });
-      //   }
-      //   break;
-
-      // case actionTypes.QUITMEETING:
-      //   yield axios
-      //     .put(`${request}/${action.payload.meetingId}`, {
-      //       currentMembers: action.payload.currentMembers,
-      //     })
-      //     .then((res) => {
-      //       response = res.data;
-      //     })
-      //     .catch((error) => {
-      //       err = error;
-      //     });
-      //   if (!err) {
-      //     yield put({ type: SUCCESS, payload: response });
-      //   } else {
-      //     yield put({ type: FAILURE, payload: { error: err } });
-      //   }
-      //   break;
+      case actionTypes.TOGGLEMEETING:
+        yield axios
+          .put(`${request}/${action.payload.id}/toggle`, {
+            joinOrQuit: action.payload.joinOrQuit,
+          })
+          .then((res) => {
+            response = res.data;
+          })
+          .catch((error) => {
+            err = error;
+          });
+        if (!err) {
+          yield put({ type: SUCCESS, payload: response });
+        } else {
+          yield put({ type: FAILURE, payload: { error: err } });
+        }
+        break;
 
       default:
         break;
