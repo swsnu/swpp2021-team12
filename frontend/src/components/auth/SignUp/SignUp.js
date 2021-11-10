@@ -108,7 +108,6 @@ function SignUp(props) {
                 }
               }}
             />
-
             <Button
               content="Confirm"
               disabled={!isValidEmail || !isValidName || !isValidPassword}
