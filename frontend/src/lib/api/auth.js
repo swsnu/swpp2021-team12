@@ -1,3 +1,5 @@
+export const user = '/api/user/';
+
 export const signin = '/api/user/sign_in/';
 
 export const signup = '/api/user/sign_up/';
