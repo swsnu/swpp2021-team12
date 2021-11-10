@@ -44,22 +44,27 @@ function MyProfile(props) {
               <Grid.Row columns={2}>
                 <Grid.Column>
                   <Header sub>NAME</Header>
-                  <span>{profile.name}</span>
+                  <span id="span_profilename">{profile.name}</span>
                 </Grid.Column>
                 <Grid.Column>
                   <Header sub>EMAIL</Header>
-                  <span>{profile.email}</span>
+                  <span id="span_profileemail">{profile.email}</span>
                 </Grid.Column>
               </Grid.Row>
 
               <Grid.Row columns={1}>
                 <Grid.Column>
                   <Header sub>SELF INTRO</Header>
-                  <span>{profile.selfIntro}</span>
+                  <span id="span_profileintro">{profile.selfIntro}</span>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
-            <Button primary size="big" onClick={onClickEditButton}>
+            <Button
+              id="button_edit"
+              primary
+              size="big"
+              onClick={onClickEditButton}
+            >
               Edit
             </Button>
           </div>

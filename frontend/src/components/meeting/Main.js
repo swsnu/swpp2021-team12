@@ -9,7 +9,7 @@ function Main(props) {
       <Grid centered style={{ marginTop: '2em', marginBottom: '5em' }}>
         <Image src="img/welcomeTo301.png" />
       </Grid>
-      <Button primary onClick={() => history.push('/meeting/create')}>
+      <Button id="button_createmeeting"primary onClick={() => history.push('/meeting/create')}>
         Create Meeting
       </Button>
     </div>

@@ -80,7 +80,7 @@ function MyProfileEdit(props) {
             name="profile_img"
             onChange={onClickFindPhotoButton}
           />
-          <Button primary onClick={onClickDeletePhotoButton}>
+          <Button id="button_delete" primary onClick={onClickDeletePhotoButton}>
             Delete Photo
           </Button>
           <Grid divided="vertically">
@@ -122,6 +122,7 @@ function MyProfileEdit(props) {
           </Grid>
 
           <Button
+            id="button_confirm"
             primary
             onClick={() =>
               onClickConfirmButton(
@@ -134,7 +135,7 @@ function MyProfileEdit(props) {
           >
             Confirm
           </Button>
-          <Button primary onClick={onClickBackButton}>
+          <Button id="button_back" primary onClick={onClickBackButton}>
             Back
           </Button>
         </Container>
