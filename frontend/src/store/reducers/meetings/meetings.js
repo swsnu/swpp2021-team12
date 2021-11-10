@@ -12,7 +12,7 @@ const getMeetingsSaga = createRequestSaga(
 
 const createMeetingSaga = createRequestSaga(
   actionTypes.CREATEMEETING,
-  meetingsAPI.meetingDetail,
+  '/api/meeting/',
 );
 
 const editMeetingSaga = createRequestSaga(
