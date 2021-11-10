@@ -121,7 +121,7 @@ const meetings = handleActions(
       submitted: -1,
       meetingsError: null,
     }),
-    [actionTypes.JOINMEETING_FAILURE]: (state, { payload: error }) => ({
+    [actionTypes.TOGGLEMEETING_FAILURE]: (state, { payload: error }) => ({
       ...state,
       submitted: -1,
       meetingsError: error,
