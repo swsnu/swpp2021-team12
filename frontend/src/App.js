@@ -12,6 +12,7 @@ import MeetingCreatePage from './containers/pages/meeting/MeetingCreatePage/Meet
 import MeetingEditPage from './containers/pages/meeting/MeetingEditPage/MeetingEditPage';
 import MyProfilePage from './containers/pages/room/MyProfilePage/MyProfilePage';
 import MyProfileEditPage from './containers/pages/room/MyProfileEditPage/MyProfileEditPage';
+import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
 
 function App() {
   return (
@@ -27,6 +28,11 @@ function App() {
           <Route path="/meeting/create" exact component={MeetingCreatePage} />
           <Route path="/mypage" exact component={MyProfilePage} />
           <Route path="/mypage/edit" exact component={MyProfileEditPage} />
+          <Route
+            path="/mypage/room/pending"
+            exact
+            component={MyRoomPendingPage}
+          />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>
