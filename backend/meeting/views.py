@@ -9,7 +9,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 # TODO: access_scope, tag, location, photo
 def meeting(request):
     # get a whole meetings list
-    if request.methood == 'GET':
+    if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         meeting_all_list = []

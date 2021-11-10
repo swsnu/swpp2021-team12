@@ -12,7 +12,7 @@ const getMeetingsSaga = createRequestSaga(
 
 const createMeetingSaga = createRequestSaga(
   actionTypes.CREATEMEETING,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
 const editMeetingSaga = createRequestSaga(
@@ -45,7 +45,7 @@ export function* meetingSaga() {
 }
 
 const initialState = {
-  meetings: null,
+  meetings: [],
   submitted: -1,
   meetingsError: null,
 };
