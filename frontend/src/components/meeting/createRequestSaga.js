@@ -36,7 +36,7 @@ export default function createRequestSaga(type, request) {
           .post(request, {
             title: action.payload.title,
             content: action.payload.content,
-            authorId: action.payload.authorId,
+            maxMembers: action.payload.maxMembers,
           })
           .then((res) => {
             response = res.data;
