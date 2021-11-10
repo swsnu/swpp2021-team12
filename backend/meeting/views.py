@@ -16,7 +16,7 @@ def meeting(request):
         for meeting in Meeting.objects.all():
             member_list = []
             for member in meeting.current_members.all():
-                member_list.append(member.name)
+                member_list.append(member.id)
             meeting_all_list.append(
                 {
                     'title': meeting.title,
@@ -73,7 +73,7 @@ def specified_meeting(request, id):
         max_members = target_meeting.max_members
         member_list = []
         for member in target_meeting.current_memmbers.all():
-            member_list.append(member.name)
+            member_list.append(member.id)
         response_dict = {
             'title': title,
             'content': content,
@@ -108,7 +108,7 @@ def specified_meeting(request, id):
             target_meeting.save()
             member_list = []
             for member in target_meeting.current_memmbers.all():
-                member_list.append(member.name)
+                member_list.append(member.id)
             response_dict = {
                 'id': target_meeting.id,
                 'title': target_meeting.title,
@@ -163,7 +163,7 @@ def toggle_meeting(request, id):
         target_meeting.save()
         member_list = []
         for member in target_meeting.current_memmbers.all():
-            member_list.append(member.name)
+            member_list.append(member.id)
         response_dict = {
             'id': target_meeting.id,
             'title': target_meeting.title,
@@ -188,7 +188,7 @@ def meeting_by_author(request, author_id):
             if meeting.author.id == author_id:
                 member_list = []
                 for member in meeting.current_members.all():
-                    member_list.append(member.name)
+                    member_list.append(member.id)
                 meeting_all_list.append(
                     {
                         'title': meeting.title,

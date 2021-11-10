@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import MeetingDetail from '../../../../components/meeting/MeetingDetail';
-import CommentList from '../../../../components/comment/CommentList/CommentList';
+// import CommentList from '../../../../components/comment/CommentList/CommentList';
 import PageTemplate from '../../../common/PageTemplate';
 import {
   deleteMeeting,
   toggleMeeting,
 } from '../../../../store/actions/meetings';
-import {
-  createComment,
-  editComment,
-  deleteComment,
-  getMeetingComments,
-} from '../../../../store/actions/comments';
+import * as meetingAPI from '../../../../lib/api/meetings';
+// import {
+//   createComment,
+//   editComment,
+//   deleteComment,
+//   getMeetingComments,
+// } from '../../../../store/actions/comments';
 
 // TODO: Comments, Photo, Access, Tag, Location, Time
 function MeetingDetailPage(props) {
@@ -26,41 +28,47 @@ function MeetingDetailPage(props) {
   //     maxMembers: 5,
   //   },
   // ];
-  const tempComments = [
-    {
-      id: 11,
-      articleId: 1,
-      content: 'Hello this is test comment',
-    },
-    {
-      id: 12,
-      articleId: 1,
-      content: 'second comment for test',
-    },
-  ];
+  // const tempComments = [
+  //   {
+  //     id: 11,
+  //     articleId: 1,
+  //     content: 'Hello this is test comment',
+  //   },
+  //   {
+  //     id: 12,
+  //     articleId: 1,
+  //     content: 'second comment for test',
+  //   },
+  // ];
   // const { auth_, users_, meetings_, comments_ } = useSelector(({ auth, meetings, comments }) => ({
-  const { auth_, meetings_ } = useSelector(({ auth, meetings }) => ({
-    auth_: auth.auth,
-    meetings_: meetings.meetings,
+  const [meetingDetail, setMeetingDetail] = useState(null);
+  const { currentUser } = useSelector(({ auth }) => ({
+    currentUser: auth.auth,
+    // meetings_: meetings.meetings,
     // comments_: comments.comments,
   }));
   const { params } = props.match;
+  useEffect(async () => {
+    if (currentUser) {
+      await axios.get(`${meetingAPI.meetings + params.id}/`).then((res) => {
+        setMeetingDetail(res.data);
+      });
+    }
+  }, [currentUser]);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getMeetingComments());
-  }, [dispatch]);
   return (
     <div className="MeetingDetailPage">
       <PageTemplate>
         <MeetingDetail
-          auth={auth_}
+          auth={currentUser}
           meetingDetail={
+            meetingDetail
             // tempMeetings &&
             // tempMeetings.find(
             //   (meeting) => meeting.id === parseInt(params.id, 10),
             // )
-            meetings_ &&
-            meetings_.find((meeting) => meeting.id === parseInt(params.id, 10))
+            // meetings_ &&
+            // meetings_.find((meeting) => meeting.id === parseInt(params.id, 10))
           }
           deleteMeeting={() =>
             dispatch(deleteMeeting({ id: parseInt(params.id, 10) }))
@@ -74,7 +82,7 @@ function MeetingDetailPage(props) {
             )
           }
         />
-        <CommentList
+        {/* <CommentList
           auth={auth_}
           comments={
             tempComments.filter(
@@ -96,7 +104,7 @@ function MeetingDetailPage(props) {
           deleteComment={(commentId) => {
             dispatch(deleteComment({ commentId }));
           }}
-        />
+        /> */}
       </PageTemplate>
     </div>
   );
