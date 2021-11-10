@@ -48,7 +48,8 @@ def meeting(request):
             'title': meeting.title,
             'content': meeting.content,
             'authorId': meeting.author.id,
-            'maxMembers': meeting.max_members
+            'maxMembers': meeting.max_members,
+            'currentMembers': [request.user.id]
         }
         return JsonResponse(response_dict, status=201)
 
