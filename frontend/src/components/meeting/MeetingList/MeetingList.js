@@ -12,7 +12,7 @@ function Meeting({ meeting, history }) {
             className="meetingName"
             onClick={() => history.push(`/meeting/${meeting.id}`)}
           >
-            {meeting.MeetingName}
+            {meeting.title}
           </Button>
         </List.Item>
       </List>
