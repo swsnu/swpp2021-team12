@@ -28,7 +28,7 @@ function MeetingCreate(props) {
             <Form
               id="meeting-create-form"
               onSubmit={() => {
-                onClickConfirmHandler(title, content, maxMembers);
+                onClickConfirmHandler(title, content, maxMembers, history);
               }}
             >
               <Form.Input
