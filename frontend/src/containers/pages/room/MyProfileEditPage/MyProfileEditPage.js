@@ -47,12 +47,12 @@ function MyProfileEditPage() {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (currentUser) {
-      await axios.get(`${authAPI.user + currentUser}/`).then((res) => {
+      axios.get(`${authAPI.user + currentUser}/`).then((res) => {
         setProfile(res.data);
       });
-      await axios.get(`${authAPI.user + currentUser}/profile/`).then(() => {
+      axios.get(`${authAPI.user + currentUser}/profile/`).then(() => {
         setProfileImage(`/api/user/${currentUser}/profile/`);
       });
     }

@@ -46,7 +46,12 @@ describe('<MyProfileEditPage/>', () => {
   });
 
   it('should have buttons working', () => {
-    axios.get.mockImplementation(() => Promise.resolve({ data: 'dummyData' }));
+    axios.get.mockImplementation(() => Promise.resolve('dummyddata'));
+    const realUseState = React.useState;
+    const stubInitialState = ['stub data'];
+    jest
+      .spyOn(React, 'useState')
+      .mockImplementationOnce(() => realUseState(stubInitialState));
     const mockUser = mockStore({ auth: { auth: 1 } });
     component = mount(
       <Provider store={mockUser}>
