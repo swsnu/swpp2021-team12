@@ -1,25 +1,32 @@
-import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import * as axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
 import MeetingEdit from "../../../../components/meeting/MeetingEdit";
-import { editMeeting } from "../../../../store/actions/meetings";
 
 function MeetingEditPage(props) {
-    const { user_, meetings_ } = useSelector(({ auth, meetings }) => ({
-        user_: auth.user,
-        meetings_: meetings.meetings
-    }))
+    const { history } = props
     const { params } = props.match;
-    const dispatch = useDispatch();
+    const [meeting, setMeeting] = useState({title: 'error!', content:'error!', maxMembers: 0})
+    const id = parseInt(params.id, 10)
+
+    useEffect(() => {
+        axios.get(`/api/meeting/${id}/`)
+            .then((res) => {
+                setMeeting(res.data)
+            })
+            .catch(() => { window.alert("Error!") })
+    }, [])
 
     return (
         <PageTemplate>
-            <MeetingEdit onClickConfirmHandler={(title, content, meetingId, authorId) => {
-                dispatch(editMeeting(title, content, meetingId, authorId));
+            <MeetingEdit onClickConfirmHandler={(title, content, maxMembers) => {
+                axios.put(`/api/meeting/${id}/`, {title, content, maxMembers})
+                    .then(() => {
+                        history.push(`/meeting/${id}`)
+                    })
             }}
-            meeting={meetings_ && meetings_.find((meeting) => meeting.id === parseInt(params.id, 10))}
-            user={user_}
+            meeting={meeting}
             />
         </PageTemplate>
     )

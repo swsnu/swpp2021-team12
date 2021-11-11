@@ -5,9 +5,8 @@ import MeetingCreate from '../../../../components/meeting/MeetingCreate';
 import * as meetingAPI from '../../../../lib/api/meetings';
 
 function MeetingCreatePage() {
-  const onClickConfirmHandler = async (title, content, maxMembers, history) => {
-    await axios
-      .post(meetingAPI.meetings, { title, content, maxMembers })
+  const onClickConfirmHandler = (title, content, maxMembers, history) => {
+    axios.post(meetingAPI.meetings, { title, content, maxMembers })
       .then((res) => {
         history.push(`/meeting/${res.data.id}`);
       });

@@ -3,29 +3,37 @@ import { Form, Grid, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 function MeetingEdit(props) {
-    const {onClickConfirmHandler, history, user, meeting} = props;
+    const {onClickConfirmHandler, history, meeting} = props;
     const [title, setTitle] = useState(meeting.title);
     const [content, setContent] = useState(meeting.content);
     const [maxMembers, setMaxMembers] = useState(meeting.maxMembers);
     const [isDisable, setIsDisable] = useState(false);
 
+    // title, content change -> good
+    // maxMembers change -> if return to original value, setIsDisable(true) doesn't work
     useEffect(() => {
         if (title === meeting.title && content === meeting.content && maxMembers === meeting.maxMembers) {
             setIsDisable(true);
         } else {
             setIsDisable(false);
         }
-    }, [title, content]);
+    }, [title, content, maxMembers]);
+
+    useEffect(() => {
+        setTitle(meeting.title);
+        setContent(meeting.content);
+        setMaxMembers(meeting.maxMembers);
+    }, [meeting])
 
     const clickBackHander = () => {
-        if (title !== meeting.title || content !== meeting.content || maxMembers !== meeting.maxMember) {
-            const check = window.confirm("Are you sure?");
-            if(check) {
-                history.push(`/meetings/${meeting.id}`);
-            }
-        } 
+        if (isDisable) {
+            history.push(`/meeting/${parseInt(meeting.id, 10)}`);
+        }
         else {
-            history.push(`/meetings/${meeting.id}`);
+            const check = window.confirm("Are you sure?");
+            if (check) {
+                history.push(`/meeting/${parseInt(meeting.id, 10)}`);
+            }
         }
     }
 
@@ -39,9 +47,7 @@ function MeetingEdit(props) {
                         <h1>Edit Your Meeting!</h1><br/>
                         <Form
                         id='meeting-edit-form'
-                        onSubmit={() => {
-                            onClickConfirmHandler(title, content, maxMembers, user);
-                        }}>
+                        >
                             <Form.Input
                             className="MeetingTitleInput"
                             id='meeting-title-input' 
@@ -86,6 +92,7 @@ function MeetingEdit(props) {
                                 className="ConfirmButton"
                                 id='confirm-button'
                                 disabled={isDisable}
+                                onClick={() => onClickConfirmHandler(title, content, maxMembers)}
                                 >Confirm</Form.Button>
                                 <Form.Button 
                                 className="BackButton"
