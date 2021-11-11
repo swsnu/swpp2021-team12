@@ -48,13 +48,36 @@ function MeetingDetailPage(props) {
     // comments_: comments.comments,
   }));
   const { params } = props.match;
+  let dataReducer = { members: [] };
+
   useEffect(async () => {
-    if (currentUser) {
-      await axios.get(`${meetingAPI.meetings + params.id}/`).then((res) => {
-        setMeetingDetail(res.data);
+    await axios
+      .get(`${meetingAPI.meetings}${params.id}/`)
+      .then((res) => {
+        dataReducer = { ...dataReducer, meetingData: res.data };
+      })
+      .then(async () => {
+        await axios
+          .get(`/api/user/${dataReducer.meetingData.authorId}/`)
+          .then((res) => {
+            dataReducer = { ...dataReducer, author: res.data };
+          })
+          .then(async () => {
+            dataReducer.meetingData.currentMembers.forEach(
+              (member) => async () => {
+                await axios.get(`/api/user/${member}`).then((res) => {
+                  dataReducer = {
+                    ...dataReducer,
+                    members: [...dataReducer.members, res.data],
+                  };
+                });
+              },
+            );
+            setMeetingDetail(dataReducer);
+          });
       });
-    }
-  }, [currentUser]);
+  }, []);
+
   const dispatch = useDispatch();
   return (
     <div className="MeetingDetailPage">

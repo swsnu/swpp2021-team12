@@ -72,7 +72,7 @@ def specified_meeting(request, id):
         author = target_meeting.author
         max_members = target_meeting.max_members
         member_list = []
-        for member in target_meeting.current_memmbers.all():
+        for member in target_meeting.current_members.all():
             member_list.append(member.id)
         response_dict = {
             'title': title,
