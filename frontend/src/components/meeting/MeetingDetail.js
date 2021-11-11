@@ -89,6 +89,7 @@ function MeetingDetail(props) {
                     ) : (
                       <Button
                         className="JoinButton"
+                        primary
                         id="joinMeetingButton"
                         onClick={() => toggleMeeting(1)}
                         disabled={
