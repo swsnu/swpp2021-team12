@@ -19,6 +19,7 @@ def meeting(request):
                 member_list.append(member.id)
             meeting_all_list.append(
                 {
+                    'id': meeting.id,
                     'title': meeting.title,
                     'content': meeting.content,
                     'authorId': meeting.author.id,
