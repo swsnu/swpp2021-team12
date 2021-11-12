@@ -11,7 +11,8 @@ import {
 
 // TODO: Location
 function MeetingDetail(props) {
-  const { auth, meetingDetail, deleteMeeting, toggleMeeting, history } = props;
+  const { currentUser, meetingDetail, deleteMeeting, toggleMeeting, history } =
+    props;
 
   /* const [author, setAuthor] = useState(null);
   useEffect(async () => {
@@ -25,6 +26,9 @@ function MeetingDetail(props) {
       .get(`/api/user/${member}`)
       .then((res) => members.append(res.data));
   }); */
+  // console.log(meetingDetail);
+  console.log(meetingDetail);
+  console.log(currentUser);
   return (
     <>
       {meetingDetail ? (
@@ -52,7 +56,7 @@ function MeetingDetail(props) {
                 </Container>
               </Grid.Row>
               <Grid.Row centered columns="3" style={{ marginTop: '2em' }}>
-                {auth && auth.id === meetingDetail.meetingData.authorId ? (
+                {currentUser === meetingDetail.meetingData.authorId ? (
                   <>
                     <Button
                       className="EditButton"
@@ -77,12 +81,14 @@ function MeetingDetail(props) {
                 ) : (
                   <>
                     {meetingDetail.meetingData.currentMembers.find(
-                      (member) => member === (auth && auth.id),
+                      (member) => member === currentUser,
                     ) ? (
                       <Button
                         className="QuitButton"
                         id="quitMeetingButton"
-                        onClick={() => toggleMeeting(0)}
+                        onClick={() => {
+                          toggleMeeting(0);
+                        }}
                       >
                         QUIT
                       </Button>
@@ -91,7 +97,9 @@ function MeetingDetail(props) {
                         className="JoinButton"
                         primary
                         id="joinMeetingButton"
-                        onClick={() => toggleMeeting(1)}
+                        onClick={() => {
+                          toggleMeeting(1);
+                        }}
                         disabled={
                           meetingDetail.meetingData.currentMembers.length ===
                           meetingDetail.meetingData.maxMembers

@@ -18,16 +18,6 @@ import * as meetingAPI from '../../../../lib/api/meetings';
 
 // TODO: Comments, Photo, Access, Tag, Location, Time
 function MeetingDetailPage(props) {
-  // const tempMeetings = [
-  //   {
-  //     id: 1,
-  //     title: 'Chicken Meeting',
-  //     content: 'Who wants to eat chicken?',
-  //     authorId: 3,
-  //     currentMembers: [3, 4, 5],
-  //     maxMembers: 5,
-  //   },
-  // ];
   // const tempComments = [
   //   {
   //     id: 11,
@@ -40,40 +30,42 @@ function MeetingDetailPage(props) {
   //     content: 'second comment for test',
   //   },
   // ];
-  // const { auth_, users_, meetings_, comments_ } = useSelector(({ auth, meetings, comments }) => ({
   const [meetingDetail, setMeetingDetail] = useState(null);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
-    // meetings_: meetings.meetings,
     // comments_: comments.comments,
   }));
   const { params } = props.match;
   let dataReducer = { members: [] };
 
-  useEffect(async () => {
-    await axios
+  useEffect(() => {
+    axios
       .get(`${meetingAPI.meetings}${params.id}/`)
       .then((res) => {
         dataReducer = { ...dataReducer, meetingData: res.data };
       })
-      .then(async () => {
-        await axios
+      .then(() => {
+        axios
           .get(`/api/user/${dataReducer.meetingData.authorId}/`)
           .then((res) => {
             dataReducer = { ...dataReducer, author: res.data };
           })
-          .then(async () => {
-            dataReducer.meetingData.currentMembers.forEach(
-              (member) => async () => {
-                await axios.get(`/api/user/${member}`).then((res) => {
+          .then(() => {
+            dataReducer.meetingData.currentMembers.forEach(async (member) => {
+              await axios
+                .get(`/api/user/${member}/`)
+                .then((res) => {
                   dataReducer = {
                     ...dataReducer,
                     members: [...dataReducer.members, res.data],
                   };
+                })
+                .then(() => {
+                  setMeetingDetail(dataReducer);
                 });
-              },
-            );
-            setMeetingDetail(dataReducer);
+              // safe zone
+            });
+            // unsafe zone
           });
       });
   }, []);
@@ -83,16 +75,8 @@ function MeetingDetailPage(props) {
     <div className="MeetingDetailPage">
       <PageTemplate>
         <MeetingDetail
-          auth={currentUser}
-          meetingDetail={
-            meetingDetail
-            // tempMeetings &&
-            // tempMeetings.find(
-            //   (meeting) => meeting.id === parseInt(params.id, 10),
-            // )
-            // meetings_ &&
-            // meetings_.find((meeting) => meeting.id === parseInt(params.id, 10))
-          }
+          currentUser={parseInt(currentUser, 10)}
+          meetingDetail={meetingDetail}
           deleteMeeting={() =>
             dispatch(deleteMeeting({ id: parseInt(params.id, 10) }))
           }

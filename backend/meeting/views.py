@@ -42,15 +42,24 @@ def meeting(request):
             meeting_max_members = req_data['maxMembers']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
-        meeting = Meeting(title=meeting_title, content=meeting_content, author=meeting_author, max_members=meeting_max_members)
+        meeting = Meeting.objects.create(
+            title=meeting_title,
+            content=meeting_content,
+            author=meeting_author,
+            max_members=meeting_max_members
+        )
+        meeting.current_members.add(meeting_author)
         meeting.save()
+        member_list = []
+        for member in meeting.current_members.all():
+            member_list.append(member.id)
         response_dict = {
             'id': meeting.id,
             'title': meeting.title,
             'content': meeting.content,
             'authorId': meeting.author.id,
             'maxMembers': meeting.max_members,
-            'currentMembers': [request.user.id]
+            'currentMembers': member_list
         }
         return JsonResponse(response_dict, status=201)
 
@@ -163,7 +172,7 @@ def toggle_meeting(request, id):
             target_meeting.current_members.remove(request_user)
         target_meeting.save()
         member_list = []
-        for member in target_meeting.current_memmbers.all():
+        for member in target_meeting.current_members.all():
             member_list.append(member.id)
         response_dict = {
             'id': target_meeting.id,

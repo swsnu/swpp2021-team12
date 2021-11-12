@@ -12,9 +12,9 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password):
         if password is None:
             raise TypeError('Superusers must have a password.')
-        user = self.create_user('',password,email)
+        user = self.create_user('admin',password,email)
         user.is_superuser = True
-        user.is_staff = True
+        user.is_admin = True
         user.save()
         return user
 
@@ -24,11 +24,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     password = models.CharField(max_length=20, null=True, default=None)
     self_intro = models.TextField(null=True)
     profile_img = models.ImageField(blank=True,null=True,upload_to='profile/')
+    is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELD = []
+
+    @property
+    def is_staff(self):
+        return self.is_admin
 
     class Meta:
         db_table = 'user'
