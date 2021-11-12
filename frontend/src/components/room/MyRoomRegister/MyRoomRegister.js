@@ -30,12 +30,14 @@ function MyRoomRegister(props) {
     <div className="MyRoomRegister">
       <Container text style={{ marginTop: '2em' }}>
         <Form
+          id="my-room-register-form"
           onSubmit={() => {
             onClickConfirmHandler(title, description, capacity);
             history.push('/mypage/room');
           }}
         >
           <Form.Input
+            id='my-room-register-title-input'
             type="text"
             label="Title"
             style={{ width: '400px' }}
@@ -50,6 +52,7 @@ function MyRoomRegister(props) {
             </Grid.Row>
           </Grid>
           <Form.TextArea
+            id="my-room-register-description-input"
             type="text"
             label="Description"
             style={{ height: '300px' }}
@@ -61,6 +64,7 @@ function MyRoomRegister(props) {
               Capacity:
             </h5>
             <Form.Input
+              id="my-room-register-capacity-input"
               type="number"
               value={capacity}
               onChange={(e) => setCapacity(e.target.value)}
@@ -70,7 +74,7 @@ function MyRoomRegister(props) {
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button primary>Confirm</Form.Button>
-            <Form.Button onClick={onClickBackHandler}>Back</Form.Button>
+            <Form.Button id='my-room-register-back-button' onClick={onClickBackHandler}>Back</Form.Button>
           </Grid>
         </Form>
       </Container>
