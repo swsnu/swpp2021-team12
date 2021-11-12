@@ -10,9 +10,9 @@ class UserTestCase(TestCase):
     
     
     def test_superuser(self):
-        User.objects.create_superuser(email="rr@rr.rr",password="ff")
+        User.objects.create_superuser(email="rr@rr.rr",password="ff",name="kk")
         with self.assertRaises(TypeError):
-            User.objects.create_superuser(email=None,password=None)
+            User.objects.create_superuser(email=None,password=None,name=None)
 
     def test_sign(self):
         client = Client()
