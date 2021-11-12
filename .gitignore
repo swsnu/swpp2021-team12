@@ -1,0 +1,13 @@
+node_modules/
+
+frontend/node_modules
+
+yarn-error.log
+
+frontend/coverage
+
+backend/db.sqlite3
+
+__pycache__/
+
+.jpg

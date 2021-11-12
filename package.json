@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "redux-actions": "^2.6.5"
+  }
+}
