@@ -55,9 +55,9 @@ function MeetingCreate(props) {
                 <Form.Select options={[{}]} />
               </Grid>
               <Grid centered>
-                <Form.Button key="scope" onClick={() => {}}>Scope</Form.Button>
-                <Form.Button key="location" onClick={() => {}}>Location</Form.Button>
-                <Form.Button key="time" onClick={() => {}}>Time</Form.Button>
+                <Form.Button key="scope" >Scope</Form.Button>
+                <Form.Button key="location" >Location</Form.Button>
+                <Form.Button key="time" >Time</Form.Button>
               </Grid>
               <Grid centered>
                 <Form.Button
