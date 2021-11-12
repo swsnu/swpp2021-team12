@@ -8,10 +8,10 @@ function MyRoom(props) {
   const { room, history } = props;
   const { title, description, capacity } = room;
   return (
-    <Container text style={{ marginTop: '4em', width: '700px' }}>
+    <Container id='my-room' text style={{ marginTop: '4em', width: '700px' }}>
       <Grid divided="vertically">
         <Grid.Row centered>
-          <Header>{title}</Header>
+          <Header id='my-room-title'>{title}</Header>
         </Grid.Row>
         <Grid.Row centered>
           <Calendar />
@@ -20,20 +20,20 @@ function MyRoom(props) {
       <Grid>
         <Grid.Row>
           <Container text style={{ width: '700px', background: '' }}>
-            <p>{description}</p>
-            <p>Capacity: {capacity}</p>
+            <p id='my-room-description'>{description}</p>
+            <p id='my-room-capacity'>Capacity: {capacity}</p>
           </Container>
         </Grid.Row>
         <Grid.Row centered columns="3" style={{ marginTop: '2em' }}>
-          <Button onClick={() => history.push('/mypage/room/edit')}>
+          <Button id='my-room-edit-button' onClick={() => history.push('/mypage/room/edit')}>
             Edit
           </Button>
 
           {/* need to be implemented!! */}
-          <Button primary onClick={() => {}}>
+          <Button id='my-room-pending-request-button' primary>
             Pending Request
           </Button>
-          <Button color="red" onClick={() => {}}>
+          <Button id='my-room-delete-button' color="red">
             Delete
           </Button>
         </Grid.Row>
