@@ -10,11 +10,11 @@ export const createMeeting = createAction(
 
 export const editMeeting = createAction(
   actionTypes.EDITMEETING,
-  ({ newTitle, newContent, meetingId, authorId }) => ({
+  ({ newTitle, newContent, newMaxMembers, meetingId }) => ({
     newTitle,
     newContent,
+    newMaxMembers,
     meetingId,
-    authorId,
   }),
 );
 

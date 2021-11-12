@@ -202,6 +202,7 @@ def meeting_by_author(request, author_id):
                     member_list.append(member.id)
                 meeting_all_list.append(
                     {
+                        'id': meeting.id,
                         'title': meeting.title,
                         'content': meeting.content,
                         'authorId': meeting.author.id,

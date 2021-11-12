@@ -31,6 +31,7 @@ function MeetingDetailPage(props) {
   //   },
   // ];
   const [meetingDetail, setMeetingDetail] = useState(null);
+  const [comments, setComments] = useState(null);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
     // comments_: comments.comments,
@@ -67,6 +68,13 @@ function MeetingDetailPage(props) {
             });
             // unsafe zone
           });
+      })
+      .then(() => {
+        axios.get(`/api/comment/meeting/${params.id}`).then((res) => {
+          setComments(res.data);
+        });
+        console.log('===fetched comments===');
+        console.log(comments);
       });
   }, []);
 
@@ -90,11 +98,12 @@ function MeetingDetailPage(props) {
           }
         />
         {/* <CommentList
-          auth={auth_}
+          auth={currentUser}
           comments={
-            tempComments.filter(
-              (comment) => comment.articleId === parseInt(params.id, 10),
-            )
+            comments
+            // tempComments.filter(
+            //   (comment) => comment.articleId === parseInt(params.id, 10),
+            // )
             // comments_ &&
             // comments_.filter(
             //   (comment) => comment.articleId === parseInt(params.id, 10),
