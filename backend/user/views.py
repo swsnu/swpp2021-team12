@@ -93,7 +93,7 @@ def user_deatil(request,user_id=0):
         else:
             return HttpResponse(status=401)
     else:
-        HttpResponseNotAllowed(['GET','PUT'])
+        return HttpResponseNotAllowed(['GET','PUT'])
 
 def user_profile(request,user_id=0):
     if request.method == 'GET':
@@ -127,7 +127,7 @@ def user_profile(request,user_id=0):
         else:
             return HttpResponse(status=401)
     else:
-        return HttpResponseNotAllowed(['GET','POST'])
+        return HttpResponseNotAllowed(['GET','POST','DELETE'])
         
 @ensure_csrf_cookie
 def token(request):
