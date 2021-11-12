@@ -5,9 +5,9 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 
-import MyRoomRegisterPage from './MyRoomRegisterPage';
+import MyRoomEditPage from './MyRoomEditPage';
 
-describe('<MyRoomRegisterPage />', () => {
+describe('<MyRoomEditPage />', () => {
     let component;
     const mockStore = configureMockStore();
     const store = mockStore({
@@ -17,18 +17,13 @@ describe('<MyRoomRegisterPage />', () => {
         component = mount(
             <Provider store={store}>
                 <BrowserRouter>
-                    <MyRoomRegisterPage />
+                    <MyRoomEditPage />
                 </BrowserRouter>
             </Provider>
-        )
-    })
+        );
+    });
     it('should render well', () => {
         const wrapper = component.find('MyRoomRegister');
         expect(wrapper.length).toBe(1);
-    })
-    it('should handle comfirm', () => {
-        const submit = component.find('#my-room-register-form').find('Form');
-        submit.simulate('submit');
-        expect(submit.length).toBe(1);
     })
 })
