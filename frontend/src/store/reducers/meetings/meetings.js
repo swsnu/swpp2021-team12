@@ -3,11 +3,11 @@ import { handleActions } from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import * as actionTypes from '../../actions/actionTypes';
 import createRequestSaga from '../../../components/meeting/createRequestSaga';
-import * as meetingsAPI from '../../../lib/api/meetings';
+// import * as meetingsAPI from '../../../lib/api/meetings';
 
 const getMeetingsSaga = createRequestSaga(
   actionTypes.GETMEETINGS,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
 const createMeetingSaga = createRequestSaga(
@@ -17,17 +17,17 @@ const createMeetingSaga = createRequestSaga(
 
 const editMeetingSaga = createRequestSaga(
   actionTypes.EDITMEETING,
-  meetingsAPI.meetingDetail,
+  '/api/meeting/',
 );
 
 const deleteMeetingSaga = createRequestSaga(
   actionTypes.DELETEMEETING,
-  meetingsAPI.meetingDetail,
+  '/api/meeting/',
 );
 
 const toggleMeetingSaga = createRequestSaga(
   actionTypes.TOGGLEMEETING,
-  meetingsAPI.meetingToggle,
+  '/api/meeting/',
 );
 
 // const getMyMeetingsSaga = createRequestSaga(

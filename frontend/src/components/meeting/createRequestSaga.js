@@ -73,7 +73,7 @@ export default function createRequestSaga(type, request) {
 
       case actionTypes.DELETEMEETING:
         yield axios
-          .delete(`${request}/${action.payload.id}`)
+          .delete(`${request}${action.payload.id}/`)
           .then((res) => {
             response = res;
           })
@@ -89,7 +89,7 @@ export default function createRequestSaga(type, request) {
 
       case actionTypes.TOGGLEMEETING:
         yield axios
-          .put(`${request}/${action.payload.id}/toggle`, {
+          .put(`${request}/${action.payload.id}/toggle/`, {
             joinOrQuit: action.payload.joinOrQuit,
           })
           .then((res) => {
