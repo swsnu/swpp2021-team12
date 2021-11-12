@@ -25,6 +25,7 @@ function MeetingEditPage(props) {
                     .then(() => {
                         history.push(`/meeting/${id}`)
                     })
+                    .catch(() => {window.alert("Error!")})
             }}
             meeting={meeting}
             />
