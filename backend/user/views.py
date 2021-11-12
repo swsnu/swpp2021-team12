@@ -23,7 +23,6 @@ def signin(request):
             return HttpResponse(status=401)
         login(request, user)
         u = User.objects.get(email=email)
-        name = u.name
         user_id = u.id
         return JsonResponse({"id":user_id},status=200,safe=False)
     return HttpResponseNotAllowed(['POST'])
@@ -76,7 +75,8 @@ def user_deatil(request,user_id=0):
             user_name = u.name
             user_email = u.email
             user_intro = u.self_intro
-            return JsonResponse({"name":user_name,"email":user_email,"selfIntro":user_intro}, status=200, safe=False)
+            return JsonResponse({"name":user_name,"email":user_email,
+            "selfIntro":user_intro}, status=200, safe=False)
         else:
             return HttpResponse(status=401)
     elif request.method == 'PUT':
@@ -102,7 +102,7 @@ def user_profile(request,user_id=0):
                 u = User.objects.get(id=user_id)
                 profile_image = u.profile_img
                 return HttpResponse(profile_image,content_type="image/jpeg")
-            except:
+            except ValueError:
                 return HttpResponse(status=404)
         else:
             return HttpResponse(status=401)
