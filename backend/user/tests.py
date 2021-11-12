@@ -7,9 +7,9 @@ class UserTestCase(TestCase):
     
     
     def test_superuser(self):
-        User.objects.create_superuser(email="rr@rr.rr",password="ff")
+        User.objects.create_superuser(email="rr@rr.rr",password="ff",name="kk")
         with self.assertRaises(TypeError):
-            User.objects.create_superuser(email=None,password=None)
+            User.objects.create_superuser(email=None,password=None,name=None)
 
     def test_sign(self):
         client = Client()
@@ -17,7 +17,7 @@ class UserTestCase(TestCase):
                                json.dumps({'email':'tt@tt.tt','password':'tt','name':'tt'}),
                                content_type="application/json")
 
-        self.assertEqual(response.status_code,200)
+        self.assertEqual(response.status_code,201)
 
         response = client.get('/api/user/sign_out/')
 
