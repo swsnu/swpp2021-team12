@@ -69,11 +69,15 @@ describe('<MyProfileEditPage/>', () => {
     );
     await runAllPromises();
     component.update();
+    const pauseFor = (milliseconds) =>
+      new Promise((resolve) => setTimeout(resolve, milliseconds));
 
     expect(component.find('.MyProfileEdit').length).toBe(1);
     const confirmButton = component.find('#button_confirm').find('button');
     confirmButton.simulate('click');
     const deleteButton = component.find('#button_delete').find('button');
+    const backButton = component.find('#button_back').find('button');
+    backButton.simulate('click');
     deleteButton.simulate('click');
     confirmButton.simulate('click');
     const fileInput = component.find('#input_file').find('input');
@@ -82,6 +86,12 @@ describe('<MyProfileEditPage/>', () => {
     fileInput.simulate('change', {
       target: {
         files: [new Blob([new ArrayBuffer('data')], { type: 'image/png' })],
+      },
+    });
+    await pauseFor(500);
+    fileInput.simulate('change', {
+      target: {
+        files: [],
       },
     });
     confirmButton.simulate('click');
