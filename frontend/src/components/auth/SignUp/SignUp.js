@@ -108,7 +108,6 @@ function SignUp(props) {
                 }
               }}
             />
-
             <Button
               content="Confirm"
               disabled={!isValidEmail || !isValidName || !isValidPassword}
@@ -120,7 +119,6 @@ function SignUp(props) {
               content="Sign In"
               onClick={onClickSignInButton}
             />
-            <Button content="Sign In" onClick={onClickSignInButton} />
           </Form>
         </Grid.Column>
       </Grid>

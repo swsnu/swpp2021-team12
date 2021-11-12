@@ -1,24 +1,22 @@
-import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
-
+import React from 'react';
+import axios from 'axios';
 import PageTemplate from '../../../common/PageTemplate';
-import MeetingCreate from "../../../../components/meeting/MeetingCreate";
-import { createMeeting } from "../../../../store/actions/meetings";
+import MeetingCreate from '../../../../components/meeting/MeetingCreate';
+import * as meetingAPI from '../../../../lib/api/meetings';
 
 function MeetingCreatePage() {
-    const { user } = useSelector(({ auth }) => ({
-        user: auth.user,
-    }))
-    const dispatch = useDispatch();
+  const onClickConfirmHandler = async (title, content, maxMembers, history) => {
+    await axios
+      .post(meetingAPI.meetings, { title, content, maxMembers })
+      .then((res) => {
+        history.push(`/meeting/${res.data.id}`);
+      });
+  };
 
-    return (
-        <PageTemplate>
-            <MeetingCreate onClickConfirmHandler={(title, content, authorId) => {
-                dispatch(createMeeting(title, content, authorId));
-            }}
-            user={user}
-            />
-        </PageTemplate>
-    )
+  return (
+    <PageTemplate>
+      <MeetingCreate onClickConfirmHandler={onClickConfirmHandler} />
+    </PageTemplate>
+  );
 }
 export default MeetingCreatePage;

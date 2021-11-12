@@ -12,40 +12,40 @@ const getMeetingsSaga = createRequestSaga(
 
 const createMeetingSaga = createRequestSaga(
   actionTypes.CREATEMEETING,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
 const editMeetingSaga = createRequestSaga(
   actionTypes.EDITMEETING,
-  meetingsAPI.meetings,
+  meetingsAPI.meetingDetail,
 );
 
 const deleteMeetingSaga = createRequestSaga(
   actionTypes.DELETEMEETING,
-  meetingsAPI.meetings,
+  meetingsAPI.meetingDetail,
 );
 
-const joinMeetingSaga = createRequestSaga(
-  actionTypes.JOINMEETING,
-  meetingsAPI.meetings,
+const toggleMeetingSaga = createRequestSaga(
+  actionTypes.TOGGLEMEETING,
+  meetingsAPI.meetingToggle,
 );
 
-const quitMeetingSaga = createRequestSaga(
-  actionTypes.QUITMEETING,
-  meetingsAPI.meetings,
-);
+// const getMyMeetingsSaga = createRequestSaga(
+//   actionTypes.GETMEETINGS,
+//   meetingsAPI.meetingAuthor,
+// );
 
 export function* meetingSaga() {
   yield takeLatest(actionTypes.GETMEETINGS, getMeetingsSaga);
   yield takeLatest(actionTypes.CREATEMEETING, createMeetingSaga);
   yield takeLatest(actionTypes.EDITMEETING, editMeetingSaga);
   yield takeLatest(actionTypes.DELETEMEETING, deleteMeetingSaga);
-  yield takeLatest(actionTypes.JOINMEETING, joinMeetingSaga);
-  yield takeLatest(actionTypes.QUITMEETING, quitMeetingSaga);
+  yield takeLatest(actionTypes.TOGGLEMEETING, toggleMeetingSaga);
+  // yield takeLatest(actionTypes.GETMEETINGS, getMyMeetingsSaga);
 }
 
 const initialState = {
-  meetings: null,
+  meetings: [],
   submitted: -1,
   meetingsError: null,
 };
@@ -110,7 +110,7 @@ const meetings = handleActions(
       submitted: -1,
       meetingsError: error,
     }),
-    [actionTypes.JOINMEETING_SUCCESS]: (
+    [actionTypes.TOGGLEMEETING_SUCCESS]: (
       state,
       { payload: modifiedMeeting },
     ) => ({
@@ -121,23 +121,7 @@ const meetings = handleActions(
       submitted: -1,
       meetingsError: null,
     }),
-    [actionTypes.JOINMEETING_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      submitted: -1,
-      meetingsError: error,
-    }),
-    [actionTypes.QUITMEETING_SUCCESS]: (
-      state,
-      { payload: modifiedMeeting },
-    ) => ({
-      ...state,
-      meetings: state.meetings.map((meeting) =>
-        meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
-      ),
-      submitted: -1,
-      meetingsError: null,
-    }),
-    [actionTypes.QUITMEETING_FAILURE]: (state, { payload: error }) => ({
+    [actionTypes.TOGGLEMEETING_FAILURE]: (state, { payload: error }) => ({
       ...state,
       submitted: -1,
       meetingsError: error,

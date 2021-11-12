@@ -33,7 +33,7 @@ export default function createRequestSaga(type, request) {
           localStorage.user = response.id;
           yield put({
             type: SUCCESS,
-            payload: response,
+            payload: response.id,
           });
         } else {
           localStorage.clear();
@@ -63,7 +63,7 @@ export default function createRequestSaga(type, request) {
           localStorage.user = response.id;
           yield put({
             type: SUCCESS,
-            payload: response,
+            payload: response.id,
           });
         } else {
           localStorage.clear();
