@@ -85,6 +85,7 @@ def specified_meeting(request, id):
         for member in target_meeting.current_members.all():
             member_list.append(member.id)
         response_dict = {
+            'id': id,
             'title': title,
             'content': content,
             'authorId': author.id,
@@ -117,7 +118,7 @@ def specified_meeting(request, id):
             target_meeting.max_members = new_maxMembers
             target_meeting.save()
             member_list = []
-            for member in target_meeting.current_memmbers.all():
+            for member in target_meeting.current_members.all():
                 member_list.append(member.id)
             response_dict = {
                 'id': target_meeting.id,
@@ -201,6 +202,7 @@ def meeting_by_author(request, author_id):
                     member_list.append(member.id)
                 meeting_all_list.append(
                     {
+                        'id': meeting.id,
                         'title': meeting.title,
                         'content': meeting.content,
                         'authorId': meeting.author.id,

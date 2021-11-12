@@ -62,7 +62,9 @@ function MeetingDetail(props) {
                       className="EditButton"
                       id="editMeetingButton"
                       onClick={() =>
-                        history.push(`/meeting/${meetingDetail.id}/edit`)
+                        history.push(
+                          `/meeting/${meetingDetail.meetingData.id}/edit`,
+                        )
                       }
                     >
                       EDIT
@@ -88,6 +90,9 @@ function MeetingDetail(props) {
                         id="quitMeetingButton"
                         onClick={() => {
                           toggleMeeting(0);
+                          history.push(
+                            `/meeting/${meetingDetail.meetingData.id}`,
+                          );
                         }}
                       >
                         QUIT
@@ -99,6 +104,9 @@ function MeetingDetail(props) {
                         id="joinMeetingButton"
                         onClick={() => {
                           toggleMeeting(1);
+                          history.push(
+                            `/meeting/${meetingDetail.meetingData.id}`,
+                          );
                         }}
                         disabled={
                           meetingDetail.meetingData.currentMembers.length ===

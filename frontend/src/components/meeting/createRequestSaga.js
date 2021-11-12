@@ -52,11 +52,12 @@ export default function createRequestSaga(type, request) {
         break;
 
       case actionTypes.EDITMEETING:
+        console.log(action);
         yield axios
-          .put(`${request}/${action.payload.meetingId}`, {
+          .put(`${request}${action.payload.meetingId}/`, {
             title: action.payload.newTitle,
             content: action.payload.newContent,
-            authorId: action.payload.authorId,
+            maxMembers: action.payload.newMaxMembers,
           })
           .then((res) => {
             response = res.data;
