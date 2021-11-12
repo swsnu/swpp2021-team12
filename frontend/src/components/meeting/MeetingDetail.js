@@ -11,24 +11,14 @@ import {
 
 // TODO: Location
 function MeetingDetail(props) {
-  const { currentUser, meetingDetail, deleteMeeting, toggleMeeting, history } =
-    props;
+  const {
+    currentUser,
+    meetingDetail,
+    onClickDeleteButton,
+    onClickToggleButton,
+    history,
+  } = props;
 
-  /* const [author, setAuthor] = useState(null);
-  useEffect(async () => {
-    await axios
-      .get(`/api/user/${meetingDetail.authorId}/`)
-      .then((res) => setAuthor(res.data));
-  });
-  const members = [];
-  meetingDetail.currentMembers.forEach((member) => async () => {
-    await axios
-      .get(`/api/user/${member}`)
-      .then((res) => members.append(res.data));
-  }); */
-  // console.log(meetingDetail);
-  console.log(meetingDetail);
-  console.log(currentUser);
   return (
     <>
       {meetingDetail ? (
@@ -72,10 +62,7 @@ function MeetingDetail(props) {
                     <Button
                       className="DeleteButton"
                       id="deleteMeetingButton"
-                      onClick={() => {
-                        deleteMeeting();
-                        history.push('/meeting');
-                      }}
+                      onClick={() => onClickDeleteButton()}
                     >
                       DELETE
                     </Button>
@@ -88,12 +75,7 @@ function MeetingDetail(props) {
                       <Button
                         className="QuitButton"
                         id="quitMeetingButton"
-                        onClick={() => {
-                          toggleMeeting(0);
-                          history.push(
-                            `/meeting/${meetingDetail.meetingData.id}`,
-                          );
-                        }}
+                        onClick={() => onClickToggleButton(0)}
                       >
                         QUIT
                       </Button>
@@ -102,12 +84,7 @@ function MeetingDetail(props) {
                         className="JoinButton"
                         primary
                         id="joinMeetingButton"
-                        onClick={() => {
-                          toggleMeeting(1);
-                          history.push(
-                            `/meeting/${meetingDetail.meetingData.id}`,
-                          );
-                        }}
+                        onClick={() => onClickToggleButton(1)}
                         disabled={
                           meetingDetail.meetingData.currentMembers.length ===
                           meetingDetail.meetingData.maxMembers
