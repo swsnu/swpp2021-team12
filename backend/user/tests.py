@@ -27,7 +27,7 @@ class UserTestCase(TestCase):
         json.dumps({'email':'tt@tt.tt','password':'tt'}),content_type="application/json")
         
         self.assertEqual(response.status_code,200)
-        # self.assertIn('tt',response.content.decode())
+        self.assertIn('1',response.content.decode())
 
     def test_sign_fail(self):
         client = Client()
