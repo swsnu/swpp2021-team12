@@ -8,7 +8,7 @@ import * as axios from 'axios';
 import MyRoomRegister from "./MyRoomRegister";
 
 const spyCreate = jest.spyOn(axios, 'post').mockImplementation(() => {})
-const spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => true)
+let spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => true)
 
 const defaultProps = {
     onClickConfirmHandler: spyCreate,
@@ -65,5 +65,9 @@ describe('<MyRoomRegister />', () => {
 
         backButton.simulate('click');
         expect(spyConfirm).toHaveBeenCalledTimes(1);
+
+        spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => false)
+        backButton.simulate('click');
+        expect(spyConfirm).toHaveBeenCalledTimes(2);
     })
 })

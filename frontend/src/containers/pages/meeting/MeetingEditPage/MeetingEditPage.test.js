@@ -20,6 +20,7 @@ describe('<MeetingEditPage />', () => {
   });
     let component;
     beforeEach(() => {
+        axios.get.mockImplementation(() => Promise.resolve({data: { title:'title', content: 'content', maxMembers: 10}}))
         component = mount(
             <Provider store={store}>
                 <BrowserRouter>
@@ -33,8 +34,7 @@ describe('<MeetingEditPage />', () => {
         const wrapper = component.find('MeetingEditPage');
         expect(wrapper.length).toBe(1);
     })
-    xit('sholud handle onClickConfirmHandler well', () => {
-        axios.get.mockImplementation(() => Promise.resolve({meeting: { title:'title', content: 'content', maxMembers: 10}}))
+    it('sholud handle onClickConfirmHandler well', () => {
         axios.put.mockImplementation((url, data) => Promise.resolve(data));
         const titleInput = component.find('#meeting-title-input').find('input');
         titleInput.simulate('change', { target: { value: 'edited title' } });
@@ -51,4 +51,16 @@ describe('<MeetingEditPage />', () => {
         confirmButton.simulate('click');
         expect(axios.put).toHaveBeenCalledTimes(1);
     });
+    it('should throw error with wrong axios.get', () => {
+        const spyAlert = jest.spyOn(window, 'alert');
+        axios.get.mockImplementation(() => Promise.reject());
+        component = mount(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <MeetingEditPage match={{ params: {id: 0} }}/>
+                </BrowserRouter>
+            </Provider>
+        );
+        expect(spyAlert).toHaveBeenCalledTimes(2);
+    })
 })
