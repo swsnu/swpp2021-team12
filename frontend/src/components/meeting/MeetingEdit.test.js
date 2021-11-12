@@ -24,29 +24,40 @@ describe('<MeetingEdit />', () => {
     expect(wrapper.length).toBe(1);
   });
   it('should edit properly when confirm button clicked', () => {
-    const spyCreateMeeting = jest.fn();
+    const spyEditMeeting = jest.fn();
     component = mount(
       <BrowserRouter>
         <MeetingEdit
           meeting={{ title: 'title', content: 'content', maxMembers: 10 }}
-          onClickConfirmHandler={spyCreateMeeting}
-          user={{ user: 1 }}
+          onClickConfirmHandler={spyEditMeeting}
         />
       </BrowserRouter>,
     );
-    const titleInput = component.find('#meeting-title-input').find('input');
+    const titleInput = component
+      .find('#meeting-title-input')
+      .find('input');
     titleInput.simulate('change', { target: { value: 'edited title' } });
+
     const contentInput = component
       .find('#meeting-content-input')
       .find('textarea');
     contentInput.simulate('change', { target: { value: 'edited content' } });
+
     const maxMembersInput = component
       .find('#meeting-max-members-input')
       .find('input');
     maxMembersInput.simulate('change', { target: { value: 9 } });
-    const submit = component.find('#meeting-edit-form').find('Form');
+    /*  changed to confirm button, not Submit
+    const submit = component
+      .find('#meeting-edit-form')
+      .find('Form');
     submit.simulate('submit');
-    expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
+      */
+    const confirm = component
+      .find('#confirm-button')
+      .find('button')
+    confirm.simulate('click')
+    expect(spyEditMeeting).toHaveBeenCalledTimes(1);
   });
   it('should go back properly', () => {
     let spyConfirm = jest

@@ -25,12 +25,7 @@ function MeetingCreate(props) {
           <Grid.Column id="meeting-create-column">
             <h1>Create New Meeting!</h1>
             <br />
-            <Form
-              id="meeting-create-form"
-              onSubmit={() => {
-                onClickConfirmHandler(title, content, maxMembers, history);
-              }}
-            >
+            <Form id="meeting-create-form">
               <Form.Input
                 className="MeetingTitleInput"
                 id="meeting-title-input"
@@ -60,9 +55,9 @@ function MeetingCreate(props) {
                 <Form.Select options={[{}]} />
               </Grid>
               <Grid centered>
-                <Form.Button key="scope">Scope</Form.Button>
-                <Form.Button key="location">Location</Form.Button>
-                <Form.Button key="time">Time</Form.Button>
+                <Form.Button key="scope" onClick={() => {}}>Scope</Form.Button>
+                <Form.Button key="location" onClick={() => {}}>Location</Form.Button>
+                <Form.Button key="time" onClick={() => {}}>Time</Form.Button>
               </Grid>
               <Grid centered>
                 <Form.Button
@@ -70,6 +65,7 @@ function MeetingCreate(props) {
                   className="ConfirmButton"
                   id="confirm-button"
                   disabled={isDisable}
+                  onClick={() => onClickConfirmHandler(title, content, maxMembers, history)}
                 >
                   Confirm
                 </Form.Button>
