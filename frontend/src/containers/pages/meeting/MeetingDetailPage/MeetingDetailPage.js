@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import MeetingDetail from '../../../../components/meeting/MeetingDetail';
 // import CommentList from '../../../../components/comment/CommentList/CommentList';
 import PageTemplate from '../../../common/PageTemplate';
-import {
-  deleteMeeting,
-  toggleMeeting,
-} from '../../../../store/actions/meetings';
-import * as meetingAPI from '../../../../lib/api/meetings';
 // import {
 //   createComment,
 //   editComment,
@@ -16,7 +11,7 @@ import * as meetingAPI from '../../../../lib/api/meetings';
 //   getMeetingComments,
 // } from '../../../../store/actions/comments';
 
-// TODO: Comments, Photo, Access, Tag, Location, Time
+// TODO: Photo, Access, Tag, Location, Time
 function MeetingDetailPage(props) {
   // const tempComments = [
   //   {
@@ -31,17 +26,19 @@ function MeetingDetailPage(props) {
   //   },
   // ];
   const [meetingDetail, setMeetingDetail] = useState(null);
-  const [comments, setComments] = useState(null);
+  // const [comments, setComments] = useState(null);
+  const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
     // comments_: comments.comments,
   }));
-  const { params } = props.match;
+  const { history } = props;
+  const { id } = props.match.params;
   let dataReducer = { members: [] };
 
   useEffect(() => {
     axios
-      .get(`${meetingAPI.meetings}${params.id}/`)
+      .get(`/api/meeting/${id}/`)
       .then((res) => {
         dataReducer = { ...dataReducer, meetingData: res.data };
       })
@@ -51,7 +48,10 @@ function MeetingDetailPage(props) {
           .then((res) => {
             dataReducer = { ...dataReducer, author: res.data };
           })
-          .then(() => {
+          .then(async () => {
+            if (dataReducer.members.length === 0) {
+              setMeetingDetail(dataReducer);
+            }
             dataReducer.meetingData.currentMembers.forEach(async (member) => {
               await axios
                 .get(`/api/user/${member}/`)
@@ -64,38 +64,42 @@ function MeetingDetailPage(props) {
                 .then(() => {
                   setMeetingDetail(dataReducer);
                 });
-              // safe zone
             });
-            // unsafe zone
           });
       })
-      .then(() => {
-        axios.get(`/api/comment/meeting/${params.id}`).then((res) => {
-          setComments(res.data);
-        });
-        console.log('===fetched comments===');
-        console.log(comments);
+      // .then(() => {
+      //   axios.get(`/api/comment/meeting/${id}/`).then((res) => {
+      //     setComments(res.data);
+      //   });
+      //   // console.log('===fetched comments===');
+      //   console.log(comments);
+      // })
+      .catch(() => {
+        window.alert('Error occured while fetching meeting info');
       });
-  }, []);
+  }, [refresh]);
 
-  const dispatch = useDispatch();
   return (
     <div className="MeetingDetailPage">
       <PageTemplate>
         <MeetingDetail
           currentUser={parseInt(currentUser, 10)}
           meetingDetail={meetingDetail}
-          deleteMeeting={() =>
-            dispatch(deleteMeeting({ id: parseInt(params.id, 10) }))
-          }
-          toggleMeeting={(joinOrQuit) =>
-            dispatch(
-              toggleMeeting({
-                joinOrQuit: parseInt(joinOrQuit, 10),
-                id: parseInt(params.id, 10),
-              }),
-            )
-          }
+          onClickDeleteButton={() => {
+            axios
+              .delete(`/api/meeting/${id}/`)
+              .then(() => {
+                history.push(`/meeting`);
+              })
+              .catch(() => {
+                window.alert('Error occured while deletion');
+              });
+          }}
+          onClickToggleButton={(joinOrQuit) => {
+            axios
+              .put(`/api/meeting/${id}/toggle/`, { joinOrQuit })
+              .then(setRefresh(!refresh));
+          }}
         />
         {/* <CommentList
           auth={currentUser}
@@ -109,8 +113,7 @@ function MeetingDetailPage(props) {
             //   (comment) => comment.articleId === parseInt(params.id, 10),
             // )
           }
-          // users={users_}
-          articleId={parseInt(params.id, 10)}
+          articleId={parseInt(id, 10)}
           createComment={(content, authorId, articleId) => {
             dispatch(createComment({ content, authorId, articleId }));
           }}
