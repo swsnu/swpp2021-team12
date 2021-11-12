@@ -33,9 +33,7 @@ describe('<MeetingCreatePage />', () => {
         expect(wrapper.length).toBe(1);
     })
     it('sholud handle onClickConfirmHandler well', () => {
-        axios.post.mockImplementation((url, data) =>
-            Promise.resolve(data)
-            )
+        axios.post.mockImplementation((url, data) => Promise.resolve(data))
         const titleInput = component.find('#meeting-title-input').find('input');
         titleInput.simulate('change', { target: { value: 'title' } });
         const contentInput = component.find('#meeting-content-input').find('textarea');
