@@ -1,13 +1,13 @@
 import json
 from json.decoder import JSONDecodeError
-from django.shortcuts import render
 from meeting.models import Meeting
 from user.models import User, UserManager
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from django.shortcuts import render
 
 # TODO: access_scope, tag, location, photo
-def meeting(request):
+def meeting_(request):
     # get a whole meetings list
     if request.method == 'GET':
         if not request.user.is_authenticated:
@@ -68,13 +68,13 @@ def meeting(request):
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 
-def specified_meeting(request, id):
+def specified_meeting(request, meeting_id):
     # get a specific meeting info
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            target_meeting = Meeting.objects.get(id=id)
+            target_meeting = Meeting.objects.get(id=meeting_id)
         except Meeting.DoesNotExist:
             return HttpResponse(status=404)
         title = target_meeting.title
@@ -85,7 +85,7 @@ def specified_meeting(request, id):
         for member in target_meeting.current_members.all():
             member_list.append(member.id)
         response_dict = {
-            'id': id,
+            'id': meeting_id,
             'title': title,
             'content': content,
             'authorId': author.id,
@@ -99,7 +99,7 @@ def specified_meeting(request, id):
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            target_meeting = Meeting.objects.get(id=id)
+            target_meeting = Meeting.objects.get(id=meeting_id)
         except Meeting.DoesNotExist:
             return HttpResponse(status=404)
         try:
@@ -135,7 +135,7 @@ def specified_meeting(request, id):
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            target_meeting = Meeting.objects.get(id=id)
+            target_meeting = Meeting.objects.get(id=meeting_id)
         except Meeting.DoesNotExist:
             return HttpResponse(status=404)
         if target_meeting.author.id != request.user.id:
@@ -148,13 +148,13 @@ def specified_meeting(request, id):
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
 
-def toggle_meeting(request, id):
+def toggle_meeting(request, meeting_id):
     # join or quit meeting
     if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
-            target_meeting = Meeting.objects.get(id=id)
+            target_meeting = Meeting.objects.get(id=meeting_id)
         except Meeting.DoesNotExist:
             return HttpResponse(status=404)
         try:
