@@ -49,12 +49,7 @@ describe('<MeetingDetailPage />', () => {
   const store = mockStore({
     auth: { auth: 1 },
   });
-  const store2 = mockStore({
-    auth: { auth: 2 },
-  });
-  const store3 = mockStore({
-    auth: { auth: 3 },
-  });
+
   let component;
   beforeEach(() => {
     axios.get.mockImplementation(() =>
