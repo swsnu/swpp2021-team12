@@ -10,9 +10,15 @@ import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/Meet
 import MeetingListPage from './containers/pages/meeting/MeetingListPage/MeetingListPage';
 import MeetingCreatePage from './containers/pages/meeting/MeetingCreatePage/MeetingCreatePage';
 import MeetingEditPage from './containers/pages/meeting/MeetingEditPage/MeetingEditPage';
+import MyProfilePage from './containers/pages/room/MyProfilePage/MyProfilePage';
+import MyProfileEditPage from './containers/pages/room/MyProfileEditPage/MyProfileEditPage';
+import MyRoomPage from './containers/pages/room/MyRoomPage/MyRoomPage';
+import MyRoomRegisterPage from './containers/pages/room/MyRoomRegisterPage/MyRoomRegisterPage';
+import MyRoomEditPage from './containers/pages/room/MyRoomEditPage/MyRoomEditPage';
+import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
+
 
 function App() {
-
   return (
     <BrowserRouter>
       <div className="App">
@@ -21,9 +27,19 @@ function App() {
           <Route path="/sign_up" exact component={SignUpPage} />
           <Route path="/main" exact component={MainPage} />
           <Route path="/meeting" exact component={MeetingListPage} />
+          <Route path="/meeting/create" exact component={MeetingCreatePage} />
           <Route path="/meeting/:id" exact component={MeetingDetailPage} />
           <Route path="/meeting/:id/edit" exact component={MeetingEditPage} />
-          <Route path="/meeting/create" exact component={MeetingCreatePage} />
+          <Route path="/mypage" exact component={MyProfilePage} />
+          <Route path="/mypage/edit" exact component={MyProfileEditPage} />
+          <Route path="/mypage/room" exact component={MyRoomPage} />
+          <Route path="/mypage/room/register" exact component={MyRoomRegisterPage} />
+          <Route path="/mypage/room/edit" exact component={MyRoomEditPage} />
+          <Route
+            path="/mypage/room/pending"
+            exact
+            component={MyRoomPendingPage}
+          />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>

@@ -1,12 +1,19 @@
 import React from 'react';
+import { Button, Grid, Image } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
-function Main() {
+function Main(props) {
+  const { history } = props;
   return (
     <div>
-      <h1>should contain map and functions</h1>
-      <h3>but kakaomap API not available so far..</h3>
+      <Grid centered style={{ marginTop: '2em', marginBottom: '5em' }}>
+        <Image src="img/welcomeTo301.png" />
+      </Grid>
+      <Button id="button_createmeeting"primary onClick={() => history.push('/meeting/create')}>
+        Create Meeting
+      </Button>
     </div>
   );
 }
 
-export default Main;
+export default withRouter(Main);

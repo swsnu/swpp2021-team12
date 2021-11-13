@@ -5,16 +5,16 @@ export const getMeetings = createAction(actionTypes.GETMEETINGS);
 
 export const createMeeting = createAction(
   actionTypes.CREATEMEETING,
-  ({ title, content, authorId }) => ({ title, content, authorId }),
+  ({ title, content, maxMembers }) => ({ title, content, maxMembers }),
 );
 
 export const editMeeting = createAction(
   actionTypes.EDITMEETING,
-  ({ newTitle, newContent, meetingId, authorId }) => ({
+  ({ newTitle, newContent, newMaxMembers, meetingId }) => ({
     newTitle,
     newContent,
+    newMaxMembers,
     meetingId,
-    authorId,
   }),
 );
 
@@ -23,12 +23,7 @@ export const deleteMeeting = createAction(
   ({ id }) => ({ id }),
 );
 
-export const joinMeeting = createAction(
-  actionTypes.JOINMEETING,
-  ({ auth, meetingId }) => ({ auth, meetingId }),
-);
-
-export const quitMeeting = createAction(
-  actionTypes.QUITMEETING,
-  ({ auth, meetingId }) => ({ auth, meetingId }),
+export const toggleMeeting = createAction(
+  actionTypes.TOGGLEMEETING,
+  ({ joinOrQuit, id }) => ({ joinOrQuit, id }),
 );

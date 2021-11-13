@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Container, Header, Segment } from 'semantic-ui-react';
+import { useSelector } from 'react-redux';
 
 const HomepageHeading = () => (
   <Segment
@@ -38,12 +39,15 @@ const HomepageHeading = () => (
 );
 
 function AuthTemplate({ children, history }) {
+  const { currentAuth } = useSelector(({ auth }) => ({
+    currentAuth: auth.auth,
+  }));
   useEffect(() => {
-    if ('user' in localStorage) {
+    if ('user' in localStorage || currentAuth) {
       alert('You are logged in!\nMoving to main page..');
       history.push('/main');
     }
-  }, [localStorage.user]);
+  }, [localStorage.user, currentAuth]);
 
   return (
     <div>

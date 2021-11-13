@@ -36,7 +36,7 @@ export default function createRequestSaga(type, request) {
           .post(request, {
             title: action.payload.title,
             content: action.payload.content,
-            authorId: action.payload.authorId,
+            maxMembers: action.payload.maxMembers,
           })
           .then((res) => {
             response = res.data;
@@ -52,11 +52,12 @@ export default function createRequestSaga(type, request) {
         break;
 
       case actionTypes.EDITMEETING:
+        console.log(action);
         yield axios
-          .put(`${request}/${action.payload.meetingId}`, {
+          .put(`${request}${action.payload.meetingId}/`, {
             title: action.payload.newTitle,
             content: action.payload.newContent,
-            authorId: action.payload.authorId,
+            maxMembers: action.payload.newMaxMembers,
           })
           .then((res) => {
             response = res.data;
@@ -73,7 +74,7 @@ export default function createRequestSaga(type, request) {
 
       case actionTypes.DELETEMEETING:
         yield axios
-          .delete(`${request}/${action.payload.id}`)
+          .delete(`${request}${action.payload.id}/`)
           .then((res) => {
             response = res;
           })
@@ -87,15 +88,23 @@ export default function createRequestSaga(type, request) {
         }
         break;
 
-      // TODO
-      // case actionTypes.JOINMEETING:
-      //   yield axios;
-      //   break;
-
-      // TODO
-      // case actionTypes.QUITMEETING:
-      //   yield axios;
-      //   break;
+      case actionTypes.TOGGLEMEETING:
+        yield axios
+          .put(`${request}/${action.payload.id}/toggle/`, {
+            joinOrQuit: action.payload.joinOrQuit,
+          })
+          .then((res) => {
+            response = res.data;
+          })
+          .catch((error) => {
+            err = error;
+          });
+        if (!err) {
+          yield put({ type: SUCCESS, payload: response });
+        } else {
+          yield put({ type: FAILURE, payload: { error: err } });
+        }
+        break;
 
       default:
         break;

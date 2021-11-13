@@ -3,49 +3,49 @@ import { handleActions } from 'redux-actions';
 import { takeLatest } from 'redux-saga/effects';
 import * as actionTypes from '../../actions/actionTypes';
 import createRequestSaga from '../../../components/meeting/createRequestSaga';
-import * as meetingsAPI from '../../../lib/api/meetings';
+// import * as meetingsAPI from '../../../lib/api/meetings';
 
 const getMeetingsSaga = createRequestSaga(
   actionTypes.GETMEETINGS,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
 const createMeetingSaga = createRequestSaga(
   actionTypes.CREATEMEETING,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
 const editMeetingSaga = createRequestSaga(
   actionTypes.EDITMEETING,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
 const deleteMeetingSaga = createRequestSaga(
   actionTypes.DELETEMEETING,
-  meetingsAPI.meetings,
+  '/api/meeting/',
 );
 
-const joinMeetingSaga = createRequestSaga(
-  actionTypes.JOINMEETING,
-  meetingsAPI.meetings,
+const toggleMeetingSaga = createRequestSaga(
+  actionTypes.TOGGLEMEETING,
+  '/api/meeting/',
 );
 
-const quitMeetingSaga = createRequestSaga(
-  actionTypes.QUITMEETING,
-  meetingsAPI.meetings,
-);
+// const getMyMeetingsSaga = createRequestSaga(
+//   actionTypes.GETMEETINGS,
+//   meetingsAPI.meetingAuthor,
+// );
 
 export function* meetingSaga() {
   yield takeLatest(actionTypes.GETMEETINGS, getMeetingsSaga);
   yield takeLatest(actionTypes.CREATEMEETING, createMeetingSaga);
   yield takeLatest(actionTypes.EDITMEETING, editMeetingSaga);
   yield takeLatest(actionTypes.DELETEMEETING, deleteMeetingSaga);
-  yield takeLatest(actionTypes.JOINMEETING, joinMeetingSaga);
-  yield takeLatest(actionTypes.QUITMEETING, quitMeetingSaga);
+  yield takeLatest(actionTypes.TOGGLEMEETING, toggleMeetingSaga);
+  // yield takeLatest(actionTypes.GETMEETINGS, getMyMeetingsSaga);
 }
 
 const initialState = {
-  meetings: null,
+  meetings: [],
   submitted: -1,
   meetingsError: null,
 };
@@ -110,38 +110,22 @@ const meetings = handleActions(
       submitted: -1,
       meetingsError: error,
     }),
-    [actionTypes.JOINMEETING_SUCCESS]: (
-      state,
-      { payload: modifiedMeeting },
-    ) => ({
-      ...state,
-      meetings: state.meetings.map((meeting) =>
-        meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
-      ),
-      submitted: -1,
-      meetingsError: null,
-    }),
-    [actionTypes.JOINMEETING_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      submitted: -1,
-      meetingsError: error,
-    }),
-    [actionTypes.QUITMEETING_SUCCESS]: (
-      state,
-      { payload: modifiedMeeting },
-    ) => ({
-      ...state,
-      meetings: state.meetings.map((meeting) =>
-        meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
-      ),
-      submitted: -1,
-      meetingsError: null,
-    }),
-    [actionTypes.QUITMEETING_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      submitted: -1,
-      meetingsError: error,
-    }),
+    // [actionTypes.TOGGLEMEETING_SUCCESS]: (
+    //   state,
+    //   { payload: modifiedMeeting },
+    // ) => ({
+    //   ...state,
+    //   meetings: state.meetings.map((meeting) =>
+    //     meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
+    //   ),
+    //   submitted: -1,
+    //   meetingsError: null,
+    // }),
+    // [actionTypes.TOGGLEMEETING_FAILURE]: (state, { payload: error }) => ({
+    //   ...state,
+    //   submitted: -1,
+    //   meetingsError: error,
+    // }),
   },
   initialState,
 );
