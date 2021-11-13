@@ -32,9 +32,14 @@ describe('<MeetingCreate />', () => {
         contentInput.simulate('change', { target: { value: 'content'} });
         const maxMembersInput = component.find('#meeting-max-members-input').find('input');
         maxMembersInput.simulate('change', { target: { value: 9} });
+        /*  change submit -> onClick
         const submit = component.find('#meeting-create-form').find('Form');
         submit.simulate('submit');
         expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
+        */
+       const confirmButton = component.find('#confirm-button').find('button');
+       confirmButton.simulate('click');
+       expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
     });
     it('should go back properly when back button clicked', () => {
         const backButton = component.find('#back-button').find('button');

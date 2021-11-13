@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import * as axios from 'axios';
+import axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
 import MeetingEdit from "../../../../components/meeting/MeetingEdit";

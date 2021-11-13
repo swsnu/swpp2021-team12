@@ -11,7 +11,7 @@ function NoRoom(props) {
             <Segment placeholder style={{ height: '300px', width:'700px', marginBottom: '4em'}}>
                 <h1>No Room Registered!!</h1>
             </Segment>
-            <Button primary size="big" onClick={onClickRegisterHandler}>
+            <Button id='no-room-register-button' primary size="big" onClick={onClickRegisterHandler}>
                 Register
             </Button>
         </Container>
