@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import MeetingDetail from '../../../../components/meeting/MeetingDetail';
-// import CommentList from '../../../../components/comment/CommentList/CommentList';
+import CommentList from '../../../../components/comment/CommentList/CommentList';
 import PageTemplate from '../../../common/PageTemplate';
 // import {
 //   createComment,
@@ -16,21 +16,22 @@ function MeetingDetailPage(props) {
   // const tempComments = [
   //   {
   //     id: 11,
-  //     articleId: 1,
+  //     articleId: 11,
+  //     authorId: 1,
   //     content: 'Hello this is test comment',
   //   },
   //   {
   //     id: 12,
-  //     articleId: 1,
+  //     articleId: 11,
+  //     authorId: 2,
   //     content: 'second comment for test',
   //   },
   // ];
   const [meetingDetail, setMeetingDetail] = useState(null);
-  // const [comments, setComments] = useState(null);
+  const [comments, setComments] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
-    // comments_: comments.comments,
   }));
   const { history } = props;
   const { id } = props.match.params;
@@ -67,13 +68,13 @@ function MeetingDetailPage(props) {
             });
           });
       })
-      // .then(() => {
-      //   axios.get(`/api/comment/meeting/${id}/`).then((res) => {
-      //     setComments(res.data);
-      //   });
-      //   // console.log('===fetched comments===');
-      //   console.log(comments);
-      // })
+      .then(() => {
+        axios.get(`/api/comment/meeting/${id}/`).then((res) => {
+          setComments(res.data);
+        });
+        console.log('===fetched comments===');
+        console.log(comments);
+      })
       .catch(() => {
         window.alert('Error occured while fetching meeting info');
       });
@@ -104,29 +105,43 @@ function MeetingDetailPage(props) {
               });
           }}
         />
-        {/* <CommentList
-          auth={currentUser}
+        <CommentList
+          currentUser={currentUser}
           comments={
             comments
-            // tempComments.filter(
-            //   (comment) => comment.articleId === parseInt(params.id, 10),
-            // )
-            // comments_ &&
-            // comments_.filter(
-            //   (comment) => comment.articleId === parseInt(params.id, 10),
-            // )
+            // tempComments
           }
           articleId={parseInt(id, 10)}
-          createComment={(content, authorId, articleId) => {
-            dispatch(createComment({ content, authorId, articleId }));
+          createComment={(content, articleId) => {
+            axios
+              .post(`/api/comment/`, { content, section: 'meeting', articleId })
+              .then(setRefresh(!refresh))
+              .catch(() => {
+                window.alert('Error occured while creating a new comment');
+              });
+            // dispatch(createComment({ content, authorId, articleId }));
           }}
-          editComment={(content, authorId, articleId, commentId) => {
-            dispatch(editComment({ content, authorId, articleId, commentId }));
+          editComment={(content, commentId) => {
+            axios
+              .put(`/api/comment/${commentId}/`, {
+                content,
+              })
+              .then(setRefresh(!refresh))
+              .catch(() => {
+                window.alert('Error occured while editing a comment');
+              });
+            // dispatch(editComment({ content, authorId, articleId, commentId }));
           }}
           deleteComment={(commentId) => {
-            dispatch(deleteComment({ commentId }));
+            axios
+              .delete(`/api/comment/${commentId}/`)
+              .then(setRefresh(!refresh))
+              .catch(() => {
+                window.alert('Error occured whild deleting a comment');
+              });
+            // dispatch(deleteComment({ commentId }));
           }}
-        /> */}
+        />
       </PageTemplate>
     </div>
   );

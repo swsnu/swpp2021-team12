@@ -128,7 +128,7 @@ def specified_meeting(request, meeting_id):
                 'maxMembers': target_meeting.max_members,
                 'currentMembers': member_list
             }
-            return  JsonResponse(response_dict, status=200)
+            return JsonResponse(response_dict, status=200)
 
     # delete the meeting
     elif request.method == 'DELETE':
