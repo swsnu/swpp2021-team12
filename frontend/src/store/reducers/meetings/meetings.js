@@ -110,22 +110,22 @@ const meetings = handleActions(
       submitted: -1,
       meetingsError: error,
     }),
-    [actionTypes.TOGGLEMEETING_SUCCESS]: (
-      state,
-      { payload: modifiedMeeting },
-    ) => ({
-      ...state,
-      meetings: state.meetings.map((meeting) =>
-        meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
-      ),
-      submitted: -1,
-      meetingsError: null,
-    }),
-    [actionTypes.TOGGLEMEETING_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      submitted: -1,
-      meetingsError: error,
-    }),
+    // [actionTypes.TOGGLEMEETING_SUCCESS]: (
+    //   state,
+    //   { payload: modifiedMeeting },
+    // ) => ({
+    //   ...state,
+    //   meetings: state.meetings.map((meeting) =>
+    //     meeting.id === modifiedMeeting.id ? modifiedMeeting : meeting,
+    //   ),
+    //   submitted: -1,
+    //   meetingsError: null,
+    // }),
+    // [actionTypes.TOGGLEMEETING_FAILURE]: (state, { payload: error }) => ({
+    //   ...state,
+    //   submitted: -1,
+    //   meetingsError: error,
+    // }),
   },
   initialState,
 );

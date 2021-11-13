@@ -98,7 +98,10 @@ function MeetingDetailPage(props) {
           onClickToggleButton={(joinOrQuit) => {
             axios
               .put(`/api/meeting/${id}/toggle/`, { joinOrQuit })
-              .then(setRefresh(!refresh));
+              .then(setRefresh(!refresh))
+              .catch(() => {
+                window.alert('Error occured while making toggle');
+              });
           }}
         />
         {/* <CommentList
