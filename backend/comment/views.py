@@ -119,13 +119,19 @@ def meeting_comment(request, meeting_id):
             return HttpResponse(status=401)
         meeting_comment_list = []
         for comment in Comment.objects.all():
+            author_object = {
+                'id': comment.author.id,
+                'name': comment.author.name,
+                'email': comment.author.email,
+                'self_intro': comment.author.self_intro
+            }
             if(comment.section == 'meeting' and comment.meeting.id == meeting_id):
                 meeting_comment_list.append(
                     {
                         'id': comment.id,
                         'content': comment.content,
                         'articleId': meeting_id,
-                        'authorId': comment.author.id
+                        'author': author_object
                     }
                 )
         return JsonResponse(meeting_comment_list, safe=False)

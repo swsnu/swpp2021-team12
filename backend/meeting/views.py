@@ -14,15 +14,27 @@ def meeting_(request):
             return HttpResponse(status=401)
         meeting_all_list = []
         for meeting in Meeting.objects.all():
+            author_object = {
+                'id': meeting.author.id,
+                'name': meeting.author.name,
+                'email': meeting.author.email,
+                'self_intro': meeting.author.self_intro
+            }
             member_list = []
             for member in meeting.current_members.all():
-                member_list.append(member.id)
+                member_object = {
+                    'id': member.id,
+                    'name': member.name,
+                    'email': member.email,
+                    'self_intro': member.self_intro
+                }
+                member_list.append(member_object)
             meeting_all_list.append(
                 {
                     'id': meeting.id,
                     'title': meeting.title,
                     'content': meeting.content,
-                    'authorId': meeting.author.id,
+                    'author': author_object,
                     'maxMembers': meeting.max_members,
                     'currentMembers': member_list
                 }
@@ -55,11 +67,6 @@ def meeting_(request):
             member_list.append(member.id)
         response_dict = {
             'id': meeting.id,
-            'title': meeting.title,
-            'content': meeting.content,
-            'authorId': meeting.author.id,
-            'maxMembers': meeting.max_members,
-            'currentMembers': member_list
         }
         return JsonResponse(response_dict, status=201)
 
@@ -80,15 +87,27 @@ def specified_meeting(request, meeting_id):
         title = target_meeting.title
         content = target_meeting.content
         author = target_meeting.author
+        author_object = {
+            'id': author.id,
+            'name': author.name,
+            'email': author.email,
+            'self_intro': author.self_intro
+        }
         max_members = target_meeting.max_members
         member_list = []
         for member in target_meeting.current_members.all():
-            member_list.append(member.id)
+            member_object = {
+                'id': member.id,
+                'name': member.name,
+                'email': member.email,
+                'self_intro': member.self_intro
+            }
+            member_list.append(member_object)
         response_dict = {
             'id': meeting_id,
             'title': title,
             'content': content,
-            'authorId': author.id,
+            'author': author_object,
             'maxMembers': max_members,
             'currentMembers': member_list
         }
@@ -117,18 +136,7 @@ def specified_meeting(request, meeting_id):
             target_meeting.content = new_content
             target_meeting.max_members = new_maxMembers
             target_meeting.save()
-            member_list = []
-            for member in target_meeting.current_members.all():
-                member_list.append(member.id)
-            response_dict = {
-                'id': target_meeting.id,
-                'title': target_meeting.title,
-                'content': target_meeting.content,
-                'authorId': target_meeting.author.id,
-                'maxMembers': target_meeting.max_members,
-                'currentMembers': member_list
-            }
-            return JsonResponse(response_dict, status=200)
+            return HttpResponse(status=200)
 
     # delete the meeting
     elif request.method == 'DELETE':
@@ -172,18 +180,7 @@ def toggle_meeting(request, meeting_id):
         else:
             target_meeting.current_members.remove(request_user)
         target_meeting.save()
-        member_list = []
-        for member in target_meeting.current_members.all():
-            member_list.append(member.id)
-        response_dict = {
-            'id': target_meeting.id,
-            'title': target_meeting.title,
-            'content': target_meeting.content,
-            'authorId': target_meeting.author.id,
-            'maxMembers': target_meeting.max_members,
-            'currentMembers': member_list
-        }
-        return  JsonResponse(response_dict, status=200)
+        return  HttpResponse(status=200)
     
     else:
         return HttpResponseNotAllowed(['PUT'])
@@ -197,15 +194,27 @@ def meeting_by_author(request, author_id):
         meeting_all_list = []
         for meeting in Meeting.objects.all():
             if meeting.author.id == author_id:
+                author_object = {
+                    'id': meeting.author.id,
+                    'name': meeting.author.name,
+                    'email': meeting.author.email,
+                    'self_intro': meeting.author.self_intro
+                }
                 member_list = []
                 for member in meeting.current_members.all():
-                    member_list.append(member.id)
+                    member_object = {
+                        'id': member.id,
+                        'name': member.name,
+                        'email': member.email,
+                        'self_intro': member.self_intro
+                    }
+                    member_list.append(member_object)
                 meeting_all_list.append(
                     {
                         'id': meeting.id,
                         'title': meeting.title,
                         'content': meeting.content,
-                        'authorId': meeting.author.id,
+                        'author': author_object,
                         'maxMembers': meeting.max_members,
                         'currentMembers': member_list
                     }
