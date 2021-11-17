@@ -26,12 +26,10 @@ function MeetingDetail(props) {
           <Container text style={{ marginTop: '4em', width: '700px' }}>
             <Grid divided="vertically">
               <Grid.Row centered>
-                <Header>TITLE : {meetingDetail.meetingData.title}</Header>
+                <Header>TITLE : {meetingDetail.title}</Header>
               </Grid.Row>
               <Grid.Row centered>
-                <Header>
-                  DESCRIPTION : {meetingDetail.meetingData.content}
-                </Header>
+                <Header>DESCRIPTION : {meetingDetail.content}</Header>
               </Grid.Row>
               <Grid.Row centered>HOST : {meetingDetail.author.name}</Grid.Row>
             </Grid>
@@ -39,22 +37,20 @@ function MeetingDetail(props) {
               <Grid.Row>
                 <Container text style={{ width: '700px', background: '' }}>
                   <h5>Current Member: </h5>
-                  {meetingDetail.members.map((member) => (
-                    <button key={member}>{member.name}</button>
+                  {meetingDetail.currentMembers.map((member) => (
+                    <button key={member.id}>{member.name}</button>
                   ))}
-                  <p>Max Member: {meetingDetail.meetingData.maxMembers}</p>
+                  <p>Max Member: {meetingDetail.maxMembers}</p>
                 </Container>
               </Grid.Row>
               <Grid.Row centered columns="3" style={{ marginTop: '2em' }}>
-                {currentUser === meetingDetail.meetingData.authorId ? (
+                {currentUser === meetingDetail.author.id ? (
                   <>
                     <Button
                       className="EditButton"
                       id="editMeetingButton"
                       onClick={() =>
-                        history.push(
-                          `/meeting/${meetingDetail.meetingData.id}/edit`,
-                        )
+                        history.push(`/meeting/${meetingDetail.id}/edit`)
                       }
                     >
                       EDIT
@@ -69,8 +65,8 @@ function MeetingDetail(props) {
                   </>
                 ) : (
                   <>
-                    {meetingDetail.meetingData.currentMembers.find(
-                      (member) => member === currentUser,
+                    {meetingDetail.currentMembers.find(
+                      (member) => member.id === currentUser,
                     ) ? (
                       <Button
                         className="QuitButton"
@@ -86,8 +82,8 @@ function MeetingDetail(props) {
                         id="joinMeetingButton"
                         onClick={() => onClickToggleButton(1)}
                         disabled={
-                          meetingDetail.meetingData.currentMembers.length ===
-                          meetingDetail.meetingData.maxMembers
+                          meetingDetail.currentMembers.length ===
+                          meetingDetail.maxMembers
                         }
                       >
                         JOIN

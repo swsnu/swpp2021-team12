@@ -35,38 +35,14 @@ function MeetingDetailPage(props) {
   }));
   const { history } = props;
   const { id } = props.match.params;
-  let dataReducer = { members: [] };
+  // let dataReducer = { members: [] };
 
   useEffect(() => {
     axios
       .get(`/api/meeting/${id}/`)
       .then((res) => {
-        dataReducer = { ...dataReducer, meetingData: res.data };
-      })
-      .then(() => {
-        axios
-          .get(`/api/user/${dataReducer.meetingData.authorId}/`)
-          .then((res) => {
-            dataReducer = { ...dataReducer, author: res.data };
-          })
-          .then(async () => {
-            if (dataReducer.members.length === 0) {
-              setMeetingDetail(dataReducer);
-            }
-            dataReducer.meetingData.currentMembers.forEach(async (member) => {
-              await axios
-                .get(`/api/user/${member}/`)
-                .then((res) => {
-                  dataReducer = {
-                    ...dataReducer,
-                    members: [...dataReducer.members, res.data],
-                  };
-                })
-                .then(() => {
-                  setMeetingDetail(dataReducer);
-                });
-            });
-          });
+        setMeetingDetail(res.data);
+        // dataReducer = { ...dataReducer, meetingData: res.data };
       })
       .then(() => {
         axios.get(`/api/comment/meeting/${id}/`).then((res) => {
@@ -107,10 +83,7 @@ function MeetingDetailPage(props) {
         />
         <CommentList
           currentUser={currentUser}
-          comments={
-            comments
-            // tempComments
-          }
+          comments={comments}
           articleId={parseInt(id, 10)}
           createComment={(content, articleId) => {
             axios
@@ -119,7 +92,6 @@ function MeetingDetailPage(props) {
               .catch(() => {
                 window.alert('Error occured while creating a new comment');
               });
-            // dispatch(createComment({ content, authorId, articleId }));
           }}
           editComment={(content, commentId) => {
             axios
@@ -130,7 +102,6 @@ function MeetingDetailPage(props) {
               .catch(() => {
                 window.alert('Error occured while editing a comment');
               });
-            // dispatch(editComment({ content, authorId, articleId, commentId }));
           }}
           deleteComment={(commentId) => {
             axios
@@ -139,7 +110,6 @@ function MeetingDetailPage(props) {
               .catch(() => {
                 window.alert('Error occured whild deleting a comment');
               });
-            // dispatch(deleteComment({ commentId }));
           }}
         />
       </PageTemplate>

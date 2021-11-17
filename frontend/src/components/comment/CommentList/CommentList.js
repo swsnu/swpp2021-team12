@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container } from 'semantic-ui-react';
+import { Comment, Header } from 'semantic-ui-react';
 
 export default function CommentList(props) {
   const {
@@ -13,22 +13,18 @@ export default function CommentList(props) {
   const [newComment, setNewComment] = useState('');
 
   return (
-    <div className="CommentList" style={{ marginTop: '5em' }}>
+    <Comment.Group>
+      <Header as="h3" dividing>
+        Comments
+      </Header>
       {comments &&
         comments.map((comment) => (
-          <Container
-            text
-            style={{ marginTop: '10px', width: '850px' }}
-            key={comment.id}
-          >
-            <p className="CommentContent" style={{ centered: true }}>
-              {/* {`${users.find((user) => user.id === comment.authorId)?.name} : ${
-                comment.content
-              }`} */}
-              <button>{comment.authorId}</button>
-              <h5>{comment.content}</h5>
+          <Comment key={comment.id}>
+            <Comment.Content>
+              <Comment.Author as="a">{comment.author.name}</Comment.Author>
+              <Comment.Text>{comment.content}</Comment.Text>
 
-              {currentUser === comment.authorId ? (
+              {currentUser === comment.author.id ? (
                 <>
                   <button
                     className="EditCommentButton"
@@ -54,8 +50,8 @@ export default function CommentList(props) {
                   </button>
                 </>
               ) : null}
-            </p>
-          </Container>
+            </Comment.Content>
+          </Comment>
         ))}
       <input
         className="NewComment"
@@ -74,6 +70,6 @@ export default function CommentList(props) {
       >
         Confirm
       </button>
-    </div>
+    </Comment.Group>
   );
 }
