@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
+import { Comment, Header } from 'semantic-ui-react';
 
 export default function CommentList(props) {
   const {
-    auth,
+    currentUser,
     comments,
-    // users,
-    // meeting_or_room,
     articleId,
     createComment,
     editComment,
@@ -14,24 +13,29 @@ export default function CommentList(props) {
   const [newComment, setNewComment] = useState('');
 
   return (
-    <div>
+    <Comment.Group>
+      <Header as="h3" dividing>
+        Comments
+      </Header>
       {comments &&
         comments.map((comment) => (
-          <div className="CommentElement" key={comment.id}>
-            <p className="CommentContent">
-              {/* {`${users.find((user) => user.id === comment.authorId)?.name} : ${
-                comment.content
-              }`} */}
+          <Comment key={comment.id}>
+            <Comment.Content>
+              <Comment.Author as="a">{comment.author.name}</Comment.Author>
+              <Comment.Text>{comment.content}</Comment.Text>
 
-              {auth && auth.id === comment.authorId ? (
+              {currentUser === comment.author.id ? (
                 <>
                   <button
                     className="EditCommentButton"
                     id="edit-comment-button"
                     onClick={() => {
-                      const editer = prompt('', comment.content);
+                      const editer = prompt(
+                        'Edit your comment!',
+                        comment.content,
+                      );
                       if (editer) {
-                        editComment(editer, auth.id, articleId, comment.id);
+                        editComment(editer, comment.id);
                       }
                     }}
                   >
@@ -46,8 +50,8 @@ export default function CommentList(props) {
                   </button>
                 </>
               ) : null}
-            </p>
-          </div>
+            </Comment.Content>
+          </Comment>
         ))}
       <input
         className="NewComment"
@@ -60,12 +64,12 @@ export default function CommentList(props) {
         id="confirm-create-comment-button"
         disabled={newComment === ''}
         onClick={() => {
-          createComment(newComment, auth.id, articleId);
+          createComment(newComment, articleId);
           setNewComment('');
         }}
       >
-        Create Comment
+        Confirm
       </button>
-    </div>
+    </Comment.Group>
   );
 }
