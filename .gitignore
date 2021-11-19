@@ -11,3 +11,7 @@ backend/db.sqlite3
 __pycache__/
 
 .jpg
+
+.vscode/
+
+.gitignore
