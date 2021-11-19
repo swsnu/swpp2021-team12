@@ -7,6 +7,44 @@ import PageTemplate from '../../../common/PageTemplate';
 function MainPage(props) {
   const { history } = props;
 
+  const tmpMeetings = [
+    {
+      id: 1,
+      title: '방앗간',
+      content: '펌프한판',
+      author: '박준혁',
+      current_members: 2,
+      max_members: 10,
+      location: { lat: 37.480355481455156, lng: 126.95128715205064 },
+    },
+    {
+      id: 2,
+      title: '셔틀',
+      content: '학교가자',
+      author: '나',
+      current_members: 0,
+      max_members: 10,
+      location: { lat: 37.47983733098333, lng: 126.95239554362205 },
+    },
+    {
+      id: 3,
+      title: 't1',
+      content: 'ttt',
+      author: 'auth',
+      current_members: 0,
+      max_members: 10,
+      location: { lat: 37.47890503607602, lng: 126.95105980352197 },
+    },
+  ];
+  const tmpRooms = [
+    {
+      id: 1,
+      title: '준혁텔',
+      content: '꺼져',
+      location: { lat: 37.478436428086965, lng: 126.94871550291282 },
+    },
+  ];
+
   return (
     <div className="MainPage">
       <PageTemplate>
@@ -44,7 +82,7 @@ function MainPage(props) {
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
-              <Main />
+              <Main meetings={tmpMeetings} rooms={tmpRooms} />
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
