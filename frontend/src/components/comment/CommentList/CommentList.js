@@ -57,6 +57,7 @@ export default function CommentList(props) {
         className="NewComment"
         id="new-comment-content-input"
         value={newComment}
+        placeholder="Make a new comment!"
         onChange={(e) => setNewComment(e.target.value)}
       />
       <button

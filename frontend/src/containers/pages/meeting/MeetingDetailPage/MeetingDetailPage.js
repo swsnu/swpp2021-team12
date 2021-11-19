@@ -82,7 +82,7 @@ function MeetingDetailPage(props) {
           }}
         />
         <CommentList
-          currentUser={currentUser}
+          currentUser={parseInt(currentUser, 10)}
           comments={comments}
           articleId={parseInt(id, 10)}
           createComment={(content, articleId) => {
