@@ -186,14 +186,14 @@ def toggle_meeting(request, meeting_id):
         return HttpResponseNotAllowed(['PUT'])
 
 
-def meeting_by_author(request, author_id):
+def joined_meeting(request):
     # get a meetings list by an author
     if request.method == 'GET':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         meeting_all_list = []
         for meeting in Meeting.objects.all():
-            if meeting.author.id == author_id:
+            if request.user in meeting.current_members.all():
                 author_object = {
                     'id': meeting.author.id,
                     'name': meeting.author.name,
