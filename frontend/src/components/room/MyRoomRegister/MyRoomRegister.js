@@ -11,7 +11,7 @@ function MyRoomRegister(props) {
   const [description, setDescription] = useState(room ? room.description : '');
   const [dates] = useState();
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState(room ? room.address : null);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -33,6 +33,7 @@ function MyRoomRegister(props) {
       setTitle(room.title);
       setDescription(room.description);
       setCapacity(room.capacity);
+      setAddress(room.address);
     }
   },[room])
 
@@ -84,7 +85,7 @@ function MyRoomRegister(props) {
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
               onClick={() => {
-                onClickConfirmHandler(title, description, capacity, history);
+                onClickConfirmHandler(title, description, capacity, address, history);
                 history.push('/mypage/room');
               }}
               primary

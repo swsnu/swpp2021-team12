@@ -13,11 +13,12 @@ def register_room(request):
             title = json.loads(body)['title']
             description = json.loads(body)['description']
             capacity = json.loads(body)['capacity']
+            address = json.loads(body)['address']
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        room = Room.objects.create(title=title, description=description, capacity=capacity, host=user)
+        room = Room.objects.create(title=title, description=description, capacity=capacity, address=address, host=user)
         room.save()
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address}
         return JsonResponse(response_dict, status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
@@ -28,7 +29,7 @@ def room(request, room_id):
             room = Room.objects.get(id=room_id)
         except (Room.DoesNotExist) as e:
             return HttpResponseNotFound()
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host_id': room.host.id}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id}
         return JsonResponse(response_dict)
     else:
         return HttpResponseNotAllowed(['GET'])
@@ -40,7 +41,7 @@ def host_room(request):
             room = Room.objects.get(host_id=user.id)
         except (Room.DoesNotExist) as e:
             return HttpResponseNotFound()
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host_id': room.host.id}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id}
         return JsonResponse(response_dict)
     elif request.method == 'PUT':
         try:
@@ -49,13 +50,14 @@ def host_room(request):
             title = json.loads(body)['title']
             description = json.loads(body)['description']
             capacity = json.loads(body)['capacity']
+            address = json.loads(body)['address']
         except (Room.DoesNotExist):
             return HttpResponseNotFound()
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        room = Room(id=room.id, title=title, description=description, capacity=capacity, host=user)
+        room = Room(id=room.id, title=title, description=description, capacity=capacity, address=address, host=user)
         room.save()
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host_id': room.host.id}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address,'host_id': room.host.id}
         return JsonResponse(response_dict)
     elif request.method == 'DELETE':
         try:

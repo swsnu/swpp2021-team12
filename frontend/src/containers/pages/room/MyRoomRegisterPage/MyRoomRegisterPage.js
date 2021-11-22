@@ -8,8 +8,8 @@ function MyRoomRegisterPage() {
 
     return(
         <RoomTemplate>
-            <MyRoomRegister onClickConfirmHandler={(title, description, capacity, history) => {
-                axios.post('/api/room/', {title, description, capacity})
+            <MyRoomRegister onClickConfirmHandler={(title, description, capacity, address, history) => {
+                axios.post('/api/room/', {title, description, capacity, address})
                     .then(() => {history.push('/mypage/room')})
             }}/>
         </RoomTemplate>

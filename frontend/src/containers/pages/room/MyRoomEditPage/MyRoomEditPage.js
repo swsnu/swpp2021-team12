@@ -13,12 +13,12 @@ function MyRoomEdit() {
                 setRoom(res.data);
             })
     }, [])
-    
+
     return (
         <RoomTemplate>
             <MyRoomRegister room={room}
-            onClickConfirmHandler={(title, description, capacity, history) => {
-                axios.put('/api/room/host/', {title, description, capacity})
+            onClickConfirmHandler={(title, description, capacity, address, history) => {
+                axios.put('/api/room/host/', {title, description, capacity, address})
                     .then(() => {history.push('/mypage/room')})
             }}/>
         </RoomTemplate>

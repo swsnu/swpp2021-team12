@@ -10,7 +10,8 @@ class Room(models.Model):
         on_delete=models.CASCADE,
         related_name='host_of_room'
     )
+    address = models.TextField()
 
     # dates available
     # access scope
-    # address
+    
