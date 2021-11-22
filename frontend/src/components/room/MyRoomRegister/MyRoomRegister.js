@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css';
@@ -27,6 +27,14 @@ function MyRoomRegister(props) {
       history.push('/mypage/room');
     }
   };
+
+  useEffect(() => {
+    if (room) {
+      setTitle(room.title);
+      setDescription(room.description);
+      setCapacity(room.capacity);
+    }
+  },[room])
 
   return (
     <div className="MyRoomRegister">

@@ -1,14 +1,26 @@
-import React from 'react'
+import React, {useState, useEffect } from 'react';
+import axios from "axios";
 
 import RoomTemplate from '../RoomTemplate'
 import MyRoomRegister from '../../../../components/room/MyRoomRegister/MyRoomRegister'
 
 function MyRoomEdit() {
+    const [room, setRoom] = useState();
 
-    const tempRoom = {title: 'MyRoomTitle', description:'Welcome to My Room!', capacity: 4}
+    useEffect(() => {
+        axios.get('/api/room/host/')
+            .then((res) => {
+                setRoom(res.data);
+            })
+    }, [])
+    
     return (
         <RoomTemplate>
-            <MyRoomRegister room={tempRoom}/>
+            <MyRoomRegister room={room}
+            onClickConfirmHandler={(title, description, capacity, history) => {
+                axios.put('/api/room/host/', {title, description, capacity})
+                    .then(() => {history.push('/mypage/room')})
+            }}/>
         </RoomTemplate>
     )
 }

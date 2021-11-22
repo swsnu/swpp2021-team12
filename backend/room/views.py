@@ -17,7 +17,7 @@ def register_room(request):
             return HttpResponseBadRequest()
         room = Room.objects.create(title=title, description=description, capacity=capacity, host=user)
         room.save()
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host': room.host}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity}
         return JsonResponse(response_dict, status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
@@ -54,6 +54,7 @@ def host_room(request):
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         room = Room(id=room.id, title=title, description=description, capacity=capacity)
+        print(room)
         room.save()
         response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host_id': room.host.id}
         return JsonResponse(response_dict)
