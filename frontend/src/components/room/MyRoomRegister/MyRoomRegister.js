@@ -84,7 +84,7 @@ function MyRoomRegister(props) {
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
               onClick={() => {
-                onClickConfirmHandler(title, description, capacity);
+                onClickConfirmHandler(title, description, capacity, history);
                 history.push('/mypage/room');
               }}
               primary

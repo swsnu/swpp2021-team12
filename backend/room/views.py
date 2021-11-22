@@ -53,8 +53,7 @@ def host_room(request):
             return HttpResponseNotFound()
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        room = Room(id=room.id, title=title, description=description, capacity=capacity)
-        print(room)
+        room = Room(id=room.id, title=title, description=description, capacity=capacity, host=user)
         room.save()
         response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'host_id': room.host.id}
         return JsonResponse(response_dict)
