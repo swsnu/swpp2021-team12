@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Grid, Segment } from 'semantic-ui-react';
+import { Form, Grid, Segment, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import MeetingMap from './MeetingMap';
 
 function MeetingCreate(props) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [maxMembers, setMaxMembers] = useState(10);
   const [isDisable, setIsDisable] = useState(false);
+  const [location, setLocation] = useState(null);
   const { onClickConfirmHandler, history } = props;
 
+  const locationHandler = (currentLocation, description) => {
+    setLocation({ position: currentLocation, description });
+  };
+
   useEffect(() => {
-    if (title === '' || content === '') {
+    if (title === '' || content === '' || !location) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [title, content]);
+  }, [title, content, location]);
 
   return (
     <div className="MeetingCreate">
@@ -55,27 +61,38 @@ function MeetingCreate(props) {
                 <Form.Select options={[{}]} />
               </Grid>
               <Grid centered>
-                <Form.Button key="scope" >Scope</Form.Button>
-                <Form.Button key="location" >Location</Form.Button>
-                <Form.Button key="time" >Time</Form.Button>
+                <Button size="small" key="scope">
+                  Scope
+                </Button>
+                <MeetingMap
+                  location={location}
+                  locationHandler={locationHandler}
+                />
+                <Button size="small" key="time">
+                  Time
+                </Button>
               </Grid>
               <Grid centered>
-                <Form.Button
+                <Button
                   primary
+                  size="small"
                   className="ConfirmButton"
                   id="confirm-button"
                   disabled={isDisable}
-                  onClick={() => onClickConfirmHandler(title, content, maxMembers, history)}
+                  onClick={() =>
+                    onClickConfirmHandler(title, content, maxMembers, history)
+                  }
                 >
                   Confirm
-                </Form.Button>
-                <Form.Button
+                </Button>
+                <Button
+                  size="small"
                   className="BackButton"
                   id="back-button"
                   onClick={() => history.push('/main')}
                 >
                   Back
-                </Form.Button>
+                </Button>
               </Grid>
             </Form>
           </Grid.Column>

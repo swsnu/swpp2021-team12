@@ -5,7 +5,6 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadReq
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.utils import IntegrityError
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
