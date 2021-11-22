@@ -1,142 +1,27 @@
-/* global kakao */
 import React, { useState, useEffect } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
-import {
-  Form,
-  Grid,
-  Segment,
-  Modal,
-  Button,
-  Input,
-  Dimmer,
-  Loader,
-} from 'semantic-ui-react';
+import { Form, Grid, Segment, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import MeetingMap from './MeetingMap';
 
 function MeetingCreate(props) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [maxMembers, setMaxMembers] = useState(10);
   const [isDisable, setIsDisable] = useState(false);
+  const [location, setLocation] = useState(null);
   const { onClickConfirmHandler, history } = props;
 
-  const [isLocation, setIsLocation] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [clickPosition, setClickPosition] = useState(null);
-  const [markers, setMarkers] = useState(null);
-  const [keyword, setKeyword] = useState('');
-  const [info, setInfo] = useState(null);
-  const [map, setMap] = useState(null);
-  const locationModal = () =>
-    currentLocation ? (
-      <Modal
-        className="locationModal"
-        onOpen={() => setIsLocation(true)}
-        open={isLocation}
-        trigger={<Button>Location</Button>}
-      >
-        <Modal.Header>Location</Modal.Header>
-        <Modal.Description>
-          <Map
-            id="location"
-            center={currentLocation}
-            style={{ width: '100%', height: '500px' }}
-            level={3}
-            onClick={(_t, mouseEvent) =>
-              setClickPosition({
-                lat: mouseEvent.latLng.getLat(),
-                lng: mouseEvent.latLng.getLng(),
-              })
-            }
-            onCreate={setMap}
-          >
-            {clickPosition && <MapMarker position={clickPosition} />}
-            {markers &&
-              markers.map((marker) => (
-                <MapMarker
-                  key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-                  position={marker.position}
-                  onClick={() => setInfo(marker)}
-                >
-                  {info && info.content === marker.content && (
-                    <div style={{ color: '#000' }}>{marker.content}</div>
-                  )}
-                </MapMarker>
-              ))}
-          </Map>
-          <Input
-            label="Search places by a keyword!"
-            onChange={(e) => {
-              setKeyword(e.target.value);
-            }}
-          />
-          <Button
-            onClick={() => {
-              const ps = new kakao.maps.services.Places();
-              // eslint-disable-next-line no-unused-vars
-              ps.keywordSearch(keyword, (data, status, _pagination) => {
-                if (status === kakao.maps.services.Status.OK) {
-                  const bounds = new kakao.maps.LatLngBounds();
-                  const tmp = [];
-                  data.forEach((x) => {
-                    tmp.push({
-                      position: { lat: x.y, lng: x.x },
-                      content: x.place_name,
-                    });
-                    bounds.extend(new kakao.maps.LatLng(x.y, x.x));
-                  });
-                  setMarkers(tmp);
-                  map.setBounds(bounds);
-                }
-              });
-            }}
-          >
-            Search!
-          </Button>
-        </Modal.Description>
-        <Modal.Actions>
-          <Button className="back" onClick={() => setIsLocation(false)}>
-            Back
-          </Button>
-          <Button
-            className="confirm"
-            content="Confirm"
-            labelPosition="right"
-            icon="checkmark"
-            onClick={() => setIsLocation(false)}
-            positive
-          />
-        </Modal.Actions>
-      </Modal>
-    ) : (
-      <Dimmer active>
-        <Loader />
-      </Dimmer>
-    );
+  const locationHandler = (currentLocation, description) => {
+    setLocation({ position: currentLocation, description });
+  };
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setCurrentLocation({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        });
-      });
-    } else {
-      setCurrentLocation({
-        lat: 33.451475,
-        lng: 126.570528,
-      });
-    }
-  }, [navigator.geolocation]);
-
-  useEffect(() => {
-    if (title === '' || content === '') {
+    if (title === '' || content === '' || !location) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [title, content]);
+  }, [title, content, location]);
 
   return (
     <div className="MeetingCreate">
@@ -176,13 +61,21 @@ function MeetingCreate(props) {
                 <Form.Select options={[{}]} />
               </Grid>
               <Grid centered>
-                <Form.Button key="scope">Scope</Form.Button>
-                {locationModal()}
-                <Form.Button key="time">Time</Form.Button>
+                <Button size="small" key="scope">
+                  Scope
+                </Button>
+                <MeetingMap
+                  location={location}
+                  locationHandler={locationHandler}
+                />
+                <Button size="small" key="time">
+                  Time
+                </Button>
               </Grid>
               <Grid centered>
-                <Form.Button
+                <Button
                   primary
+                  size="small"
                   className="ConfirmButton"
                   id="confirm-button"
                   disabled={isDisable}
@@ -191,14 +84,15 @@ function MeetingCreate(props) {
                   }
                 >
                   Confirm
-                </Form.Button>
-                <Form.Button
+                </Button>
+                <Button
+                  size="small"
                   className="BackButton"
                   id="back-button"
                   onClick={() => history.push('/main')}
                 >
                   Back
-                </Form.Button>
+                </Button>
               </Grid>
             </Form>
           </Grid.Column>

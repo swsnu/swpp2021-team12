@@ -3,6 +3,7 @@ import { Container, Form, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import 'react-calendar/dist/Calendar.css';
 import Calendar from 'react-calendar';
+import RoomMap from './RoomMap';
 
 function MyRoomRegister(props) {
   const { room, onClickConfirmHandler, history } = props;
@@ -10,6 +11,7 @@ function MyRoomRegister(props) {
   const [description, setDescription] = useState(room ? room.description : '');
   const [dates] = useState();
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
+  const [address, setAddress] = useState(null);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -29,15 +31,9 @@ function MyRoomRegister(props) {
   return (
     <div className="MyRoomRegister">
       <Container text style={{ marginTop: '2em' }}>
-        <Form
-          id="my-room-register-form"
-          onSubmit={() => {
-            onClickConfirmHandler(title, description, capacity);
-            history.push('/mypage/room');
-          }}
-        >
+        <Form id="my-room-register-form">
           <Form.Input
-            id='my-room-register-title-input'
+            id="my-room-register-title-input"
             type="text"
             label="Title"
             style={{ width: '400px' }}
@@ -70,11 +66,29 @@ function MyRoomRegister(props) {
               onChange={(e) => setCapacity(e.target.value)}
             />
             <Form.Button>Access Scope</Form.Button>
-            <Form.Button>Address</Form.Button>
+            <RoomMap
+              address={address}
+              addressHandler={(addr) => {
+                setAddress(addr);
+              }}
+            />
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
-            <Form.Button primary>Confirm</Form.Button>
-            <Form.Button id='my-room-register-back-button' onClick={onClickBackHandler}>Back</Form.Button>
+            <Form.Button
+              onClick={() => {
+                onClickConfirmHandler(title, description, capacity);
+                history.push('/mypage/room');
+              }}
+              primary
+            >
+              Confirm
+            </Form.Button>
+            <Form.Button
+              id="my-room-register-back-button"
+              onClick={onClickBackHandler}
+            >
+              Back
+            </Form.Button>
           </Grid>
         </Form>
       </Container>

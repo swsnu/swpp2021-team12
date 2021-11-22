@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import MeetingMap from './MeetingMap';
 
 function MeetingEdit(props) {
   const { onClickConfirmHandler, history, meeting } = props;
@@ -79,7 +80,7 @@ function MeetingEdit(props) {
               <Grid centered>
                 <Form.Select width="5" options={[{}]} />
                 <Form.Button key="scope">Scope</Form.Button>
-                <Form.Button key="location">Location</Form.Button>
+                <MeetingMap />
                 <Form.Button key="time">Time</Form.Button>
               </Grid>
               <Grid centered>

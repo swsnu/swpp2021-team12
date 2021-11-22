@@ -160,11 +160,11 @@ function Main(props) {
     <div>
       {location ? (
         <div className="Main">
-          <Grid centered style={{ marginTop: '2em', marginBottom: '5em' }}>
+          <Grid centered style={{ marginBottom: '5em' }}>
             <Map
               id="map"
               center={location}
-              style={{ width: '950px', height: '500px' }}
+              style={{ width: '100%', height: '800px' }}
               level={3}
             >
               <MapMarker
@@ -176,14 +176,14 @@ function Main(props) {
                 {roomMarkers()}
               </MarkerClusterer>
             </Map>
+            <Button
+              id="button_createmeeting"
+              primary
+              onClick={() => history.push('/meeting/create')}
+            >
+              Create Meeting
+            </Button>
           </Grid>
-          <Button
-            id="button_createmeeting"
-            primary
-            onClick={() => history.push('/meeting/create')}
-          >
-            Create Meeting
-          </Button>
         </div>
       ) : (
         <Dimmer active>
