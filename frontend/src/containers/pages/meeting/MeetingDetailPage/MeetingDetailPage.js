@@ -42,14 +42,12 @@ function MeetingDetailPage(props) {
       .get(`/api/meeting/${id}/`)
       .then((res) => {
         setMeetingDetail(res.data);
-        // dataReducer = { ...dataReducer, meetingData: res.data };
+        console.log(res.data);
       })
       .then(() => {
         axios.get(`/api/comment/meeting/${id}/`).then((res) => {
           setComments(res.data);
         });
-        console.log('===fetched comments===');
-        console.log(comments);
       })
       .catch(() => {
         window.alert('Error occured while fetching meeting info');
