@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import MeetingDetail from '../../../../components/meeting/MeetingDetail';
+import MeetingDetail from '../../../../components/meeting/MeetingDetail/MeetingDetail';
 // import CommentList from '../../../../components/comment/CommentList/CommentList';
 import PageTemplate from '../../../common/PageTemplate';
 // import {

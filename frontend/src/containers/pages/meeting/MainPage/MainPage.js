@@ -1,6 +1,6 @@
 import React from 'react';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
-import Main from '../../../../components/meeting/Main';
+import Main from '../../../../components/meeting/Main/Main';
 
 import PageTemplate from '../../../common/PageTemplate';
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import MeetingMap from './MeetingMap';
+import MeetingMap from '../MeetingMap';
 
 function MeetingEdit(props) {
   const { onClickConfirmHandler, history, meeting } = props;
