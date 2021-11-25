@@ -14,6 +14,9 @@ function MyRoomPage() {
                 setRoom(res.data);
                 setRoomExists(true);
             })
+            .catch(() => {
+                setRoomExists(false);
+            })
     }, [])
 
     return (
