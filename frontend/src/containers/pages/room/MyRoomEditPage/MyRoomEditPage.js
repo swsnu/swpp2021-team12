@@ -17,8 +17,8 @@ function MyRoomEdit() {
     return (
         <RoomTemplate>
             <MyRoomRegister room={room}
-            onClickConfirmHandler={(title, description, capacity, address, history) => {
-                axios.put('/api/room/host/', {title, description, capacity, address})
+            onClickConfirmHandler={(title, description, capacity, address, dates, history) => {
+                axios.put('/api/room/host/', {title, description, capacity, dates, address})
                     .then(() => {history.push('/mypage/room')})
             }}/>
         </RoomTemplate>

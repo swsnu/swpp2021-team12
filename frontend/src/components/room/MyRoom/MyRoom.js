@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Header, Button, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import 'react-calendar/dist/Calendar.css';
-import Calendar from 'react-calendar';
+// import 'react-calendar/dist/Calendar.css';
+// import Calendar from 'react-calendar';
+import Calendar from 'react-select-date';
 
 function MyRoom(props) {
   const { room, onClickDeleteButton, history } = props;
-  const { title, description, capacity } = room;
+  const { title, description, capacity, dates } = room;
+  const [ calDates, setDates ] = useState([]);
+
+  useEffect(() => {
+    const dateList = [];
+    dates.forEach((date) => {
+      dateList.push({"date": date, "avaliableSlot":capacity, "totalSlot":capacity})
+    })
+    setDates(dateList);
+  }, [])
 
   return (
     <Container id='my-room' text style={{ marginTop: '4em', width: '700px' }}>
@@ -15,7 +25,12 @@ function MyRoom(props) {
           <Header id='my-room-title'>{title}</Header>
         </Grid.Row>
         <Grid.Row centered>
-          <Calendar />
+          {/* <Calendar /> */}
+          <Calendar 
+            showDateInputField={false}
+            disableDates='past'
+            duelSlotDates={calDates}
+          />
         </Grid.Row>
       </Grid>
       <Grid>

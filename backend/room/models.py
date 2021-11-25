@@ -11,7 +11,5 @@ class Room(models.Model):
         related_name='host_of_room'
     )
     address = models.TextField()
-
-    # dates available
+    dates = models.TextField(null=True)
     # access scope
-    
