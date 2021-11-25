@@ -29,8 +29,7 @@ function MeetingList(props) {
   const { history, meetinglist } = props;
 
   return (
-    <div>
-      <Segment vertical></Segment>
+    <div style={{ marginTop: '2em', marginLeft: '15em', marginRight: '5em' }}>
       <Modal
         className="modal"
         onOpen={() => setOpen(true)}

@@ -7,6 +7,8 @@ import {
   Button,
   Grid,
   Header,
+  Popup,
+  Image,
 } from 'semantic-ui-react';
 
 // TODO: Location
@@ -26,12 +28,10 @@ function MeetingDetail(props) {
           <Container text style={{ marginTop: '4em', width: '700px' }}>
             <Grid divided="vertically">
               <Grid.Row centered>
-                <Header>TITLE : {meetingDetail.meetingData.title}</Header>
+                <Header>TITLE : {meetingDetail.title}</Header>
               </Grid.Row>
               <Grid.Row centered>
-                <Header>
-                  DESCRIPTION : {meetingDetail.meetingData.content}
-                </Header>
+                <Header>DESCRIPTION : {meetingDetail.content}</Header>
               </Grid.Row>
               <Grid.Row centered>HOST : {meetingDetail.author.name}</Grid.Row>
             </Grid>
@@ -39,22 +39,27 @@ function MeetingDetail(props) {
               <Grid.Row>
                 <Container text style={{ width: '700px', background: '' }}>
                   <h5>Current Member: </h5>
-                  {meetingDetail.members.map((member) => (
-                    <button key={member}>{member.name}</button>
+                  {meetingDetail.currentMembers.map((member) => (
+                    <Popup
+                      content={member.self_intro}
+                      key={member.email}
+                      header={member.name}
+                      trigger={
+                        <Image src={`/api/user/${member.id}/profile/`} avatar />
+                      }
+                    />
                   ))}
-                  <p>Max Member: {meetingDetail.meetingData.maxMembers}</p>
+                  <p>Max Member: {meetingDetail.maxMembers}</p>
                 </Container>
               </Grid.Row>
               <Grid.Row centered columns="3" style={{ marginTop: '2em' }}>
-                {currentUser === meetingDetail.meetingData.authorId ? (
+                {currentUser === meetingDetail.author.id ? (
                   <>
                     <Button
                       className="EditButton"
                       id="editMeetingButton"
                       onClick={() =>
-                        history.push(
-                          `/meeting/${meetingDetail.meetingData.id}/edit`,
-                        )
+                        history.push(`/meeting/${meetingDetail.id}/edit`)
                       }
                     >
                       EDIT
@@ -69,12 +74,13 @@ function MeetingDetail(props) {
                   </>
                 ) : (
                   <>
-                    {meetingDetail.meetingData.currentMembers.find(
-                      (member) => member === currentUser,
+                    {meetingDetail.currentMembers.find(
+                      (member) => member.id === currentUser,
                     ) ? (
                       <Button
                         className="QuitButton"
                         id="quitMeetingButton"
+                        color="red"
                         onClick={() => onClickToggleButton(0)}
                       >
                         QUIT
@@ -86,8 +92,8 @@ function MeetingDetail(props) {
                         id="joinMeetingButton"
                         onClick={() => onClickToggleButton(1)}
                         disabled={
-                          meetingDetail.meetingData.currentMembers.length ===
-                          meetingDetail.meetingData.maxMembers
+                          meetingDetail.currentMembers.length ===
+                          meetingDetail.maxMembers
                         }
                       >
                         JOIN
@@ -98,6 +104,7 @@ function MeetingDetail(props) {
                 <Button
                   className="BackButton"
                   id="backDetailMeetingButton"
+                  secondary
                   onClick={() => history.push('/meeting')}
                 >
                   BACK

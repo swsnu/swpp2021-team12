@@ -71,7 +71,7 @@ function MainPage(props) {
               <Icon name="list" />
               Show Whole Meetings
             </Menu.Item>
-            <Menu.Item as="a">
+            <Menu.Item as="a" onClick={() => history.push('/meeting/mylist')}>
               <Icon name="calendar alternate" />
               My Meetnigs
             </Menu.Item>

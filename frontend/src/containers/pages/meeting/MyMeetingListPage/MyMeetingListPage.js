@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
+import { useSelector } from 'react-redux';
+
 import * as axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
-import MeetingList from '../../../../components/meeting/MeetingList/MeetingList';
+import MyMeetingList from '../../../../components/meeting/MyMeetingList';
 
-function MeetingListPage(props) {
-  const [meetings, setMeetings] = useState([]);
+function MyMeetingListPage(props) {
+  const [myMeetings, setMyMeetings] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+  const { currentUser } = useSelector(({ auth }) => ({
+    currentUser: auth.auth,
+  }));
   const { history } = props;
+  const { id } = props.match.params;
 
   useEffect(() => {
-    axios.get('/api/meeting/').then((res) => {
-      setMeetings(res.data);
+    axios.get(`/api/meeting/joined/`).then((res) => {
+      setMyMeetings(res.data);
     });
-  }, []);
+  }, [refresh]);
 
   return (
-    <div className="MeetingList">
+    <div className="MyMeetingList">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
@@ -52,7 +59,18 @@ function MeetingListPage(props) {
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
-              <MeetingList meetinglist={meetings} />
+              <MyMeetingList
+                currentUser={parseInt(currentUser, 10)}
+                myMeetingList={myMeetings}
+                onClickDeleteButton={() => {
+                  axios
+                    .delete(`/api/meeting/${id}/`)
+                    .then(setRefresh(!refresh))
+                    .catch(() => {
+                      window.alert('Error occured while deletion');
+                    });
+                }}
+              />
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
@@ -61,4 +79,4 @@ function MeetingListPage(props) {
   );
 }
 
-export default MeetingListPage;
+export default MyMeetingListPage;
