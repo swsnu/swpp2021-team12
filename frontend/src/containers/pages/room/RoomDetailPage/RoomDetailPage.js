@@ -47,10 +47,10 @@ function RoomDetailPage(props) {
         axios.get(`/api/room/${id}/`)
             .then((res) => {
                 setRoom(res.data);
-                axios.get(`/api/comment/room/${id}/`)
-                    .then((res2) => {
-                        setComments(res2.data);
-                    })
+            })
+        axios.get(`/api/comment/room/${id}/`)
+            .then((res) => {
+                setComments(res.data);
             })
     }, [refresh])
 

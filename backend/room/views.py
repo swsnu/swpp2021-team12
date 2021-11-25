@@ -19,7 +19,6 @@ def register_room(request):
             return HttpResponseBadRequest()
         room = Room.objects.create(title=title, description=description, capacity=capacity, host=user, address=address, dates=dates)
         room.save()
-        # response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'dates':room.dates}
         return HttpResponse(status=201)
     else:
         return HttpResponseNotAllowed(['POST'])
@@ -65,7 +64,6 @@ def host_room(request):
             return HttpResponseBadRequest()
         room = Room(id=room.id, title=title, description=description, capacity=capacity, address=address, host=user, dates=dates)
         room.save()
-        # response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address,'host_id': room.host.id}
         return HttpResponse(status=200)
     elif request.method == 'DELETE':
         try:
