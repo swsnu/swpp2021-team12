@@ -35,6 +35,7 @@ function MeetingMap(props) {
   useEffect(() => {
     if (location) {
       setClickPosition(location.position);
+      setSelectedMarker(location);
       setDescription(location.description);
     }
   }, [location]);
@@ -122,7 +123,12 @@ function MeetingMap(props) {
             onChange={(e) => setKeyword(e.target.value)}
             size="mini"
           />
-          <Button style={{ marginLeft: '12em' }} content="Search!" primary />
+          <Button
+            style={{ marginLeft: '16em' }}
+            size="tiny"
+            content="Search!"
+            primary
+          />
           {selectedMarker && (
             <p>
               Add description about this place!{'  '}

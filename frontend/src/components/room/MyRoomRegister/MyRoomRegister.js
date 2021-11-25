@@ -38,8 +38,8 @@ function MyRoomRegister(props) {
       setCapacity(room.capacity);
       setAddress(room.address);
       setDates(room.dates);
-      }
-  },[room])
+    }
+  }, [room]);
 
   return (
     <div className="MyRoomRegister">
@@ -61,11 +61,11 @@ function MyRoomRegister(props) {
               <Calendar
                 defaultValue={dates}
                 onSelect={(date) => setDates(date)}
-                templateClr='blue'
-                selectDateType='multiple'
-                showDateInputField = {false}
-                disableDates='past'
-                />
+                templateClr="blue"
+                selectDateType="multiple"
+                showDateInputField={false}
+                disableDates="past"
+              />
             </Grid.Row>
           </Grid>
           <Form.TextArea
@@ -97,7 +97,14 @@ function MyRoomRegister(props) {
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
               onClick={() => {
-                onClickConfirmHandler(title, description, capacity, address, dates, history);
+                onClickConfirmHandler(
+                  title,
+                  description,
+                  capacity,
+                  address,
+                  dates,
+                  history,
+                );
                 history.push('/mypage/room');
               }}
               primary

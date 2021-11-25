@@ -14,6 +14,11 @@ class Meeting(models.Model):
         related_name='members'
     )
     max_members = models.IntegerField()
+    photo = models.ImageField(blank=True,null=True,upload_to='profile/')
+    time = models.IntegerField(null=True,blank=False)
+    description = models.CharField(max_length=50,null=True,blank=False)
+    lat = models.FloatField(null=True,blank=False)
+    lng = models.FloatField(null=True,blank=False)
     # access_scope
     # tag
     # location

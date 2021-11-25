@@ -1,31 +1,60 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import MeetingMap from '../MeetingMap';
+import MeetingMap from './MeetingMap';
+import MeetingTime from './MeetingTime';
+import Photo from '../../../containers/common/Photo';
 
-function MeetingCreate(props) {
+function Meeting(props) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [maxMembers, setMaxMembers] = useState(10);
   const [isDisable, setIsDisable] = useState(false);
   const [location, setLocation] = useState(null);
-  const { onClickConfirmHandler, history } = props;
+  const [time, setTime] = useState(null);
+
+  const [detailImageFile, setDetailImageFile] = useState(null);
+  const [detailImageUrl, setDetailImageUrl] = useState(null);
+  const [isImageModified, setIsImageModified] = useState(0);
+  // 백엔드에 보낼땐 time.getTime()/1000 하면 unix 타임스탬프가 된다.
+  const {
+    onClickConfirmHandler,
+    existingMeeting,
+    existingPhoto,
+    history,
+    meetingId,
+  } = props;
 
   const locationHandler = (currentLocation, description) => {
     setLocation({ position: currentLocation, description });
   };
 
+  const timeHandler = (newValue) => {
+    setTime(newValue);
+  };
+
   useEffect(() => {
-    if (title === '' || content === '' || !location) {
+    if (existingMeeting) {
+      setTitle(existingMeeting.title);
+      setContent(existingMeeting.content);
+      setMaxMembers(existingMeeting.maxMembers);
+      setLocation(existingMeeting.location);
+      setTime(existingMeeting.time);
+      setDetailImageUrl(existingPhoto);
+    }
+  }, [existingMeeting, existingPhoto]);
+
+  useEffect(() => {
+    if (title === '' || content === '' || !location || !time) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [title, content, location]);
+  }, [title, content, location, time]);
 
   return (
     <div className="MeetingCreate">
-      <Segment style={{ padding: '8em 10em' }} vertical>
+      <Segment style={{ padding: '8em 5em' }} vertical>
         <Grid columns="3">
           <Grid.Column></Grid.Column>
           <Grid.Column id="meeting-create-column">
@@ -58,7 +87,13 @@ function MeetingCreate(props) {
                 onChange={(e) => setMaxMembers(e.target.value)}
               />
               <Grid centered>
-                <Form.Select options={[{}]} />
+                <Photo
+                  isCircular={false}
+                  photo={detailImageUrl}
+                  setDeatilImageFile={setDetailImageFile}
+                  setDetailImageUrl={setDetailImageUrl}
+                  setIsImageModified={setIsImageModified}
+                />
               </Grid>
               <Grid centered>
                 <Button size="small" key="scope">
@@ -68,9 +103,7 @@ function MeetingCreate(props) {
                   location={location}
                   locationHandler={locationHandler}
                 />
-                <Button size="small" key="time">
-                  Time
-                </Button>
+                <MeetingTime time={time} timeHandler={timeHandler} />
               </Grid>
               <Grid centered>
                 <Button
@@ -80,7 +113,16 @@ function MeetingCreate(props) {
                   id="confirm-button"
                   disabled={isDisable}
                   onClick={() =>
-                    onClickConfirmHandler(title, content, maxMembers, history)
+                    onClickConfirmHandler(
+                      title,
+                      content,
+                      maxMembers,
+                      history,
+                      detailImageFile,
+                      isImageModified,
+                      location,
+                      time,
+                    )
                   }
                 >
                   Confirm
@@ -89,7 +131,13 @@ function MeetingCreate(props) {
                   size="small"
                   className="BackButton"
                   id="back-button"
-                  onClick={() => history.push('/main')}
+                  onClick={() => {
+                    if (meetingId) {
+                      history.push(`/meeting/${meetingId}`);
+                    } else {
+                      history.push('/main');
+                    }
+                  }}
                 >
                   Back
                 </Button>
@@ -102,4 +150,4 @@ function MeetingCreate(props) {
     </div>
   );
 }
-export default withRouter(MeetingCreate);
+export default withRouter(Meeting);

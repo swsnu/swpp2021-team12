@@ -6,7 +6,6 @@ import './App.css';
 import SignInPage from './containers/pages/auth/SignInPage/SignInPage';
 import SignUpPage from './containers/pages/auth/SignUpPage/SignUpPage';
 import MainPage from './containers/pages/meeting/MainPage/MainPage';
-import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 import MeetingListPage from './containers/pages/meeting/MeetingListPage/MeetingListPage';
 import MyMeetingListPage from './containers/pages/meeting/MyMeetingListPage/MyMeetingListPage';
 import MeetingCreatePage from './containers/pages/meeting/MeetingCreatePage/MeetingCreatePage';
@@ -17,6 +16,7 @@ import MyRoomPage from './containers/pages/room/MyRoomPage/MyRoomPage';
 import MyRoomRegisterPage from './containers/pages/room/MyRoomRegisterPage/MyRoomRegisterPage';
 import MyRoomEditPage from './containers/pages/room/MyRoomEditPage/MyRoomEditPage';
 import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
+import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 
 function App() {
   return (
