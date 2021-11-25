@@ -2,7 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 from comment.models import Comment
 from meeting.models import Meeting
-# from room.models import Room
+from room.models import Room
 from user.models import User, UserManager
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
@@ -31,14 +31,14 @@ def comment_(request):
                 author=author,
                 meeting=meeting,
             )
-        # elif section == 'room':
-        #     room = Room.objects.get(id=article_id)
-        #     comment = Comment(
-        #         content=content,
-        #         section=section,
-        #         author=author,
-        #         room=room
-        #     )
+        elif section == 'room':
+            room = Room.objects.get(id=article_id)
+            comment = Comment(
+                content=content,
+                section=section,
+                author=author,
+                room=room
+            )
         comment.save()
 
         # Should I make a JsonResponse?
@@ -91,26 +91,33 @@ def specified_comment(request, comment_id):
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
 
-    # def room_comment(request, room_id):
-    #     # get a room comments list by room_id
-    #     if request.method == 'GET':
-    #         if not request.user.is_authenticated:
-    #             return HttpResponse(status=401)
-    #         room_comment_list = []
-    #         for comment in Comment.objects.all():
-    #             if(comment.section == 'room' and comment.room.id == room_id):
-    #                 room_comment_list.append(
-    #                     {
-    #                         'id': comment.id,
-    #                         'content': comment.content,
-    #                         'articleId': room_id,
-    #                         'authorId': comment.author.id
-    #                     }
-    #                 )
-    #         return JsonResponse(room_comment_list, safe=False)
+def room_comment(request, room_id):
+    # get a room comments list by room_id
+    if request.method == 'GET':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
+        room_comment_list = []
+        for comment in Comment.objects.all():
+            author_object = {
+                'id': comment.author.id,
+                'name': comment.author.name,
+                'email': comment.author.email,
+                'self_intro': comment.author.self_intro
+            }
+            if(comment.section == 'room' and comment.room.id == room_id):
+                room_comment_list.append(
+                    {
+                        'id': comment.id,
+                        'content': comment.content,
+                        'articleId': room_id,
+                        'author': author_object
+                    }
+                )
+        print(room_comment_list)
+        return JsonResponse(room_comment_list, safe=False)
 
-    #     else:
-    #         return HttpResponseNotAllowed(['GET'])
+    else:
+        return HttpResponseNotAllowed(['GET'])
 
 def meeting_comment(request, meeting_id):
     # get a room comments list by meeting_id
