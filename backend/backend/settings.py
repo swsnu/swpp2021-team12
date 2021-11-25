@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'meeting.apps.MeetingConfig',
     'comment.apps.CommentConfig',
     'club.apps.ClubConfig',
+    'room.apps.RoomConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

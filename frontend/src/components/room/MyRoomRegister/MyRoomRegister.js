@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import 'react-calendar/dist/Calendar.css';
-import Calendar from 'react-calendar';
+// import 'react-calendar/dist/Calendar.css';
+// import Calendar from 'react-calendar';
+import Calendar from 'react-select-date';
 import RoomMap from './RoomMap';
 
 function MyRoomRegister(props) {
   const { room, onClickConfirmHandler, history } = props;
   const [title, setTitle] = useState(room ? room.title : '');
   const [description, setDescription] = useState(room ? room.description : '');
-  const [dates] = useState();
+  // const [dates] = useState();
+  // eslint-disable-next-line no-unused-vars
+  const [dates, setDates] = useState([]);
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
-  const [address, setAddress] = useState(null);
+  const [address, setAddress] = useState(room ? room.address : null);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -27,6 +30,16 @@ function MyRoomRegister(props) {
       history.push('/mypage/room');
     }
   };
+
+  useEffect(() => {
+    if (room) {
+      setTitle(room.title);
+      setDescription(room.description);
+      setCapacity(room.capacity);
+      setAddress(room.address);
+      setDates(room.dates);
+      }
+  },[room])
 
   return (
     <div className="MyRoomRegister">
@@ -44,7 +57,15 @@ function MyRoomRegister(props) {
           <Grid columns="4" style={{ marginBottom: '1em' }}>
             <Grid.Row>
               <Grid.Column></Grid.Column>
-              <Calendar value={dates} />
+              {/* <Calendar value={dates} /> */}
+              <Calendar
+                defaultValue={dates}
+                onSelect={(date) => setDates(date)}
+                templateClr='blue'
+                selectDateType='multiple'
+                showDateInputField = {false}
+                disableDates='past'
+                />
             </Grid.Row>
           </Grid>
           <Form.TextArea
@@ -76,7 +97,7 @@ function MyRoomRegister(props) {
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
               onClick={() => {
-                onClickConfirmHandler(title, description, capacity);
+                onClickConfirmHandler(title, description, capacity, address, dates, history);
                 history.push('/mypage/room');
               }}
               primary

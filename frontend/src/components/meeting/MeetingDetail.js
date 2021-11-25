@@ -7,6 +7,8 @@ import {
   Button,
   Grid,
   Header,
+  Popup,
+  Image,
 } from 'semantic-ui-react';
 
 // TODO: Location
@@ -38,7 +40,14 @@ function MeetingDetail(props) {
                 <Container text style={{ width: '700px', background: '' }}>
                   <h5>Current Member: </h5>
                   {meetingDetail.currentMembers.map((member) => (
-                    <button key={member.id}>{member.name}</button>
+                    <Popup
+                      content={member.self_intro}
+                      key={member.email}
+                      header={member.name}
+                      trigger={
+                        <Image src={`/api/user/${member.id}/profile/`} avatar />
+                      }
+                    />
                   ))}
                   <p>Max Member: {meetingDetail.maxMembers}</p>
                 </Container>
@@ -71,6 +80,7 @@ function MeetingDetail(props) {
                       <Button
                         className="QuitButton"
                         id="quitMeetingButton"
+                        color="red"
                         onClick={() => onClickToggleButton(0)}
                       >
                         QUIT
@@ -94,6 +104,7 @@ function MeetingDetail(props) {
                 <Button
                   className="BackButton"
                   id="backDetailMeetingButton"
+                  secondary
                   onClick={() => history.push('/meeting')}
                 >
                   BACK
