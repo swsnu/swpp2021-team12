@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Segment, Header } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import ClubDetail from './ClubDetail';
+import ClubDetail from '../ClubDetail/ClubDetail';
 
 function ClubList(props) {
   const {

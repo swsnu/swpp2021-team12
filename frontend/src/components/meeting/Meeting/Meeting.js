@@ -53,10 +53,9 @@ function Meeting(props) {
   }, [title, content, location, time]);
 
   return (
-    <div className="MeetingCreate">
+    <div>
       <Segment style={{ padding: '8em 5em' }} vertical>
-        <Grid columns="3">
-          <Grid.Column></Grid.Column>
+        <Grid columns="2">
           <Grid.Column id="meeting-create-column">
             <h1>Create New Meeting!</h1>
             <br />
@@ -86,15 +85,7 @@ function Meeting(props) {
                 max="20"
                 onChange={(e) => setMaxMembers(e.target.value)}
               />
-              <Grid centered>
-                <Photo
-                  isCircular={false}
-                  photo={detailImageUrl}
-                  setDeatilImageFile={setDetailImageFile}
-                  setDetailImageUrl={setDetailImageUrl}
-                  setIsImageModified={setIsImageModified}
-                />
-              </Grid>
+
               <Grid centered>
                 <Button size="small" key="scope">
                   Scope
@@ -144,7 +135,17 @@ function Meeting(props) {
               </Grid>
             </Form>
           </Grid.Column>
-          <Grid.Column></Grid.Column>
+          <Grid.Column>
+            <Grid centered style={{ padding: '8em ' }} vertical>
+              <Photo
+                isCircular={false}
+                photo={detailImageUrl}
+                setDeatilImageFile={setDetailImageFile}
+                setDetailImageUrl={setDetailImageUrl}
+                setIsImageModified={setIsImageModified}
+              />
+            </Grid>
+          </Grid.Column>
         </Grid>
       </Segment>
     </div>

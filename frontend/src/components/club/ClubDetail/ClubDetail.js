@@ -46,7 +46,12 @@ function ClubDetail({
                 <Button
                   className="EditButton"
                   id="editClubButton"
-                  onClick={() => history.push(`/club/${club.id}/edit`)}
+                  onClick={() =>
+                    history.push({
+                      pathname: `/club/${club.id}/edit`,
+                      state: { club },
+                    })
+                  }
                 >
                   EDIT
                 </Button>

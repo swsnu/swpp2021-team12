@@ -31,10 +31,16 @@ function MyRoomRegister(props) {
   };
 
   useEffect(() => {
-    if (title !== '' && description !== '' && dates && capacity > 0 && address !== '') {
+    if (
+      title !== '' &&
+      description !== '' &&
+      dates &&
+      capacity > 0 &&
+      address !== ''
+    ) {
       setConfirmDisable(false);
     }
-  },[title, description, dates, capacity, address])
+  }, [title, description, dates, capacity, address]);
 
   useEffect(() => {
     if (room) {
@@ -101,7 +107,7 @@ function MyRoomRegister(props) {
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
-              id="my-room-register-confirm-button"
+              id="confirm-button"
               onClick={() => {
                 onClickConfirmHandler(
                   title,
