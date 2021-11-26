@@ -30,85 +30,52 @@ describe('<MeetingCreatePage />', () => {
   it('should render without error', () => {
     const wrapper = component.find('MeetingCreatePage');
     expect(wrapper.length).toBe(1);
+    const backButton = component.find('#back-button').find('button');
+    backButton.simulate('click');
   });
 
   it('sholud handle onClickConfirmHandler well', async () => {
     const pauseFor = (milliseconds) =>
       new Promise((resolve) => setTimeout(resolve, milliseconds));
-    axios.get.mockImplementation(() =>
+    axios.post.mockImplementation(() =>
       Promise.resolve({
-        data: { name: 'name', email: 'email', selfIntro: 'intro' },
-      }),
-    );
-    axios.put.mockImplementation(() =>
-      Promise.resolve({
-        data: { name: 'name', email: 'email', selfIntro: 'intro' },
+        data: { id: 10 },
       }),
     );
     axios.delete.mockImplementation(() =>
       Promise.resolve({
-        data: { name: 'name', email: 'email', selfIntro: 'intro' },
+        status: 200,
       }),
     );
     axios.mockImplementation(() =>
       Promise.resolve({
-        data: { name: 'name', email: 'email', selfIntro: 'intro' },
+        status: 200,
       }),
     );
-    const stubInitialState = ['stub data'];
-    const realUseState = React.useState;
-    jest
-      .spyOn(React, 'useState')
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() =>
-        realUseState([
-          new Blob([new ArrayBuffer('data')], { type: 'image/png' }),
-        ]),
-      )
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(0));
 
-    /* const titleInput = component.find('#meeting-title-input').find('input');
-    const fileInput = component.find('#input_file').find('input');
-    const locationButton = component.find('#location_button').find('button');
-    const mapInput = component.find('#location').find('Component');
-    const marker = component.find('#clickedMarker');
-    titleInput.simulate('change', { target: { value: 'title' } });
-    const contentInput = component
-      .find('#meeting-content-input')
-      .find('textarea');
-    contentInput.simulate('change', { target: { value: 'content' } });
-    const maxMembersInput = component
-      .find('#meeting-max-members-input')
-      .find('input');
-    maxMembersInput.simulate('change', { target: { value: 9 } });
-    locationButton.simulate('click');
-    console.log(component.debug());
-    mapInput.simulate('click');
-    marker.simulate('click');
+    component = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <MeetingCreatePage />
+        </BrowserRouter>
+      </Provider>,
+    );
     await runAllPromises();
-    component.update();
-    const pauseFor = (milliseconds) =>
-      new Promise((resolve) => setTimeout(resolve, milliseconds));
+    await pauseFor(50);
+    const confirmButton = component.find('#confirm-button').find('button');
+    confirmButton.simulate('click');
+
+    const fileInput = component.find('#input_file').find('input');
     fileInput.simulate('change', {
       target: {
         files: [new Blob([new ArrayBuffer('data')], { type: 'image/png' })],
       },
     });
-    await pauseFor(500); */
-    const confirmButton = component.find('#confirm-button').find('button');
-    console.log(component.debug());
-    await pauseFor(50);
+    await pauseFor(500);
     confirmButton.simulate('click');
     await runAllPromises();
-    component.update();
-
-    await pauseFor(500);
-    expect(axios.post).toHaveBeenCalledTimes(1);
+    const photoDeleteButton = component.find('#button_delete').find('button');
+    photoDeleteButton.simulate('click');
+    confirmButton.simulate('click');
   });
 });
