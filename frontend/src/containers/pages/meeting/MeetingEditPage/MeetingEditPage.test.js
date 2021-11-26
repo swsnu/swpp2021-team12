@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
 import React from 'react';
-import axios from 'axios';
+import * as axios from 'axios';
 import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import { BrowserRouter } from 'react-router-dom';
@@ -10,15 +10,12 @@ import { Provider } from 'react-redux';
 import MeetingEditPage from './MeetingEditPage';
 
 jest.mock('axios');
-
+const runAllPromises = () => new Promise(setImmediate);
 describe('<MeetingEditPage />', () => {
   jest.spyOn(window, 'alert').mockImplementation(() => {});
   const mockStore = configureMockStore();
   const store = mockStore({
     auth: { auth: null, authError: null },
-    meetings: {
-      meetings: [{ title: 'title', content: 'content', maxMembers: 10, id: 0 }],
-    },
   });
   let component;
   beforeEach(() => {
@@ -30,7 +27,7 @@ describe('<MeetingEditPage />', () => {
     component = mount(
       <Provider store={store}>
         <BrowserRouter>
-          <MeetingEditPage match={{ params: { id: 0 } }} />
+          <MeetingEditPage match={{ params: { id: 10 } }} />
         </BrowserRouter>
       </Provider>,
     );
@@ -39,31 +36,75 @@ describe('<MeetingEditPage />', () => {
   it('should render without error', () => {
     const wrapper = component.find('MeetingEditPage');
     expect(wrapper.length).toBe(1);
+    const backButton = component.find('#back-button').find('button');
+    backButton.simulate('click');
   });
-  it('sholud handle onClickConfirmHandler well', () => {
-    axios.put.mockImplementation((data) => Promise.resolve(data));
-    const titleInput = component.find('#meeting-title-input').find('input');
-    titleInput.simulate('change', { target: { value: 'edited title' } });
-    const contentInput = component
-      .find('#meeting-content-input')
-      .find('textarea');
-    contentInput.simulate('change', { target: { value: 'edited content' } });
-    const maxMembersInput = component
-      .find('#meeting-max-members-input')
-      .find('input');
-    maxMembersInput.simulate('change', { target: { value: 9 } });
-    /*
-        const submit = component.find('#meeting-edit-form').find('Form');
-        submit.simulate('submit');
-        */
-    component.update();
+
+  it('should get meeting and render', async () => {
+    const pauseFor = (milliseconds) =>
+      new Promise((resolve) => setTimeout(resolve, milliseconds));
+    axios.get.mockImplementation(() =>
+      Promise.resolve({
+        data: {
+          title: 'title',
+          content: 'content',
+          maxMembers: 10,
+          location: { position: { lat: 1, lng: 1 }, description: 'ss' },
+          description: 'tt',
+          time: new Date(),
+        },
+      }),
+    );
+    axios.put.mockImplementation(() =>
+      Promise.resolve({
+        data: { id: 1 },
+      }),
+    );
+    axios.delete.mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+      }),
+    );
+    axios.mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+      }),
+    );
+
+    component = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <MeetingEditPage match={{ params: { id: '10' } }} />
+        </BrowserRouter>
+      </Provider>,
+    );
+    await runAllPromises();
+    await pauseFor(50);
     const confirmButton = component.find('#confirm-button').find('button');
     confirmButton.simulate('click');
-    expect(axios.put).toHaveBeenCalledTimes(1);
+
+    const fileInput = component.find('#input_file').find('input');
+    fileInput.simulate('change', {
+      target: {
+        files: [new Blob([new ArrayBuffer('data')], { type: 'image/png' })],
+      },
+    });
+    await pauseFor(500);
+    confirmButton.simulate('click');
+    const photoDeleteButton = component.find('#button_delete').find('button');
+    photoDeleteButton.simulate('click');
+    confirmButton.simulate('click');
+    expect(confirmButton.length).toBe(1);
   });
+
   it('should throw error with wrong axios.get', () => {
-    const spyAlert = jest.spyOn(window, 'alert');
-    axios.get.mockImplementation(() => Promise.reject());
+    window.alert = jest.fn();
+    axios.get.mockImplementation(() =>
+      // eslint-disable-next-line prefer-promise-reject-errors
+      Promise.reject({
+        status: 400,
+      }),
+    );
     component = mount(
       <Provider store={store}>
         <BrowserRouter>
@@ -71,22 +112,6 @@ describe('<MeetingEditPage />', () => {
         </BrowserRouter>
       </Provider>,
     );
-    expect(spyAlert).toHaveBeenCalledTimes(2);
-  });
-
-  it('should get meeting and render', () => {
-    axios.get.mockImplementation(() =>
-      Promise.resolve({
-        data: {
-          title: 'title',
-          content: 'content',
-          maxMembers: 10,
-          lat: 1,
-          lng: 1,
-          description: 'tt',
-          time: 1,
-        },
-      }),
-    );
+    expect(window.alert).toHaveBeenCalledTimes(1);
   });
 });

@@ -189,7 +189,7 @@ def meeting_photo(request,meeting_id=0):
                 target_meeting = Meeting.objects.get(id=meeting_id)
                 image = target_meeting.photo
                 return HttpResponse(image,content_type="image/jpeg")
-            except ValueError:
+            except:
                 return HttpResponse(status=404)
         else:
             return HttpResponse(status=401)

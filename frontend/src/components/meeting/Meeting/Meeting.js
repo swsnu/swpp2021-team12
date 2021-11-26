@@ -10,12 +10,16 @@ function Meeting(props) {
   const [content, setContent] = useState('');
   const [maxMembers, setMaxMembers] = useState(10);
   const [isDisable, setIsDisable] = useState(false);
-  const [location, setLocation] = useState(null);
-  const [time, setTime] = useState(null);
+  const [location, setLocation] = useState({
+    position: { lat: 37.45644261269604, lng: 126.94975418851041 },
+    description: 'Welcome to new Meetnig!',
+  });
+  const [time, setTime] = useState(new Date());
 
   const [detailImageFile, setDetailImageFile] = useState(null);
   const [detailImageUrl, setDetailImageUrl] = useState(null);
   const [isImageModified, setIsImageModified] = useState(0);
+  // 0: not modified 1: modified 2: deleted
   // 백엔드에 보낼땐 time.getTime()/1000 하면 unix 타임스탬프가 된다.
   const {
     onClickConfirmHandler,
@@ -45,6 +49,7 @@ function Meeting(props) {
   }, [existingMeeting, existingPhoto]);
 
   useEffect(() => {
+    console.log(isDisable);
     if (title === '' || content === '' || !location || !time) {
       setIsDisable(true);
     } else {
@@ -102,7 +107,7 @@ function Meeting(props) {
                   size="small"
                   className="ConfirmButton"
                   id="confirm-button"
-                  disabled={isDisable}
+                  disabled={false}
                   onClick={() =>
                     onClickConfirmHandler(
                       title,
