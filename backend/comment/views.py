@@ -48,12 +48,9 @@ def comment_(request):
         return HttpResponseNotAllowed(['POST'])
 
 def specified_comment(request, comment_id):
-    # Is it required?
-    if request.method == 'GET':
-        return JsonResponse({'Success'})
 
     # edit comment
-    elif request.method == 'PUT':
+    if request.method == 'PUT':
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         try:
@@ -89,7 +86,7 @@ def specified_comment(request, comment_id):
 
     # wrong request
     else:
-        return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+        return HttpResponseNotAllowed(['PUT', 'DELETE'])
 
 def room_comment(request, room_id):
     # get a room comments list by room_id
