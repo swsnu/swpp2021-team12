@@ -33,5 +33,10 @@ describe('<MyRoom />', () => {
     it('click pending request button', () => {
         const pendingButton = component.find('#my-room-pending-button').find('button');
         pendingButton.simulate('click');
+        component.update();
+        const closeButton = component.find('#pending-request-close-button').find('button');
+        closeButton.simulate('click');
+        component.update();
+        expect(pendingButton.length).toBe(1);
     })
 })

@@ -9,6 +9,7 @@ import { mount } from 'enzyme';
 import RoomDetailPage from './RoomDetailPage';
 
 describe('<RoomDetailPage />', () => {
+    window.alert = () => {};
     const mockStore = configureMockStore();
     const store = mockStore({
     auth: { auth: null, authError: null },
