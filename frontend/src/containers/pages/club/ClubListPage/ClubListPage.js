@@ -11,7 +11,7 @@ function ClubListPage(props) {
   const [clubs, setClubs] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
-    currentUser: auth.auth,
+    currentUser: parseInt(auth.auth, 10),
   }));
   const { history } = props;
 
@@ -48,11 +48,19 @@ function ClubListPage(props) {
               <Icon name="list" />
               Show Whole Meetings
             </Menu.Item>
-            <Menu.Item as="a" onClick={() => history.push('/meeting/mylist')}>
+            <Menu.Item
+              id="mymeeting-item"
+              as="a"
+              onClick={() => history.push('/meeting/mylist')}
+            >
               <Icon name="calendar alternate" />
               My Meetnigs
             </Menu.Item>
-            <Menu.Item as="a" onClick={() => history.push('/club')}>
+            <Menu.Item
+              id="myclublist-item"
+              as="a"
+              onClick={() => history.push('/club')}
+            >
               <Icon name="address book outline" />
               My Club List
             </Menu.Item>
@@ -64,7 +72,7 @@ function ClubListPage(props) {
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
               <ClubList
-                currentUser={parseInt(currentUser, 10)}
+                currentUser={currentUser}
                 // clubs={tempClubs}
                 clubs={clubs}
                 history={history}

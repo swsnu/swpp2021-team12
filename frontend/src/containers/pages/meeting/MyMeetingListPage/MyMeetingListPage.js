@@ -5,25 +5,23 @@ import { useSelector } from 'react-redux';
 import * as axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
-import MyMeetingList from '../../../../components/meeting/MyMeetingList';
+import MyMeetingList from '../../../../components/meeting/MyMeetingList/MyMeetingList';
 
 function MyMeetingListPage(props) {
   const [myMeetings, setMyMeetings] = useState(null);
-  const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
   }));
   const { history } = props;
-  const { id } = props.match.params;
 
   useEffect(() => {
     axios.get(`/api/meeting/joined/`).then((res) => {
       setMyMeetings(res.data);
     });
-  }, [refresh]);
+  }, []);
 
   return (
-    <div className="MyMeetingList">
+    <div className="MyMeetingListPage">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
@@ -43,11 +41,19 @@ function MyMeetingListPage(props) {
               <Icon name="list" />
               Show Whole Meetings
             </Menu.Item>
-            <Menu.Item as="a" onClick={() => history.push('/meeting/mylist')}>
+            <Menu.Item
+              id="mymeeting-item"
+              as="a"
+              onClick={() => history.push('/meeting/mylist')}
+            >
               <Icon name="calendar alternate" />
               My Meetnigs
             </Menu.Item>
-            <Menu.Item as="a" onClick={() => history.push('/club')}>
+            <Menu.Item
+              id="myclublist-item"
+              as="a"
+              onClick={() => history.push('/club')}
+            >
               <Icon name="address book outline" />
               My Club List
             </Menu.Item>
@@ -62,14 +68,7 @@ function MyMeetingListPage(props) {
               <MyMeetingList
                 currentUser={parseInt(currentUser, 10)}
                 myMeetingList={myMeetings}
-                onClickDeleteButton={() => {
-                  axios
-                    .delete(`/api/meeting/${id}/`)
-                    .then(setRefresh(!refresh))
-                    .catch(() => {
-                      window.alert('Error occured while deletion');
-                    });
-                }}
+                history={history}
               />
             </Segment>
           </Sidebar.Pusher>

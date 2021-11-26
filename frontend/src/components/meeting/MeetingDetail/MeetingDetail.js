@@ -59,7 +59,7 @@ function MeetingDetail(props) {
                   {meetingDetail.currentMembers.map((member) => (
                     <Popup
                       content={member.self_intro}
-                      key={member.email}
+                      key={member.id}
                       header={member.name}
                       trigger={
                         <Image src={`/api/user/${member.id}/profile/`} avatar />
