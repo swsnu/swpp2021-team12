@@ -11,13 +11,13 @@ describe('<MyRoom />', () => {
     beforeEach(() => {
         component = mount(
             <BrowserRouter>
-                <MyRoom room={{title: 'title', description: 'des', capacity: 10}} />
+                <MyRoom room={{title: 'title', description: 'des', capacity: 10, dates: ["2021-11-25"]}} />
             </BrowserRouter>
         );
     })
 
     it('should render MyRoom well', () => {
-       const myroom = component
+        const myroom = component
             .find('MyRoom')
         expect(myroom.length).toBe(1)
     });

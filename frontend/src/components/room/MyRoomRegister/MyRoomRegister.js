@@ -101,6 +101,7 @@ function MyRoomRegister(props) {
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
+              id="my-room-register-confirm-button"
               onClick={() => {
                 onClickConfirmHandler(title, description, capacity, address, dates, history);
                 history.push('/mypage/room');
