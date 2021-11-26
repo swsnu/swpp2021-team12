@@ -21,6 +21,5 @@ class Comment(models.Model):
         Room,
         on_delete=models.CASCADE,
         related_name='room',
-        blank=True,
         null=True
     )
