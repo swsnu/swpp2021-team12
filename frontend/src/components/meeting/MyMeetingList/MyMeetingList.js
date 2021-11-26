@@ -24,7 +24,10 @@ function MyMeetingList(props) {
   const { currentUser, history, myMeetingList } = props;
 
   return (
-    <div style={{ marginTop: '5em', marginLeft: '15em', marginRight: '5em' }}>
+    <div
+      className="MyMeetingList"
+      style={{ marginTop: '5em', marginLeft: '15em', marginRight: '5em' }}
+    >
       <Segment>
         <Header>Created Meetings</Header>
         {myMeetingList &&

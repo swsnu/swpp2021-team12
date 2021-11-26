@@ -96,6 +96,7 @@ export default function CommentList(props) {
               onChange={(e) => setNewComment(e.target.value)}
             />
             <Button
+              className="ConfirmCommentButton"
               content="Add Comment"
               labelPosition="left"
               icon="edit"

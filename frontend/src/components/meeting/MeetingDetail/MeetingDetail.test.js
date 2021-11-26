@@ -14,19 +14,28 @@ describe('<MeetingDetail />', () => {
         <MeetingDetail
           currentUser={1}
           meetingDetail={{
-            meetingData: {
-              id: 1,
-              title: 'tt',
-              content: 'tc',
-              authorId: 1,
-              currentMembers: [1, 2],
-              maxMembers: 4,
-            },
+            id: 1,
             author: {
-              name: 'tn',
+              id: 1,
+              name: 'name 1',
+              self_intro: 'self 1',
             },
-            members: [{ name: 'tn' }, { name: 'tn2' }],
+            title: 'title 1',
+            content: 'content 1',
+            currentMembers: [
+              {
+                id: 1,
+                name: 'name 1',
+                self_intro: 'self 1',
+              },
+              {
+                id: 2,
+                name: 'name 2',
+                self_intro: 'self 2',
+              },
+            ],
           }}
+          meetingPhoto={'photo'}
         />
       </BrowserRouter>,
     );
@@ -44,19 +53,28 @@ describe('<MeetingDetail />', () => {
         <MeetingDetail
           currentUser={1}
           meetingDetail={{
-            meetingData: {
-              id: 1,
-              title: 'tt',
-              content: 'tc',
-              authorId: 1,
-              currentMembers: [1, 2],
-              maxMembers: 4,
-            },
+            id: 1,
             author: {
-              name: 'tn',
+              id: 1,
+              name: 'name 1',
+              self_intro: 'self 1',
             },
-            members: [{ name: 'tn' }, { name: 'tn2' }],
+            title: 'title 1',
+            content: 'content 1',
+            currentMembers: [
+              {
+                id: 1,
+                name: 'name 1',
+                self_intro: 'self 1',
+              },
+              {
+                id: 2,
+                name: 'name 2',
+                self_intro: 'self 2',
+              },
+            ],
           }}
+          meetingPhoto={'photo'}
           onClickDeleteButton={spyDeleteMeeting}
         />
       </BrowserRouter>,
@@ -69,27 +87,6 @@ describe('<MeetingDetail />', () => {
   it('should handle edit button', () => {
     const history = { push: jest.fn() };
     const pushSpy = jest.spyOn(history, 'push');
-    component = mount(
-      <BrowserRouter>
-        <MeetingDetail
-          currentUser={1}
-          meetingDetail={{
-            meetingData: {
-              id: 1,
-              title: 'tt',
-              content: 'tc',
-              authorId: 1,
-              currentMembers: [1, 2],
-              maxMembers: 4,
-            },
-            author: {
-              name: 'tn',
-            },
-            members: [{ name: 'tn' }, { name: 'tn2' }],
-          }}
-        />
-      </BrowserRouter>,
-    );
     const editButton = component.find('#editMeetingButton').find('button');
     editButton.simulate('click');
     expect(pushSpy).toHaveBeenCalledTimes(0);
@@ -102,19 +99,28 @@ describe('<MeetingDetail />', () => {
         <MeetingDetail
           currentUser={2}
           meetingDetail={{
-            meetingData: {
-              id: 1,
-              title: 'tt',
-              content: 'tc',
-              authorId: 1,
-              currentMembers: [1, 2],
-              maxMembers: 4,
-            },
+            id: 1,
             author: {
-              name: 'tn',
+              id: 1,
+              name: 'name 1',
+              self_intro: 'self 1',
             },
-            members: [{ name: 'tn' }, { name: 'tn2' }],
+            title: 'title 1',
+            content: 'content 1',
+            currentMembers: [
+              {
+                id: 1,
+                name: 'name 1',
+                self_intro: 'self 1',
+              },
+              {
+                id: 2,
+                name: 'name 2',
+                self_intro: 'self 2',
+              },
+            ],
           }}
+          meetingPhoto={'photo'}
           onClickToggleButton={spyToggle}
         />
       </BrowserRouter>,
@@ -131,18 +137,26 @@ describe('<MeetingDetail />', () => {
         <MeetingDetail
           currentUser={3}
           meetingDetail={{
-            meetingData: {
-              id: 1,
-              title: 'tt',
-              content: 'tc',
-              authorId: 1,
-              currentMembers: [1, 2],
-              maxMembers: 4,
-            },
+            id: 1,
             author: {
-              name: 'tn',
+              id: 1,
+              name: 'name 1',
+              self_intro: 'self 1',
             },
-            members: [{ name: 'tn' }, { name: 'tn2' }],
+            title: 'title 1',
+            content: 'content 1',
+            currentMembers: [
+              {
+                id: 1,
+                name: 'name 1',
+                self_intro: 'self 1',
+              },
+              {
+                id: 2,
+                name: 'name 2',
+                self_intro: 'self 2',
+              },
+            ],
           }}
           onClickToggleButton={spyToggle}
         />
