@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 import MeetingCreatePage from './MeetingCreatePage';
 
 jest.mock('axios');
-
+const runAllPromises = () => new Promise(setImmediate);
 describe('<MeetingCreatePage />', () => {
   jest.spyOn(window, 'alert').mockImplementation(() => {});
   const mockStore = configureMockStore();
@@ -33,6 +33,8 @@ describe('<MeetingCreatePage />', () => {
   });
 
   it('sholud handle onClickConfirmHandler well', async () => {
+    const pauseFor = (milliseconds) =>
+      new Promise((resolve) => setTimeout(resolve, milliseconds));
     axios.get.mockImplementation(() =>
       Promise.resolve({
         data: { name: 'name', email: 'email', selfIntro: 'intro' },
@@ -63,10 +65,13 @@ describe('<MeetingCreatePage />', () => {
       .mockImplementationOnce(() => realUseState(stubInitialState))
       .mockImplementationOnce(() => realUseState(stubInitialState))
       .mockImplementationOnce(() => realUseState(stubInitialState))
+      .mockImplementationOnce(() =>
+        realUseState([
+          new Blob([new ArrayBuffer('data')], { type: 'image/png' }),
+        ]),
+      )
       .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState))
-      .mockImplementationOnce(() => realUseState(stubInitialState));
+      .mockImplementationOnce(() => realUseState(0));
 
     /* const titleInput = component.find('#meeting-title-input').find('input');
     const fileInput = component.find('#input_file').find('input');
@@ -97,7 +102,13 @@ describe('<MeetingCreatePage />', () => {
     });
     await pauseFor(500); */
     const confirmButton = component.find('#confirm-button').find('button');
+    console.log(component.debug());
+    await pauseFor(50);
     confirmButton.simulate('click');
+    await runAllPromises();
+    component.update();
+
+    await pauseFor(500);
     expect(axios.post).toHaveBeenCalledTimes(1);
   });
 });
