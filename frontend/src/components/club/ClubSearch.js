@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {withRouter} from 'react-router-dom';
 import { Container, Grid, Header, Input, Button, List } from 'semantic-ui-react';
 
 function Club (props) {
@@ -36,15 +37,15 @@ function ClubSearch(props) {
     }
 
     return (
-        <Container style={{ marginTop: "4em"}}>
+        <Container id="club-search" style={{ marginTop: "4em"}}>
             {clubList && 
             <Grid>
                 <Grid.Row centered>
                     <Header size='huge'>Club Search</Header>
                 </Grid.Row>
                 <Grid.Row>
-                    <Input style={{ width: "70em" }} onChange={(e) => {setInputValue(e.target.value);}}></Input>
-                    <Button primary onClick={onClickSearchHandler}>Search!</Button>
+                    <Input id="search-input" style={{ width: "70em" }} onChange={(e) => {setInputValue(e.target.value);}}></Input>
+                    <Button id="search-button" primary onClick={onClickSearchHandler}>Search!</Button>
                 </Grid.Row>
                 <Grid.Row>
                     <List divided relaxed>
@@ -58,4 +59,4 @@ function ClubSearch(props) {
         </Container>
     )
 }
-export default ClubSearch;
+export default withRouter(ClubSearch);
