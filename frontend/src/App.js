@@ -19,6 +19,7 @@ import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendi
 import RoomDetailPage from './containers/pages/room/RoomDetailPage/RoomDetailPage';
 import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 import ClubListPage from './containers/pages/club/ClubListPage/ClubListPage';
+import ClubSearchPage from './containers/pages/club/ClubSearchPage/ClubSearchPage';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           />
           <Route path="/room/:id" exact component={RoomDetailPage} />
           <Route path="/club" exact component={ClubListPage} />
+          <Route path="/club/search" exact component={ClubSearchPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>
