@@ -96,6 +96,7 @@ function MyRoomRegister(props) {
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
             <Form.Button
+              id="confirm-button"
               onClick={() => {
                 onClickConfirmHandler(
                   title,

@@ -40,6 +40,7 @@ function Main(props) {
     roomBubble.map((room) => (
       <div key={room.id}>
         <MapMarker
+          id="room-marker"
           position={room.location}
           image={{ src: roomSrc, size: markerSize }}
           onClick={() => {
@@ -57,10 +58,14 @@ function Main(props) {
                 <div className="body">
                   {room.content}
                   <div>
-                    <Button onClick={() => history.push(`/room/${room.id}`)}>
+                    <Button
+                      id="roomdetail-button"
+                      onClick={() => history.push(`/room/${room.id}`)}
+                    >
                       Go to Detail
                     </Button>
                     <Button
+                      id="roomclose-button"
                       onClick={() => {
                         const tmp1 = roomBubble.find((x) => x.id === room.id);
                         const tmp2 = roomBubble.filter((x) => x.id !== room.id);
@@ -83,6 +88,7 @@ function Main(props) {
     meetingBubble.map((meeting) => (
       <div key={meeting.id}>
         <MapMarker
+          id="meeting-marker"
           position={meeting.location}
           image={{ src: meetingSrc, size: markerSize }}
           onClick={() => {
@@ -107,11 +113,13 @@ function Main(props) {
                     </div>
                     <div>
                       <Button
+                        id="meetingdetail-button"
                         onClick={() => history.push(`/meeting/${meeting.id}`)}
                       >
                         Go to Detail
                       </Button>
                       <Button
+                        id="meetingclose-button"
                         onClick={() => {
                           const tmp1 = meetingBubble.find(
                             (x) => x.id === meeting.id,

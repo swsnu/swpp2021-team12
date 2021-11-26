@@ -45,7 +45,11 @@ function MeetingMap(props) {
       className="locationModal"
       onOpen={() => setIsLocation(true)}
       open={isLocation}
-      trigger={<Button size="small">Location</Button>}
+      trigger={
+        <Button id="location_button" size="small">
+          Location
+        </Button>
+      }
     >
       <Modal.Header>Location</Modal.Header>
       <Modal.Description>
@@ -66,6 +70,7 @@ function MeetingMap(props) {
           <MarkerClusterer averageCenter={true} minLevel={10}>
             {clickPosition && (
               <MapMarker
+                id="clickedMarker"
                 position={clickPosition}
                 onClick={() => {
                   setSelectedMarker({

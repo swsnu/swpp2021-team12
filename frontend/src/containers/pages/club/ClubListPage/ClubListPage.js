@@ -5,51 +5,9 @@ import { useSelector } from 'react-redux';
 import * as axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
-import ClubList from '../../../../components/club/ClubList';
+import ClubList from '../../../../components/club/ClubList/ClubList';
 
 function ClubListPage(props) {
-  // const tempClubs = [
-  //   {
-  //     id: 1,
-  //     title: 'PIU Gaymers',
-  //     content: 'Seol JJANG Go',
-  //     author: {
-  //       id: 13,
-  //       name: 'KylusheL',
-  //       self_intro: 'Fuck You',
-  //     },
-  //     members: [
-  //       {
-  //         id: 1,
-  //         name: 'JHP',
-  //         self_intro: 'ADVANCED LV.10',
-  //       },
-  //       {
-  //         id: 2,
-  //         name: 'SLAVE',
-  //         self_intro: 'EXPERT LV.1',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Food Fighters',
-  //     content: 'Eat Or Die',
-  //     author: {
-  //       id: 12,
-  //       name: 'PIG',
-  //       self_intro: 'Oink Oink',
-  //     },
-  //     members: [
-  //       {
-  //         id: 13,
-  //         name: 'KylusheL',
-  //         self_intro: 'Fuck You',
-  //       },
-  //     ],
-  //   },
-  // ];
-  // console.log(tempClubs);
   const [clubs, setClubs] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
@@ -59,7 +17,6 @@ function ClubListPage(props) {
 
   useEffect(() => {
     axios.get('/api/club/').then((res) => {
-      console.log(currentUser);
       setClubs(
         res.data.filter(
           (club) =>
