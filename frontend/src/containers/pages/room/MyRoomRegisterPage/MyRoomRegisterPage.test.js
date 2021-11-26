@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
+import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';

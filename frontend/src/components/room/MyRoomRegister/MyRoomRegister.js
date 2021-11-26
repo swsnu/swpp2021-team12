@@ -10,11 +10,10 @@ function MyRoomRegister(props) {
   const { room, onClickConfirmHandler, history } = props;
   const [title, setTitle] = useState(room ? room.title : '');
   const [description, setDescription] = useState(room ? room.description : '');
-  // const [dates] = useState();
-  // eslint-disable-next-line no-unused-vars
   const [dates, setDates] = useState([]);
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
-  const [address, setAddress] = useState(room ? room.address : null);
+  const [address, setAddress] = useState(room ? room.address : '');
+  const [confirmDisable, setConfirmDisable] = useState(false);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -30,6 +29,18 @@ function MyRoomRegister(props) {
       history.push('/mypage/room');
     }
   };
+
+  useEffect(() => {
+    if (
+      title !== '' &&
+      description !== '' &&
+      dates &&
+      capacity > 0 &&
+      address !== ''
+    ) {
+      setConfirmDisable(false);
+    }
+  }, [title, description, dates, capacity, address]);
 
   useEffect(() => {
     if (room) {
@@ -109,6 +120,7 @@ function MyRoomRegister(props) {
                 history.push('/mypage/room');
               }}
               primary
+              disabled={confirmDisable}
             >
               Confirm
             </Form.Button>

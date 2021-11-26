@@ -16,10 +16,15 @@ import MyRoomPage from './containers/pages/room/MyRoomPage/MyRoomPage';
 import MyRoomRegisterPage from './containers/pages/room/MyRoomRegisterPage/MyRoomRegisterPage';
 import MyRoomEditPage from './containers/pages/room/MyRoomEditPage/MyRoomEditPage';
 import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
+import RoomDetailPage from './containers/pages/room/RoomDetailPage/RoomDetailPage';
 import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 import ClubListPage from './containers/pages/club/ClubListPage/ClubListPage';
+<<<<<<< HEAD
 import ClubCreatePage from './containers/pages/club/ClubCreatePage/ClubCreatePage';
 import ClubEditPage from './containers/pages/club/ClubEditPage/ClubEditPage';
+=======
+import ClubSearchPage from './containers/pages/club/ClubSearchPage/ClubSearchPage';
+>>>>>>> 675bca43c1ea7727ec5939f40e23b6472c54ebea
 
 function App() {
   return (
@@ -48,6 +53,7 @@ function App() {
             exact
             component={MyRoomPendingPage}
           />
+          <Route path="/room/:id" exact component={RoomDetailPage} />
           <Route path="/club" exact component={ClubListPage} />
           <Route path="/club/create" exact component={ClubCreatePage} />
           <Route path="/club/:id/edit" exact component={ClubEditPage} />
