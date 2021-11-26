@@ -9,6 +9,8 @@ import {
   Header,
   Popup,
   Image,
+  Segment,
+  Icon,
 } from 'semantic-ui-react';
 
 // TODO: Location
@@ -18,6 +20,7 @@ function MeetingDetail(props) {
     meetingDetail,
     onClickDeleteButton,
     onClickToggleButton,
+    meetingPhoto,
     history,
   } = props;
 
@@ -34,6 +37,18 @@ function MeetingDetail(props) {
                 <Header>DESCRIPTION : {meetingDetail.content}</Header>
               </Grid.Row>
               <Grid.Row centered>HOST : {meetingDetail.author.name}</Grid.Row>
+              <Segment placeholder size="small">
+                {meetingPhoto ? (
+                  <div className="image_area">
+                    <Image size="medium" src={meetingPhoto} />
+                  </div>
+                ) : (
+                  <Header icon>
+                    <Icon name="photo" />
+                    No photo uploaded yet!
+                  </Header>
+                )}
+              </Segment>
             </Grid>
             <Grid>
               <Grid.Row>

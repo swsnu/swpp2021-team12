@@ -3,15 +3,13 @@ import {
   Container,
   Grid,
   Header,
-  Segment,
-  Icon,
   Button,
   Input,
   Dimmer,
-  Image,
   Loader,
 } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import Photo from '../../../containers/common/Photo';
 
 function MyProfileEdit(props) {
   const { profile, profileImage, onClickConfirmButton, history } = props;
@@ -25,33 +23,7 @@ function MyProfileEdit(props) {
     setDetailImageUrl(profileImage);
   }, [profileImage]);
 
-  const onClickDeletePhotoButton = () => {
-    setDetailImageUrl(null);
-    setDeatilImageFile(null);
-    setIsImageModified(2);
-  };
   const onClickBackButton = () => history.push('/mypage');
-
-  const setImageFromFile = ({ file, setImageUrl }) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      setImageUrl({ result: reader.result });
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const onClickFindPhotoButton = ({ target: { files } }) => {
-    if (files.length) {
-      setImageFromFile({
-        file: files[0],
-        setImageUrl: ({ result }) => {
-          setDeatilImageFile(files[0]);
-          setDetailImageUrl(result);
-        },
-      });
-      setIsImageModified(1);
-    }
-  };
 
   return (
     <div>
@@ -62,33 +34,14 @@ function MyProfileEdit(props) {
               My Profile
             </Header>
             <Grid centered style={{ marginTop: '2em', marginBottom: '5em' }}>
-              <Segment placeholder circular size="small">
-                {detailImageUrl ? (
-                  <div className="image_area">
-                    <Image size="medium" circular src={detailImageUrl} />
-                  </div>
-                ) : (
-                  <Header icon>
-                    <Icon name="photo" />
-                    No photo uploaded yet!
-                  </Header>
-                )}
-              </Segment>
+              <Photo
+                isCircular={true}
+                photo={detailImageUrl}
+                setDeatilImageFile={setDeatilImageFile}
+                setDetailImageUrl={setDetailImageUrl}
+                setIsImageModified={setIsImageModified}
+              />
             </Grid>
-            <Input
-              id="input_file"
-              type="file"
-              accept="image/jpg,impge/png,image/jpeg"
-              name="profile_img"
-              onChange={onClickFindPhotoButton}
-            />
-            <Button
-              id="button_delete"
-              primary
-              onClick={onClickDeletePhotoButton}
-            >
-              Delete Photo
-            </Button>
             <Grid divided="vertically">
               <Grid.Row columns={1}>
                 <Grid.Column></Grid.Column>

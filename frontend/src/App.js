@@ -6,7 +6,6 @@ import './App.css';
 import SignInPage from './containers/pages/auth/SignInPage/SignInPage';
 import SignUpPage from './containers/pages/auth/SignUpPage/SignUpPage';
 import MainPage from './containers/pages/meeting/MainPage/MainPage';
-import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 import MeetingListPage from './containers/pages/meeting/MeetingListPage/MeetingListPage';
 import MyMeetingListPage from './containers/pages/meeting/MyMeetingListPage/MyMeetingListPage';
 import MeetingCreatePage from './containers/pages/meeting/MeetingCreatePage/MeetingCreatePage';
@@ -18,6 +17,8 @@ import MyRoomRegisterPage from './containers/pages/room/MyRoomRegisterPage/MyRoo
 import MyRoomEditPage from './containers/pages/room/MyRoomEditPage/MyRoomEditPage';
 import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
 import RoomDetailPage from './containers/pages/room/RoomDetailPage/RoomDetailPage';
+import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
+import ClubListPage from './containers/pages/club/ClubListPage/ClubListPage';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
             component={MyRoomPendingPage}
           />
           <Route path="/room/:id" exact component={RoomDetailPage} />
+          <Route path="/club" exact component={ClubListPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>
