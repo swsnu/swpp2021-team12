@@ -17,6 +17,7 @@ import MyRoomRegisterPage from './containers/pages/room/MyRoomRegisterPage/MyRoo
 import MyRoomEditPage from './containers/pages/room/MyRoomEditPage/MyRoomEditPage';
 import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
 import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
+import ClubListPage from './containers/pages/club/ClubListPage/ClubListPage';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             exact
             component={MyRoomPendingPage}
           />
+          <Route path="/club" exact component={ClubListPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>
       </div>

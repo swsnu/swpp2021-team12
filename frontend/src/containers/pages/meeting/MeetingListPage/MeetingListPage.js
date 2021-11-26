@@ -40,7 +40,7 @@ function MeetingListPage(props) {
               <Icon name="calendar alternate" />
               My Meetnigs
             </Menu.Item>
-            <Menu.Item as="a">
+            <Menu.Item as="a" onClick={() => history.push('/club')}>
               <Icon name="address book outline" />
               My Club List
             </Menu.Item>

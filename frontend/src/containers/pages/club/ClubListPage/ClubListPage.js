@@ -5,25 +5,73 @@ import { useSelector } from 'react-redux';
 import * as axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
-import MyMeetingList from '../../../../components/meeting/MyMeetingList';
+import ClubList from '../../../../components/club/ClubList';
 
-function MyMeetingListPage(props) {
-  const [myMeetings, setMyMeetings] = useState(null);
+function ClubListPage(props) {
+  // const tempClubs = [
+  //   {
+  //     id: 1,
+  //     title: 'PIU Gaymers',
+  //     content: 'Seol JJANG Go',
+  //     author: {
+  //       id: 13,
+  //       name: 'KylusheL',
+  //       self_intro: 'Fuck You',
+  //     },
+  //     members: [
+  //       {
+  //         id: 1,
+  //         name: 'JHP',
+  //         self_intro: 'ADVANCED LV.10',
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'SLAVE',
+  //         self_intro: 'EXPERT LV.1',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Food Fighters',
+  //     content: 'Eat Or Die',
+  //     author: {
+  //       id: 12,
+  //       name: 'PIG',
+  //       self_intro: 'Oink Oink',
+  //     },
+  //     members: [
+  //       {
+  //         id: 13,
+  //         name: 'KylusheL',
+  //         self_intro: 'Fuck You',
+  //       },
+  //     ],
+  //   },
+  // ];
+  // console.log(tempClubs);
+  const [clubs, setClubs] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
   }));
   const { history } = props;
-  const { id } = props.match.params;
 
   useEffect(() => {
-    axios.get(`/api/meeting/joined/`).then((res) => {
-      setMyMeetings(res.data);
+    axios.get('/api/club/').then((res) => {
+      console.log(currentUser);
+      setClubs(
+        res.data.filter(
+          (club) =>
+            club.author.id === currentUser ||
+            club.members.find((member) => member.id === currentUser),
+        ),
+      );
     });
   }, [refresh]);
 
   return (
-    <div className="MyMeetingList">
+    <div className="ClubListPage">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
@@ -52,22 +100,31 @@ function MyMeetingListPage(props) {
               My Club List
             </Menu.Item>
           </Sidebar>
-
           <Sidebar.Pusher>
             <Segment
               textAlign="center"
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
-              <MyMeetingList
+              <ClubList
                 currentUser={parseInt(currentUser, 10)}
-                myMeetingList={myMeetings}
-                onClickDeleteButton={() => {
+                // clubs={tempClubs}
+                clubs={clubs}
+                history={history}
+                onClickDeleteButton={(id) => {
                   axios
-                    .delete(`/api/meeting/${id}/`)
+                    .delete(`/api/club/${id}/`)
                     .then(setRefresh(!refresh))
                     .catch(() => {
                       window.alert('Error occured while deletion');
+                    });
+                }}
+                onClickQuitButton={(id) => {
+                  axios
+                    .put(`/api/club/${id}/toggle/`, { joinOrQuit: 0 })
+                    .then(setRefresh(!refresh))
+                    .catch(() => {
+                      window.alert('Error occured while quitting club');
                     });
                 }}
               />
@@ -79,4 +136,4 @@ function MyMeetingListPage(props) {
   );
 }
 
-export default MyMeetingListPage;
+export default ClubListPage;
