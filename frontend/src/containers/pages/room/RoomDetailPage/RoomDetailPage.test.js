@@ -9,6 +9,7 @@ import { mount } from 'enzyme';
 import RoomDetailPage from './RoomDetailPage';
 
 describe('<RoomDetailPage />', () => {
+    
     window.alert = () => {};
     const mockStore = configureMockStore();
     const store = mockStore({
@@ -16,7 +17,9 @@ describe('<RoomDetailPage />', () => {
     });
     let component;
     beforeEach(() => {
-        axios.get = jest.fn().mockResolvedValue({data:{id:0, title:"title", content:"content"}});
+        axios.get = jest.fn()
+            .mockResolvedValueOnce({data:{id:0, title:"title", content:"content"}})
+            .mockResolvedValueOnce({data:[{id:0, author:{self_intro:"a", email:"aa", name:"aaa", id:0}, content:"content"}]})
         axios.post = jest.fn().mockResolvedValue();
         axios.put = jest.fn().mockResolvedValue();
         axios.delete = jest.fn().mockResolvedValue();
