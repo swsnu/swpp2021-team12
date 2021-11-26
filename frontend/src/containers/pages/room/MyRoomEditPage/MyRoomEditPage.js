@@ -4,7 +4,7 @@ import axios from "axios";
 import RoomTemplate from '../RoomTemplate'
 import MyRoomRegister from '../../../../components/room/MyRoomRegister/MyRoomRegister'
 
-function MyRoomEdit() {
+function MyRoomEditPage() {
     const [room, setRoom] = useState();
 
     useEffect(() => {
@@ -24,4 +24,4 @@ function MyRoomEdit() {
         </RoomTemplate>
     )
 }
-export default MyRoomEdit
+export default MyRoomEditPage

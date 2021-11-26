@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 // import Calendar from 'react-calendar';
 import Calendar from 'react-select-date';
 
+import PendingRequest from './PendingRequest';
+
 function MyRoom(props) {
   const { room, onClickDeleteButton, history } = props;
   const { title, description, capacity, dates } = room;
@@ -53,14 +55,8 @@ function MyRoom(props) {
           </Button>
 
           {/* need to be implemented!! */}
-          <Button id="my-room-pending-request-button" primary>
-            Pending Request
-          </Button>
-          <Button
-            id="my-room-delete-button"
-            color="red"
-            onClick={onClickDeleteButton}
-          >
+          <PendingRequest />
+          <Button id='my-room-delete-button' color="red" onClick={onClickDeleteButton}>
             Delete
           </Button>
         </Grid.Row>

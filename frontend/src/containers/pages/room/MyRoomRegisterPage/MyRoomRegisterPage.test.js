@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
+import axios from 'axios';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -11,7 +12,7 @@ describe('<MyRoomRegisterPage />', () => {
     let component;
     const mockStore = configureMockStore();
     const store = mockStore({
-      auth: { auth: null, authError: null },
+        auth: { auth: null, authError: null },
     });
     beforeEach(() => {
         component = mount(
@@ -27,8 +28,9 @@ describe('<MyRoomRegisterPage />', () => {
         expect(wrapper.length).toBe(1);
     })
     it('should handle comfirm', () => {
-        const submit = component.find('#my-room-register-form').find('Form');
-        submit.simulate('submit');
-        expect(submit.length).toBe(1);
+        axios.post = jest.fn().mockResolvedValue({data:{}});
+        const confirm = component.find('#my-room-register-confirm-button').find('button');
+        confirm.simulate('click');
+        expect(confirm.length).toBe(1);
     })
 })

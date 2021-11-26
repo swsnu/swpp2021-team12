@@ -37,9 +37,9 @@ describe('<MeetingCreate />', () => {
         submit.simulate('submit');
         expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
         */
-       const confirmButton = component.find('#confirm-button').find('button');
-       confirmButton.simulate('click');
-       expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
+        const confirmButton = component.find('#confirm-button').find('button');
+        confirmButton.simulate('click');
+        expect(spyCreateMeeting).toHaveBeenCalledTimes(1);
     });
     it('should go back properly when back button clicked', () => {
         const backButton = component.find('#back-button').find('button');

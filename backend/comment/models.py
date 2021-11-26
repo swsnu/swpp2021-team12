@@ -1,7 +1,7 @@
 from django.db import models
 from user.models import User
 from meeting.models import Meeting
-# from room.models import Room
+from room.models import Room
 
 class Comment(models.Model):
     content = models.TextField()
@@ -17,9 +17,10 @@ class Comment(models.Model):
         related_name='meeting',
         null=True
     )
-    # room = models.ForeignKey(
-    #     Room,
-    #     on_delete=models.CASCADE,
-    #     related_name='room',
-    #     blank=True
-    # )
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='room',
+        blank=True,
+        null=True
+    )
