@@ -34,6 +34,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'user.apps.UserConfig',
     'meeting.apps.MeetingConfig',
+    'comment.apps.CommentConfig',
+    'club.apps.ClubConfig',
+    'room.apps.RoomConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
