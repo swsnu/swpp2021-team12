@@ -35,6 +35,7 @@ function MeetingMap(props) {
   useEffect(() => {
     if (location) {
       setClickPosition(location.position);
+      setSelectedMarker(location);
       setDescription(location.description);
     }
   }, [location]);
@@ -53,12 +54,13 @@ function MeetingMap(props) {
           center={clickPosition || currentLocation}
           style={{ width: '100%', height: '500px' }}
           level={3}
-          onClick={(_t, mouseEvent) =>
+          onClick={(_t, mouseEvent) => {
             setClickPosition({
               lat: mouseEvent.latLng.getLat(),
               lng: mouseEvent.latLng.getLng(),
-            })
-          }
+            });
+            setSelectedMarker(null);
+          }}
           onCreate={setMap}
         >
           <MarkerClusterer averageCenter={true} minLevel={10}>
@@ -73,6 +75,7 @@ function MeetingMap(props) {
                     },
                   });
                   setInfo(null);
+                  setDescription('');
                 }}
               />
             )}
@@ -84,6 +87,7 @@ function MeetingMap(props) {
                   onClick={() => {
                     setInfo(marker);
                     setSelectedMarker(marker);
+                    setDescription('');
                   }}
                 >
                   {info && info.content === marker.content && (
@@ -119,12 +123,17 @@ function MeetingMap(props) {
             onChange={(e) => setKeyword(e.target.value)}
             size="mini"
           />
-          <Button style={{ marginLeft: '12em' }} content="Search!" primary />
+          <Button
+            style={{ marginLeft: '16em' }}
+            size="tiny"
+            content="Search!"
+            primary
+          />
           {selectedMarker && (
             <p>
               Add description about this place!{'  '}
               <Input
-                defaultValue={description}
+                value={description}
                 size="mini"
                 onChange={(e) => setDescription(e.target.value)}
               />

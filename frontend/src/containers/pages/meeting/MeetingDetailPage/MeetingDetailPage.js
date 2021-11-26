@@ -1,33 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import MeetingDetail from '../../../../components/meeting/MeetingDetail';
+import MeetingDetail from '../../../../components/meeting/MeetingDetail/MeetingDetail';
 import CommentList from '../../../../components/comment/CommentList/CommentList';
 import PageTemplate from '../../../common/PageTemplate';
-// import {
-//   createComment,
-//   editComment,
-//   deleteComment,
-//   getMeetingComments,
-// } from '../../../../store/actions/comments';
 
-// TODO: Photo, Access, Tag, Location, Time
 function MeetingDetailPage(props) {
-  // const tempComments = [
-  //   {
-  //     id: 11,
-  //     articleId: 11,
-  //     authorId: 1,
-  //     content: 'Hello this is test comment',
-  //   },
-  //   {
-  //     id: 12,
-  //     articleId: 11,
-  //     authorId: 2,
-  //     content: 'second comment for test',
-  //   },
-  // ];
   const [meetingDetail, setMeetingDetail] = useState(null);
+  const [meetingPhoto, setMeetingPhoto] = useState(null);
   const [comments, setComments] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
@@ -35,18 +15,18 @@ function MeetingDetailPage(props) {
   }));
   const { history } = props;
   const { id } = props.match.params;
-  // let dataReducer = { members: [] };
-
   useEffect(() => {
     axios
       .get(`/api/meeting/${id}/`)
       .then((res) => {
         setMeetingDetail(res.data);
-        console.log(res.data);
       })
       .then(() => {
         axios.get(`/api/comment/meeting/${id}/`).then((res) => {
           setComments(res.data);
+        });
+        axios.get(`/api/meeting/${id}/photo/`).then(() => {
+          setMeetingPhoto(`/api/meeting/${id}/photo/`);
         });
       })
       .catch(() => {
@@ -60,6 +40,7 @@ function MeetingDetailPage(props) {
         <MeetingDetail
           currentUser={parseInt(currentUser, 10)}
           meetingDetail={meetingDetail}
+          meetingPhoto={meetingPhoto}
           onClickDeleteButton={() => {
             axios
               .delete(`/api/meeting/${id}/`)

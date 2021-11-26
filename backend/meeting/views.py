@@ -36,7 +36,10 @@ def meeting_(request):
                     'content': meeting.content,
                     'author': author_object,
                     'maxMembers': meeting.max_members,
-                    'currentMembers': member_list
+                    'currentMembers': member_list,
+                    'location':{'position':{'lat':meeting.lat,'lng':meeting.lng}
+                    ,'description':meeting.description},
+                    'time':meeting.time,
                 }
             )
         return JsonResponse(meeting_all_list, safe=False)
@@ -52,13 +55,21 @@ def meeting_(request):
             meeting_content = req_data['content']
             meeting_author = request.user
             meeting_max_members = req_data['maxMembers']
+            meeting_lat = req_data['lat']
+            meeting_lng = req_data['lng']
+            meeting_description = req_data['description']
+            meeting_time = req_data['time']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
         meeting = Meeting.objects.create(
             title=meeting_title,
             content=meeting_content,
             author=meeting_author,
-            max_members=meeting_max_members
+            max_members=meeting_max_members,
+            lat = meeting_lat,
+            lng = meeting_lng,
+            description = meeting_description,
+            time = meeting_time,
         )
         meeting.current_members.add(meeting_author)
         meeting.save()
@@ -93,6 +104,10 @@ def specified_meeting(request, meeting_id):
             'email': author.email,
             'self_intro': author.self_intro
         }
+        lat = target_meeting.lat
+        lng = target_meeting.lng
+        description = target_meeting.description
+        time = target_meeting.time
         max_members = target_meeting.max_members
         member_list = []
         for member in target_meeting.current_members.all():
@@ -109,7 +124,10 @@ def specified_meeting(request, meeting_id):
             'content': content,
             'author': author_object,
             'maxMembers': max_members,
-            'currentMembers': member_list
+            'currentMembers': member_list,
+            'location':{'position':{'lat':lat,'lng':lng}
+            ,'description':description},
+            'time':time,
         }
         return JsonResponse(response_dict)
 
@@ -127,6 +145,10 @@ def specified_meeting(request, meeting_id):
             new_title = req_data['title']
             new_content = req_data['content']
             new_maxMembers = req_data['maxMembers']
+            new_lat = req_data['lat']
+            new_lng = req_data['lng']
+            new_description = req_data['description']
+            new_time = req_data['time']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
         if target_meeting.author.id != request.user.id:
@@ -135,6 +157,10 @@ def specified_meeting(request, meeting_id):
             target_meeting.title = new_title
             target_meeting.content = new_content
             target_meeting.max_members = new_maxMembers
+            target_meeting.lat = new_lat
+            target_meeting.lng = new_lng
+            target_meeting.description = new_description
+            target_meeting.time = new_time
             target_meeting.save()
             return HttpResponse(status=200)
 
@@ -155,6 +181,40 @@ def specified_meeting(request, meeting_id):
     # wrong request
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+
+def meeting_photo(request,meeting_id=0):
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            try:
+                target_meeting = Meeting.objects.get(id=meeting_id)
+                image = target_meeting.photo
+                return HttpResponse(image,content_type="image/jpeg")
+            except ValueError:
+                return HttpResponse(status=404)
+        else:
+            return HttpResponse(status=401)
+    elif request.method == 'POST':
+        if request.user.is_authenticated:
+            try:
+                target_meeting = Meeting.objects.get(id=meeting_id)
+                img = request.FILES['photo']
+                target_meeting.photo.delete()
+                target_meeting.photo = img
+                target_meeting.save()
+                return HttpResponse(status=200)
+            except KeyError as error:
+                return HttpResponseBadRequest(error)
+        else:
+            return HttpResponse(status=401)
+    elif request.method == 'DELETE':
+        if request.user.is_authenticated:
+            target_meeting = Meeting.objects.get(id=meeting_id)
+            target_meeting.photo.delete()
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=401)
+    else:
+        return HttpResponseNotAllowed(['GET','POST','DELETE'])
 
 def toggle_meeting(request, meeting_id):
     # join or quit meeting
