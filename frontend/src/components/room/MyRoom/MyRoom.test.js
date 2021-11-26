@@ -29,4 +29,9 @@ describe('<MyRoom />', () => {
         editButton.simulate('click')
         expect(editButton.length).toBe(1)
     });
+
+    it('click pending request button', () => {
+        const pendingButton = component.find('#my-room-pending-button').find('button');
+        pendingButton.simulate('click');
+    })
 })

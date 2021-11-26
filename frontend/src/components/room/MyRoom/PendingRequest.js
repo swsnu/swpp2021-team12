@@ -9,7 +9,7 @@ function PendingRequest() {
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
         open={open}
-        trigger={<Button primary>Pending Request</Button>}
+        trigger={<Button id='my-room-pending-button' primary>Pending Request</Button>}
         >
             <Modal.Header>Request List</Modal.Header>
             <Modal.Content image>
@@ -19,6 +19,7 @@ function PendingRequest() {
             </Modal.Content>
             <Modal.Actions>
                 <Button
+                id='pending-request-close-button'
                 content="Close"
                 labelPosition='right'
                 icon='checkmark'
