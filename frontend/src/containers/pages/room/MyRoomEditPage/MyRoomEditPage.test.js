@@ -30,7 +30,7 @@ describe('<MyRoomEditPage />', () => {
     })
     it('should edit well', () => {
         axios.put = jest.fn().mockResolvedValue();
-        const button = component.find('#my-room-register-confirm-button').find('button');
+        const button = component.find('#confirm-button').find('button');
         button.simulate('click');
         expect(button.length).toBe(1);
     })

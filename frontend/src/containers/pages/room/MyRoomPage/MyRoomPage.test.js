@@ -30,6 +30,7 @@ describe('<MyRoomPage />', () => {
     });
     it('should delete well', () => {
         axios.delete = jest.fn().mockResolvedValue();
+        component.update();
         const deleteButton = component.find('#my-room-delete-button').find('button');
         deleteButton.simulate('click');
         expect(axios.delete).toHaveBeenCalledTimes(1);
