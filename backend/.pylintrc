@@ -142,7 +142,14 @@ disable=print-statement,
         too-many-return-statements,
         too-many-branches,
         unused-variable,
-        unused-argument
+        unused-argument,
+        too-many-statements,
+        duplicate-code,
+        ungrouped-imports,
+        bare-except,
+        superflous-parens,
+        redifined-outer-name,
+        consider-using-enumerate,
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

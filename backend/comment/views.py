@@ -110,7 +110,7 @@ def room_comment(request, room_id):
                         'author': author_object
                     }
                 )
-        print(room_comment_list)
+        # print(room_comment_list)
         return JsonResponse(room_comment_list, safe=False)
 
     else:
