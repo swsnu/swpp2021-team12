@@ -10,7 +10,6 @@ import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 import MeetingDetailPage from './MeetingDetailPage';
 
-const runAllPromises = () => new Promise(setImmediate);
 jest.mock('axios');
 describe('<MeetingDetailPage />', () => {
   jest.spyOn(window, 'alert').mockImplementation(() => {});
