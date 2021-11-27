@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import RoomTemplate from '../RoomTemplate'
 import NoRoom from '../../../../components/room/MyRoom/NoRoom';
-// import MyRoom from '../../../../components/room/MyRoom/MyRoom';
+import MyRoom from '../../../../components/room/MyRoom/MyRoom';
 // Should implement with room backend
 function MyRoomPage() {
-    // const [isRoomExists] = useState(false)
-    // const tempRoom = {title: 'MyRoomTitle', description:'Welcome to My Room!', capacity: 4}
+    const [isRoomExists, setRoomExists] = useState(false)
+    const [room, setRoom] = useState()
+
+    useEffect(() => {
+        axios.get('/api/room/host/')
+            .then((res) => {
+                setRoom(res.data);
+                setRoomExists(true);
+            })
+            .catch(() => {
+                setRoomExists(false);
+            })
+    }, [])
+
     return (
         <RoomTemplate>
-            <NoRoom props/>
+            {(isRoomExists) ? 
+            <MyRoom room={room} onClickDeleteButton={() => {
+                axios.delete('/api/room/host/')
+                    .then(() => {
+                        setRoomExists(false);
+                    })
+            }}/> : 
+            <NoRoom props/>}
         </RoomTemplate>
     )
 }

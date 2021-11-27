@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import 'react-calendar/dist/Calendar.css';
-import Calendar from 'react-calendar';
+// import 'react-calendar/dist/Calendar.css';
+// import Calendar from 'react-calendar';
+import Calendar from 'react-select-date';
+import RoomMap from './RoomMap';
 
 function MyRoomRegister(props) {
   const { room, onClickConfirmHandler, history } = props;
   const [title, setTitle] = useState(room ? room.title : '');
   const [description, setDescription] = useState(room ? room.description : '');
-  const [dates] = useState();
+  const [dates, setDates] = useState([]);
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
+  const [address, setAddress] = useState(room ? room.address : '');
+  const [confirmDisable, setConfirmDisable] = useState(false);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -26,18 +30,34 @@ function MyRoomRegister(props) {
     }
   };
 
+  useEffect(() => {
+    if (
+      title !== '' &&
+      description !== '' &&
+      dates &&
+      capacity > 0 &&
+      address !== ''
+    ) {
+      setConfirmDisable(false);
+    }
+  }, [title, description, dates, capacity, address]);
+
+  useEffect(() => {
+    if (room) {
+      setTitle(room.title);
+      setDescription(room.description);
+      setCapacity(room.capacity);
+      setAddress(room.address);
+      setDates(room.dates);
+    }
+  }, [room]);
+
   return (
     <div className="MyRoomRegister">
       <Container text style={{ marginTop: '2em' }}>
-        <Form
-          id="my-room-register-form"
-          onSubmit={() => {
-            onClickConfirmHandler(title, description, capacity);
-            history.push('/mypage/room');
-          }}
-        >
+        <Form id="my-room-register-form">
           <Form.Input
-            id='my-room-register-title-input'
+            id="my-room-register-title-input"
             type="text"
             label="Title"
             style={{ width: '400px' }}
@@ -48,7 +68,15 @@ function MyRoomRegister(props) {
           <Grid columns="4" style={{ marginBottom: '1em' }}>
             <Grid.Row>
               <Grid.Column></Grid.Column>
-              <Calendar value={dates} />
+              {/* <Calendar value={dates} /> */}
+              <Calendar
+                defaultValue={dates}
+                onSelect={(date) => setDates(date)}
+                templateClr="blue"
+                selectDateType="multiple"
+                showDateInputField={false}
+                disableDates="past"
+              />
             </Grid.Row>
           </Grid>
           <Form.TextArea
@@ -70,11 +98,38 @@ function MyRoomRegister(props) {
               onChange={(e) => setCapacity(e.target.value)}
             />
             <Form.Button>Access Scope</Form.Button>
-            <Form.Button>Address</Form.Button>
+            <RoomMap
+              address={address}
+              addressHandler={(addr) => {
+                setAddress(addr);
+              }}
+            />
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
-            <Form.Button primary>Confirm</Form.Button>
-            <Form.Button id='my-room-register-back-button' onClick={onClickBackHandler}>Back</Form.Button>
+            <Form.Button
+              id="confirm-button"
+              onClick={() => {
+                onClickConfirmHandler(
+                  title,
+                  description,
+                  capacity,
+                  address,
+                  dates,
+                  history,
+                );
+                history.push('/mypage/room');
+              }}
+              primary
+              disabled={confirmDisable}
+            >
+              Confirm
+            </Form.Button>
+            <Form.Button
+              id="my-room-register-back-button"
+              onClick={onClickBackHandler}
+            >
+              Back
+            </Form.Button>
           </Grid>
         </Form>
       </Container>

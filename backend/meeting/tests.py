@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from django.core.files.uploadedfile import SimpleUploadedFile
 from user.models import User
 from meeting.models import Meeting
 import json
@@ -43,7 +44,8 @@ class MeetingTestCase(TestCase):
 
         # create a new meeting
         response = client.post('/api/meeting/',
-        json.dumps({'title': 'title2', 'content': 'content2', 'maxMembers': 4}),
+        json.dumps({'title': 'title2', 'content': 'content2', 'maxMembers': 4,'lat':1,
+        'lng':1,'description':"des",'time':10}),
         content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
@@ -98,7 +100,8 @@ class MeetingTestCase(TestCase):
 
         # edit meeting
         response = client.put('/api/meeting/' + str(meeting_id) + '/',
-        json.dumps({'title': 'newTitle', 'content': 'newContent', 'maxMembers': 5}),
+        json.dumps({'title': 'newTitle', 'content': 'newContent', 'maxMembers': 5,'lat':1,
+        'lng':1,'description':"des",'time':10}),
         content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -107,7 +110,8 @@ class MeetingTestCase(TestCase):
         response = client.post('/api/user/sign_in/',
         json.dumps({'email': 'bb@bb.bb', 'password': 'pw2'}), content_type='application/json')
         response = client.put('/api/meeting/' + str(meeting_id) + '/',
-        json.dumps({'title': 'title', 'content': 'content', 'maxMembers': 4}),
+        json.dumps({'title': 'title', 'content': 'content', 'maxMembers': 4,'lat':1,
+        'lng':1,'description':"des",'time':10}),
         content_type='application/json')
         self.assertEqual(response.status_code, 403)
         response = client.delete('/api/meeting/' + str(meeting_id) + '/')
@@ -173,12 +177,11 @@ class MeetingTestCase(TestCase):
         response = client.get('/api/meeting/' + str(meeting_id) + '/toggle/')
         self.assertEqual(response.status_code, 405)
 
-    def test_meeting_by_author(self):
+
+    def test_meeting_photo(self):
         client = Client()
 
-        # unauthenticated
-        response = client.get('/api/meeting/author/1/')
-        self.assertEqual(response.status_code, 401)
+        meeting_api = '/api/meeting/'
 
         # create meeting
         user = User.objects.get(name='name1')
@@ -190,23 +193,75 @@ class MeetingTestCase(TestCase):
         )
         meeting.current_members.add(user)
         meeting.save()
-        user = User.objects.get(name='name2')
+        meeting_id = meeting.id
+
+        #unauthenticated
+        response = client.post(meeting_api+str(meeting_id)+'/photo/')
+        self.assertEqual(response.status_code,401)
+        response = client.get(meeting_api+str(meeting_id)+'/photo/')
+        self.assertEqual(response.status_code,401)
+        response = client.delete(meeting_api+str(meeting_id)+'/photo/')
+        self.assertEqual(response.status_code,401)
+
+        #method not allowed
+        response = client.put(meeting_api+str(meeting_id)+'/photo/')
+        self.assertEqual(response.status_code,405)
+
+        #sign in
+        client.post('/api/user/sign_in/',
+        json.dumps({'email': 'aa@aa.aa', 'password': 'pw1'}), content_type='application/json')
+
+        #KeyError, ValueError
+        response = client.get(meeting_api+str(0)+'/photo/')
+        self.assertEqual(response.status_code,404)
+        response = client.post(meeting_api+str(meeting_id)+'/photo/',
+        json.dumps({'key': 'value'}), content_type='application/json')
+        self.assertEqual(response.status_code,400)
+
+        #success
+        photo = SimpleUploadedFile("file.png", b"file_content", content_type="image/png")
+        response = client.post(meeting_api+str(meeting_id)+'/photo/',{"photo":photo})
+        self.assertEqual(response.status_code,200)
+        response = client.get(meeting_api+str(meeting_id)+'/photo/')
+        self.assertEqual(response.status_code,200) 
+        response = client.delete(meeting_api+str(meeting_id)+'/photo/')
+        self.assertEqual(response.status_code,200)
+
+    def test_joined_meeting(self):
+        client = Client()
+
+        meeting_api = '/api/meeting/'
+
+        # create meeting
+        user = User.objects.get(name='name1')
+        meeting = Meeting.objects.create(
+            title='title1',
+            content='content1',
+            author=user,
+            max_members=4
+        )
+        meeting.current_members.add(user)
+        meeting.save()
         meeting = Meeting.objects.create(
             title='title2',
             content='content2',
             author=user,
             max_members=4
         )
-        meeting.current_members.add(user)
         meeting.save()
 
-        # get meetings by author
-        response = client.post('/api/user/sign_in/',
-        json.dumps({'email': 'aa@aa.aa', 'password': 'pw1'}), content_type='application/json')
-        author_id = user.id
-        response = client.get('/api/meeting/author/' + str(author_id) + '/')
-        self.assertEqual(response.status_code, 200)
+        #unauthorized
+        response = client.get(meeting_api+'joined/')
+        self.assertEqual(response.status_code,401)
 
-        # wrong method
-        response = client.post('/api/meeting/author/' + str(author_id) + '/')
-        self.assertEqual(response.status_code, 405)
+        #method not allowed
+        response = client.delete(meeting_api+'joined/')
+        self.assertEqual(response.status_code,405)
+
+        #sign in
+        client.post('/api/user/sign_in/',
+        json.dumps({'email': 'aa@aa.aa', 'password': 'pw1'}), content_type='application/json')
+
+        #success
+        response = client.get(meeting_api+'joined/')
+        self.assertEqual(response.status_code,200)

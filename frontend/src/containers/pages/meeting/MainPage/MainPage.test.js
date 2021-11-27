@@ -57,15 +57,19 @@ describe('<MainPage/>', () => {
     const mypageButton = component.find('#button_mypage').find('button');
     const signoutButton = component.find('#button_signout').find('button');
     const meetingListButton = component.find('#item_meetinglist').find('i');
+    const mymeetingButton = component.find('#mymeeting-item').find('i');
+    const myclublistButton = component.find('#myclublist-item').find('i');
     const createMeetingButton = component
       .find('#button_createmeeting')
       .find('button');
     meetingListButton.simulate('click');
+    mymeetingButton.simulate('click');
+    myclublistButton.simulate('click');
     mypageButton.simulate('click');
     signoutButton.simulate('click');
     createMeetingButton.simulate('click');
     expect(mypageButton.length).toBe(1);
     expect(signoutButton.length).toBe(1);
-    expect(historyMock.push).toHaveBeenCalledTimes(1);
+    expect(historyMock.push).toHaveBeenCalledTimes(3);
   });
 });

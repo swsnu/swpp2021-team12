@@ -36,8 +36,8 @@ describe('<MyRoomRegister />', () => {
         desInput.simulate('change', {target: { value: 'des'}});
         const capacityInput = component.find('#my-room-register-capacity-input').find('input');
         capacityInput.simulate('change', {target: {value: 5}});
-        const submit = component.find('#my-room-register-form').find('Form')
-        submit.simulate('submit');
+        const confirm = component.find('#confirm-button').find('button')
+        confirm.simulate('click');
         expect(spyCreate).toHaveBeenCalledTimes(1);
     });
 
