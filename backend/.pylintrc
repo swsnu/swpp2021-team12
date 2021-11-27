@@ -147,8 +147,8 @@ disable=print-statement,
         duplicate-code,
         ungrouped-imports,
         bare-except,
-        superflous-parens,
-        redifined-outer-name,
+        superfluous-parens,
+        redefined-outer-name,
         consider-using-enumerate,
 
 # Enable the message, report, category or checker with the given id(s). You can
