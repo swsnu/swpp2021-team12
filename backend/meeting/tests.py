@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
+from django.core.files.uploadedfile import SimpleUploadedFile
 from user.models import User
 from meeting.models import Meeting
 import json
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 class MeetingTestCase(TestCase):
     def setUp(self):
