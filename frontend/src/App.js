@@ -22,6 +22,7 @@ import ClubListPage from './containers/pages/club/ClubListPage/ClubListPage';
 import ClubCreatePage from './containers/pages/club/ClubCreatePage/ClubCreatePage';
 import ClubEditPage from './containers/pages/club/ClubEditPage/ClubEditPage';
 import ClubSearchPage from './containers/pages/club/ClubSearchPage/ClubSearchPage';
+import ClubPendingPage from './containers/pages/club/ClubPendingPage/ClubPendingPage';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="/club" exact component={ClubListPage} />
           <Route path="/club/create" exact component={ClubCreatePage} />
           <Route path="/club/:id/edit" exact component={ClubEditPage} />
+          <Route path="/club/:id/pending" exact component={ClubPendingPage} />
           <Route path="/club/search" exact component={ClubSearchPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>

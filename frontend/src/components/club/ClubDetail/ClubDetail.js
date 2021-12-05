@@ -10,7 +10,7 @@ function ClubDetail({
   onClickToggleButton,
 }) {
   return (
-    <div className="ClubDetail">
+    <div className="ClubDetail" style={{ margin: '10px' }}>
       <List divided relaxed>
         <List.Item>
           <Card>
@@ -48,6 +48,15 @@ function ClubDetail({
               {club.author.id === currentUser ? (
                 <>
                   <Button
+                    id="pending-button"
+                    size="tiny"
+                    style={{ margin: '5px' }}
+                    onClick={() => history.push(`/club/${club.id}/pending`)}
+                  >
+                    PENDING REQUESTS
+                  </Button>
+                  <br />
+                  <Button
                     className="EditButton"
                     id="editClubButton"
                     onClick={() =>
@@ -73,7 +82,7 @@ function ClubDetail({
                     <Button
                       className="QuitButton"
                       id="quitClubButton"
-                      onClick={() => onClickToggleButton(club.id)}
+                      onClick={() => onClickToggleButton(club.id, 0)}
                     >
                       QUIT
                     </Button>
@@ -81,7 +90,10 @@ function ClubDetail({
                     <Button
                       className="JoinButton"
                       id="joinClubButton"
-                      onClick={() => onClickToggleButton(club.id)}
+                      disabled={club.pendings.find(
+                        (member) => member.id === currentUser,
+                      )}
+                      onClick={() => onClickToggleButton(club.id, 1)}
                     >
                       JOIN
                     </Button>

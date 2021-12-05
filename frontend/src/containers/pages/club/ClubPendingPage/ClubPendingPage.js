@@ -1,36 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import * as axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
-import ClubList from '../../../../components/club/ClubList/ClubList';
+import ClubPending from '../../../../components/club/ClubPending/ClubPending';
 
-function ClubListPage(props) {
-  const [clubs, setClubs] = useState([]);
+function ClubPendingPage(props) {
+  const [pendings, setPendings] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const { currentUser } = useSelector(({ auth }) => ({
-    currentUser: auth.auth,
-  }));
+  // const { currentUser } = useSelector(({ auth }) => ({
+  //   currentUser: parseInt(auth.auth, 10),
+  // }));
   const { history } = props;
+  const { params } = props.match;
 
   useEffect(() => {
-    axios.get('/api/club/').then((res) => {
-      setClubs(
-        res.data,
-        // res.data.filter(
-        //   (club) =>
-        //     club.author.id === currentUser ||
-        //     club.members.find((member) => member.id === currentUser),
-        // ),
-      );
+    axios.get(`/api/club/${params.id}/pending/`).then((res) => {
+      setPendings(res.data);
     });
   }, [refresh]);
-
-  console.log(`currentUser is ${currentUser}.`);
   return (
-    <div className="ClubListPage">
+    <div className="ClubPendingPage">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
@@ -73,31 +65,20 @@ function ClubListPage(props) {
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
-              <ClubList
-                currentUser={parseInt(currentUser, 10)}
-                clubs={clubs}
-                // clubs={clubs.filter(
-                //   (club) =>
-                //     club.author.id === currentUser ||
-                //     club.members.find((member) => member.id === currentUser),
-                // )}
+              <ClubPending
+                pendings={pendings}
                 history={history}
-                onClickDeleteButton={(id) => {
+                onClickHandleButton={(id, acceptOrRefuse) => {
                   axios
-                    .delete(`/api/club/${id}/`)
-                    .then(setRefresh(!refresh))
-                    .catch(() => {
-                      window.alert('Error occured while deletion');
-                    });
-                }}
-                onClickToggleButton={(id, joinOrQuit) => {
-                  axios
-                    .put(`/api/club/${id}/toggle/`, {
-                      join_or_quit: joinOrQuit,
+                    .put(`/api/club/${params.id}/pending/`, {
+                      pending_id: id,
+                      accept_or_refuse: acceptOrRefuse,
                     })
                     .then(setRefresh(!refresh))
                     .catch(() => {
-                      window.alert('Error occured while quitting club');
+                      window.alert(
+                        'Error occured while handling a pending request',
+                      );
                     });
                 }}
               />
@@ -109,4 +90,4 @@ function ClubListPage(props) {
   );
 }
 
-export default ClubListPage;
+export default ClubPendingPage;

@@ -13,3 +13,7 @@ class Club(models.Model):
         User,
         related_name='club_members'
     )
+    pending_members = models.ManyToManyField(
+        User,
+        related_name='club_pending_members'
+    )
