@@ -101,14 +101,6 @@ function Club(props) {
                 {isEdit && (
                   <>
                     <Button
-                      id="pending-button"
-                      onClick={() =>
-                        history.push(`/club/${existingClub.id}/pending`)
-                      }
-                    >
-                      Pending Applicant
-                    </Button>
-                    <Button
                       id="delete-button"
                       onClick={() => onClickDeleteHandler(history)}
                     >

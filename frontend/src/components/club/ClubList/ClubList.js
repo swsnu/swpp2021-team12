@@ -9,7 +9,7 @@ function ClubList(props) {
     clubs,
     history,
     onClickDeleteButton,
-    onClickQuitButton,
+    onClickToggleButton,
   } = props;
   return (
     <div
@@ -18,37 +18,41 @@ function ClubList(props) {
     >
       <Segment>
         <Header>Created Clubs</Header>
-        {clubs &&
-          clubs
-            .filter((club) => club.author.id === currentUser)
-            .map((club) => (
-              <ClubDetail
-                club={club}
-                history={history}
-                currentUser={currentUser}
-                key={club.id}
-                isLeader={true}
-                onClickDeleteButton={onClickDeleteButton}
-              />
-            ))}
+        <Segment.Group horizontal>
+          {clubs &&
+            clubs
+              .filter((club) => club.author.id === currentUser)
+              .map((club) => (
+                <ClubDetail
+                  key={club.id}
+                  club={club}
+                  history={history}
+                  currentUser={currentUser}
+                  isLeader={true}
+                  onClickDeleteButton={onClickDeleteButton}
+                />
+              ))}
+        </Segment.Group>
       </Segment>
       <Segment>
         <Header>Joined Clubs</Header>
-        {clubs &&
-          clubs
-            .filter((club) =>
-              club.members.find((member) => member.id === currentUser),
-            )
-            .map((club) => (
-              <ClubDetail
-                club={club}
-                history={history}
-                currentUser={currentUser}
-                key={club.id}
-                isLeader={false}
-                onClickToggleButton={onClickQuitButton}
-              />
-            ))}
+        <Segment.Group horizontal>
+          {clubs &&
+            clubs
+              .filter((club) =>
+                club.members.find((member) => member.id === currentUser),
+              )
+              .map((club) => (
+                <ClubDetail
+                  club={club}
+                  history={history}
+                  currentUser={currentUser}
+                  key={club.id}
+                  isLeader={false}
+                  onClickToggleButton={onClickToggleButton}
+                />
+              ))}
+        </Segment.Group>
       </Segment>
 
       <Button
