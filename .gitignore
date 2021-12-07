@@ -8,6 +8,8 @@ frontend/coverage
 
 backend/db.sqlite3
 
+backend/.coverage
+
 __pycache__/
 
 .jpg
