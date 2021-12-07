@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
 import * as axios from 'axios';
 
@@ -14,6 +15,9 @@ function MeetingListPage(props) {
       setMeetings(res.data);
     });
   }, []);
+  const { currentUser } = useSelector(({ auth }) => ({
+    currentUser: parseInt(auth.auth, 10),
+  }));
 
   return (
     <div className="MeetingList">
@@ -52,7 +56,7 @@ function MeetingListPage(props) {
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
-              <MeetingList meetinglist={meetings} />
+              <MeetingList meetinglist={meetings} currentUser={currentUser} />
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>

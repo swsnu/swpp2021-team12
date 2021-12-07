@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from club.models import Club
 
 class Meeting(models.Model):
     title = models.CharField(max_length=50)
@@ -19,6 +20,11 @@ class Meeting(models.Model):
     description = models.CharField(max_length=50,null=True,blank=False)
     lat = models.FloatField(null=True,blank=False)
     lng = models.FloatField(null=True,blank=False)
+    is_public = models.BooleanField(null=True, blank=False)
+    accessible_clubs = models.ManyToManyField(
+        Club,
+        related_name='meeting_accessible_clubs'
+    )
     # access_scope
     # tag
     # location
