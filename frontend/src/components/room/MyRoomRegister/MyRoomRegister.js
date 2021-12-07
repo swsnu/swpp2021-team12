@@ -48,7 +48,9 @@ function MyRoomRegister(props) {
       setDescription(room.description);
       setCapacity(room.capacity);
       setAddress(room.address);
-      setDates(room.dates);
+      const dateList = [];
+      room.dates.forEach((date) => {dateList.push(date.date);});
+      setDates(dateList);
     }
   }, [room]);
 

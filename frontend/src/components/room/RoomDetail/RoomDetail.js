@@ -13,7 +13,7 @@ function RoomDetail(props) {
     useEffect(() => {
         const dateList = [];
         dates.forEach((date) => {
-            dateList.push({"date": date, "avaliableSlot": capacity, "totalSlot": capacity})
+            dateList.push({"date": date.date, "avaliableSlot": date.current_mem_num, "totalSlot": capacity})
         })
         setDates(dateList);
     }, [])
