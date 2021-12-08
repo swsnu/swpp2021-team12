@@ -105,6 +105,7 @@ function Meeting(props) {
 
               <Grid centered>
                 <MeetingScope
+                  existingScope={scope}
                   myClubs={
                     clubs &&
                     clubs.filter(

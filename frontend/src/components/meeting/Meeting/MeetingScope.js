@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Modal,
   Button,
@@ -10,8 +10,8 @@ import {
 
 function MeetingScope(props) {
   const [isScope, setIsScope] = useState(false);
+  const { myClubs, scopeHandler, existingScope } = props;
   const [isPublic, setIsPublic] = useState(true);
-  const { myClubs, scopeHandler } = props;
   const [selectedClubs, setSelectedClubs] = useState([]);
   const toggleClub = (id) => {
     if (selectedClubs.includes(id)) {
@@ -20,6 +20,18 @@ function MeetingScope(props) {
       setSelectedClubs([...selectedClubs, id]);
     }
   };
+  useEffect(() => {
+    if (existingScope) {
+      console.log(existingScope);
+      console.log(myClubs);
+      setIsPublic(existingScope.isPublic);
+      setSelectedClubs(
+        existingScope.selectedClubs
+          ? existingScope.selectedClubs.map((club) => club.id)
+          : [],
+      );
+    }
+  }, [existingScope]);
 
   return myClubs ? (
     <Modal
@@ -47,7 +59,9 @@ function MeetingScope(props) {
                 {club.title}{' '}
                 <Checkbox
                   toggle
-                  defaultChecked={selectedClubs.includes(club.id)}
+                  defaultChecked={
+                    selectedClubs ? selectedClubs.includes(club.id) : false
+                  }
                   onChange={() => toggleClub(club.id)}
                 />
               </Segment>
@@ -59,7 +73,6 @@ function MeetingScope(props) {
         <Button
           className="BackButton"
           onClick={() => {
-            setSelectedClubs([]);
             setIsScope(false);
           }}
         >

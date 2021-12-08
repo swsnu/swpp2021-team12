@@ -71,7 +71,7 @@ function MeetingEditPage(props) {
           is_public: scope.isPublic,
           accessible_clubs: scope.selectedClubs,
         })
-        .then((res) => history.push(`/meeting/${res.data.id}`));
+        .then(() => history.push(`/meeting/${id}`));
     }
   };
 

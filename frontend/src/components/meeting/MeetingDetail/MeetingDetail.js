@@ -27,7 +27,15 @@ function MeetingDetail(props) {
   return (
     <>
       {meetingDetail ? (
-        <div className="MeetingDetail">
+        <div className="MeetingDetail" style={{ marginTop: '5em' }}>
+          <Segment>
+            ACCESS SCOPE:
+            {meetingDetail.is_public
+              ? 'PUBLIC'
+              : meetingDetail.accessible_clubs.map((club) => (
+                  <Segment key={club.id}>{club.title}</Segment>
+                ))}
+          </Segment>
           <Container text style={{ marginTop: '4em', width: '700px' }}>
             <Grid divided="vertically">
               <Grid.Row centered>
@@ -36,7 +44,20 @@ function MeetingDetail(props) {
               <Grid.Row centered>
                 <Header>DESCRIPTION : {meetingDetail.content}</Header>
               </Grid.Row>
-              <Grid.Row centered>HOST : {meetingDetail.author.name}</Grid.Row>
+              <Grid.Row centered>
+                HOST :
+                <Popup
+                  content={meetingDetail.author.self_intro}
+                  key={meetingDetail.author.id}
+                  header={meetingDetail.author.name}
+                  trigger={
+                    <Image
+                      src={`/api/user/${meetingDetail.author.id}/profile/`}
+                      avatar
+                    />
+                  }
+                />
+              </Grid.Row>
               <Grid.Row centered>
                 <Segment placeholder size="small">
                   {meetingPhoto ? (
@@ -56,16 +77,21 @@ function MeetingDetail(props) {
               <Grid.Row>
                 <Container text style={{ width: '700px', background: '' }}>
                   <h5>Current Member: </h5>
-                  {meetingDetail.currentMembers.map((member) => (
-                    <Popup
-                      content={member.self_intro}
-                      key={member.id}
-                      header={member.name}
-                      trigger={
-                        <Image src={`/api/user/${member.id}/profile/`} avatar />
-                      }
-                    />
-                  ))}
+                  {meetingDetail.currentMembers
+                    .filter((member) => member.id !== meetingDetail.author.id)
+                    .map((member) => (
+                      <Popup
+                        content={member.self_intro}
+                        key={member.id}
+                        header={member.name}
+                        trigger={
+                          <Image
+                            src={`/api/user/${member.id}/profile/`}
+                            avatar
+                          />
+                        }
+                      />
+                    ))}
                   <p>Max Member: {meetingDetail.maxMembers}</p>
                 </Container>
               </Grid.Row>

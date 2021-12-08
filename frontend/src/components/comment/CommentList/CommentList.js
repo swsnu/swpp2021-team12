@@ -40,7 +40,7 @@ export default function CommentList(props) {
                         style={{
                           marginLeft: '10px',
                           marginTop: '5px',
-                          width: '70px',
+                          width: '45px',
                         }}
                         src={`/api/user/${comment.author.id}/profile/`}
                       />

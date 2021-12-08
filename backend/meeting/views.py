@@ -49,7 +49,7 @@ def meeting_(request):
                     'description': meeting.description},
                     'time': meeting.time,
                     'is_public': meeting.is_public,
-                    'accessible': accessible_member_list,
+                    'accessible_members': accessible_member_list,
                 }
             )
         return JsonResponse(meeting_all_list, safe=False)
@@ -138,8 +138,18 @@ def specified_meeting(request, meeting_id):
             member_list.append(member_object)
         is_public = target_meeting.is_public
         accessible_club_list = []
+        accessible_member_list = []
         for club in target_meeting.accessible_clubs.all():
-            accessible_club_list.append(club.id)
+            club_object = {
+                'id': club.id,
+                'title': club.title
+            }
+            accessible_club_list.append(club_object)
+            if club.author.id not in accessible_member_list:
+                accessible_member_list.append(club.author.id)
+            for member in club.members.all():
+                if member.id not in accessible_member_list:
+                    accessible_member_list.append(member.id)
         response_dict = {
             'id': meeting_id,
             'title': title,
@@ -151,7 +161,8 @@ def specified_meeting(request, meeting_id):
             ,'description':description},
             'time':time,
             'is_public': is_public,
-            'accessible_clubs': accessible_club_list
+            'accessible_clubs': accessible_club_list,
+            'accessible_members': accessible_member_list,
         }
         return JsonResponse(response_dict)
 
@@ -192,7 +203,7 @@ def specified_meeting(request, meeting_id):
             target_meeting.description = new_description
             target_meeting.time = new_time
             target_meeting.is_public = new_is_public
-            target_meeting.accessible_clubs = new_club_list
+            target_meeting.accessible_clubs.set(new_club_list)
             target_meeting.save()
             return HttpResponse(status=200)
 

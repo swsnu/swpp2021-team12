@@ -1,38 +1,32 @@
 import React, { useState } from 'react';
-import { Button, List, Modal, Segment, Icon, Image } from 'semantic-ui-react';
+import { Button, List, Modal, Segment, Icon, Header } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
 function Meeting({ meeting, history, currentUser }) {
   const accessible =
     meeting.author.id === currentUser ||
     meeting.is_public ||
-    meeting.accessible.includes(currentUser);
+    meeting.accessible_members.includes(currentUser);
   return (
     <Segment>
       <List divided relaxed>
         <List.Item>
           {accessible ? (
-            <Segment.Group horizontal>
+            <Segment.Group horizontal style={{ borderColor: 'green' }}>
               <Segment>
-                <Image src={`/api/user/${meeting.author.id}/profile/`} avatar />
+                <Header size="huge">{meeting.title}</Header>
               </Segment>
-              <Segment>{meeting.title}</Segment>
-              <Segment>{meeting.content}</Segment>
               <Segment compact>
-                <Button onClick={() => history.push(`/meeting/${meeting.id}`)}>
+                <Button
+                  primary
+                  onClick={() => history.push(`/meeting/${meeting.id}`)}
+                >
                   Go to Detail!
                 </Button>
               </Segment>
             </Segment.Group>
           ) : (
-            // <Button
-            //   fluid
-            //   className="meetingName"
-            //   onClick={() => history.push(`/meeting/${meeting.id}`)}
-            // >
-            //   {meeting.title}
-            // </Button>
-            <Segment>
+            <Segment style={{ borderColor: 'red' }}>
               <Icon name="lock" />
             </Segment>
           )}
