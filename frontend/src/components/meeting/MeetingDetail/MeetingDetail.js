@@ -7,11 +7,11 @@ import {
   Button,
   Grid,
   Header,
-  Popup,
   Image,
   Segment,
   Icon,
 } from 'semantic-ui-react';
+import UserInfo from '../../UserInfo';
 
 // TODO: Location
 function MeetingDetail(props) {
@@ -65,18 +65,8 @@ function MeetingDetail(props) {
                     <Header>DESCRIPTION : {meetingDetail.content}</Header>
                   </Grid.Row>
                   <Grid.Row centered>
-                    HOST :
-                    <Popup
-                      content={meetingDetail.author.self_intro}
-                      key={meetingDetail.author.id}
-                      header={meetingDetail.author.name}
-                      trigger={
-                        <Image
-                          src={`/api/user/${meetingDetail.author.id}/profile/`}
-                          avatar
-                        />
-                      }
-                    />
+                HOST :
+                <UserInfo user={meetingDetail.author} />
                   </Grid.Row>
                   <Grid.Row centered>
                     <Segment placeholder size="small">
@@ -98,21 +88,9 @@ function MeetingDetail(props) {
                     <Container text style={{ width: '700px', background: '' }}>
                       <h5>Current Member: </h5>
                       {meetingDetail.currentMembers
-                        .filter(
-                          (member) => member.id !== meetingDetail.author.id,
-                        )
+                        .filter((member) => member.id !== meetingDetail.author.id)
                         .map((member) => (
-                          <Popup
-                            content={member.self_intro}
-                            key={member.id}
-                            header={member.name}
-                            trigger={
-                              <Image
-                                src={`/api/user/${member.id}/profile/`}
-                                avatar
-                              />
-                            }
-                          />
+                          <UserInfo user={member} key={member.id} />
                         ))}
                       <p>Max Member: {meetingDetail.maxMembers}</p>
                     </Container>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Comment,
   Header,
@@ -9,7 +10,7 @@ import {
   Segment,
 } from 'semantic-ui-react';
 
-export default function CommentList(props) {
+function CommentList(props) {
   const {
     currentUser,
     comments,
@@ -17,6 +18,7 @@ export default function CommentList(props) {
     createComment,
     editComment,
     deleteComment,
+    history,
   } = props;
   const [newComment, setNewComment] = useState('');
 
@@ -33,8 +35,8 @@ export default function CommentList(props) {
                 <Comment key={comment.id}>
                   <Popup
                     content={comment.author.self_intro}
-                    key={comment.author.email}
-                    header={comment.author.name}
+                    key={comment.author.id}
+                    header={comment.author.email}
                     trigger={
                       <Comment.Avatar
                         style={{
@@ -49,7 +51,12 @@ export default function CommentList(props) {
                   <Comment.Content
                     style={{ textAlign: 'left', marginLeft: '8em' }}
                   >
-                    <Comment.Author as="a">
+                    <Comment.Author
+                      as="a"
+                      onClick={() =>
+                        history.push(`/profile/${comment.author.id}`)
+                      }
+                    >
                       {comment.author.name}
                     </Comment.Author>
                     <Comment.Text>{comment.content}</Comment.Text>
@@ -114,3 +121,5 @@ export default function CommentList(props) {
     </div>
   );
 }
+
+export default withRouter(CommentList);
