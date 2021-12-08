@@ -14,6 +14,7 @@ function MyRoomRegister(props) {
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
   const [address, setAddress] = useState(room ? room.address : '');
   const [confirmDisable, setConfirmDisable] = useState(false);
+  const [addressCheck, setAddressCheck] = useState(false);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -55,6 +56,12 @@ function MyRoomRegister(props) {
       setDates(dateList);
     }
   }, [room]);
+
+  useEffect(() => {
+    if(address !== '') {
+      setAddressCheck(true);
+    }
+  }, [address])
 
   return (
     <div className="MyRoomRegister">
@@ -113,6 +120,7 @@ function MyRoomRegister(props) {
               addressHandler={(addr) => {
                 setAddress(addr);
               }}
+              addressCheck={addressCheck}
             />
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>
