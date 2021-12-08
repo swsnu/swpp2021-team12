@@ -11,6 +11,8 @@ class Room(models.Model):
         related_name='host_of_room'
     )
     address = models.TextField()
+    lat = models.FloatField(null=True,blank=False)
+    lng = models.FloatField(null=True,blank=False)
     dates = models.TextField(null=True)
     # access scope
 

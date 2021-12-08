@@ -21,11 +21,14 @@ def register_room(request):
             capacity = json.loads(body)['capacity']
             address = json.loads(body)['address']
             dates = json.loads(body)['dates']
+            lat = json.loads(body)['lat']
+            lng = json.loads(body)['lng']
+
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
 
         # Make Room Object
-        room = Room.objects.create(title=title, description=description, capacity=capacity, host=user, address=address, dates=dates)
+        room = Room.objects.create(title=title, description=description, capacity=capacity, host=user, address=address, dates=dates, lat=lat, lng=lng)
         room.save()
 
         # Make Date Objects related to Room
@@ -48,7 +51,7 @@ def room(request, room_id):
             return HttpResponseNotFound()
         date_list = list(room.date.all().values('date', 'current_mem_num'))
         # response.data = {id: int, title: string, description: string, capacity: int, address: string, host_id: int, dates: [{ date: string, current_mem_num: int }, ]}
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id, 'dates': date_list}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id,'lat':room.lat, 'lng':room.lng, 'dates': date_list}
         return JsonResponse(response_dict)
     else:
         return HttpResponseNotAllowed(['GET'])
@@ -63,7 +66,7 @@ def host_room(request):
             return HttpResponseNotFound()
         date_list = list(room.date.all().values('date', 'current_mem_num'))
         # response.data = {id: int, title: string, description: string, capacity: int, address: string, host_id: int, dates: [{ date: string, current_mem_num: int }, ]}
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id, 'dates': date_list}
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id,'lat':room.lat,'lng':room.lng, 'dates': date_list}
         return JsonResponse(response_dict)
 
     elif request.method == 'PUT':
@@ -75,6 +78,8 @@ def host_room(request):
             capacity = json.loads(body)['capacity']
             address = json.loads(body)['address']
             dates = json.loads(body)['dates']
+            lat = json.loads(body)['lat']
+            lng = json.loads(body)['lng']
         except (Room.DoesNotExist):
             return HttpResponseNotFound()
         except (KeyError, JSONDecodeError):
@@ -94,7 +99,7 @@ def host_room(request):
                 date = Date.objects.create(date=new_date, room=room, current_mem_num=0, year=year, month=month, day=day)
                 date.save()
 
-        room = Room(id=room.id, title=title, description=description, capacity=capacity, address=address, host=user, dates=dates)
+        room = Room(id=room.id, title=title, description=description, capacity=capacity, address=address, host=user, dates=dates, lat=lat, lng=lng)
         room.save()
         return HttpResponse(status=200)
 

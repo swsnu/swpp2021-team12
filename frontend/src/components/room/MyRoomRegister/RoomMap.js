@@ -19,11 +19,12 @@ function RoomMap(props) {
   const [map, setMap] = useState(null);
   const [searchedAddress, setSearchedAddress] = useState('');
   const [searchedMarker, setSearchedMarker] = useState(null);
+  const [location, setLocation] = useState(null);
   const onCompletePost = (data) => {
     setSearchedAddress(data.address);
   };
 
-  const { address, addressHandler } = props;
+  const { address, addressHandler, locationHandler } = props;
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -51,6 +52,7 @@ function RoomMap(props) {
           position: { lat: result[0].y, lng: result[0].x },
           info: searchedAddress,
         });
+        setLocation({ lat: result[0].y, lng: result[0].x });
         map.setBounds(bounds);
       });
     }
@@ -109,6 +111,7 @@ function RoomMap(props) {
           onClick={() => {
             setIsAddress(false);
             addressHandler(searchedAddress);
+            locationHandler(location);
           }}
           positive
         />
