@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Grid, Segment, Button } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import MeetingScope from './MeetingScope';
 import MeetingMap from './MeetingMap';
 import MeetingTime from './MeetingTime';
 import Photo from '../../../containers/common/Photo';
@@ -10,6 +11,7 @@ function Meeting(props) {
   const [content, setContent] = useState('');
   const [maxMembers, setMaxMembers] = useState(10);
   const [isDisable, setIsDisable] = useState(false);
+  const [scope, setScope] = useState(null);
   const [location, setLocation] = useState({
     position: { lat: 37.45644261269604, lng: 126.94975418851041 },
     description: 'Welcome to new Meetnig!',
@@ -22,12 +24,18 @@ function Meeting(props) {
   // 0: not modified 1: modified 2: deleted
   // 백엔드에 보낼땐 time.getTime()/1000 하면 unix 타임스탬프가 된다.
   const {
+    currentUser,
     onClickConfirmHandler,
     existingMeeting,
     existingPhoto,
     history,
     meetingId,
+    clubs,
   } = props;
+
+  const scopeHandler = (isPublic, selectedClubs) => {
+    setScope({ isPublic, selectedClubs });
+  };
 
   const locationHandler = (currentLocation, description) => {
     setLocation({ position: currentLocation, description });
@@ -44,18 +52,22 @@ function Meeting(props) {
       setMaxMembers(existingMeeting.maxMembers);
       setLocation(existingMeeting.location);
       setTime(existingMeeting.time);
+      setScope({
+        isPublic: existingMeeting.is_public,
+        selectedClubs: existingMeeting.accessible_clubs,
+      });
       setDetailImageUrl(existingPhoto);
     }
   }, [existingMeeting, existingPhoto]);
 
   useEffect(() => {
     console.log(isDisable);
-    if (title === '' || content === '' || !location || !time) {
+    if (title === '' || content === '' || !scope || !location || !time) {
       setIsDisable(true);
     } else {
       setIsDisable(false);
     }
-  }, [title, content, location, time]);
+  }, [title, content, scope, location, time]);
 
   return (
     <div>
@@ -86,15 +98,25 @@ function Meeting(props) {
                 label={`Maximum Members: ${maxMembers}`}
                 type="range"
                 value={maxMembers}
-                min="0"
+                min="1"
                 max="20"
                 onChange={(e) => setMaxMembers(e.target.value)}
               />
 
               <Grid centered>
-                <Button size="small" key="scope">
-                  Scope
-                </Button>
+                <MeetingScope
+                  myClubs={
+                    clubs &&
+                    clubs.filter(
+                      (club) =>
+                        club.author.id === currentUser ||
+                        club.members.find(
+                          (member) => member.id === currentUser,
+                        ),
+                    )
+                  }
+                  scopeHandler={scopeHandler}
+                />
                 <MeetingMap
                   location={location}
                   locationHandler={locationHandler}
@@ -116,6 +138,7 @@ function Meeting(props) {
                       history,
                       detailImageFile,
                       isImageModified,
+                      scope,
                       location,
                       time,
                     )

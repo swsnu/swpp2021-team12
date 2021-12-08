@@ -1,19 +1,41 @@
 import React, { useState } from 'react';
-import { Button, List, Modal, Segment } from 'semantic-ui-react';
+import { Button, List, Modal, Segment, Icon, Image } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
-function Meeting({ meeting, history }) {
+function Meeting({ meeting, history, currentUser }) {
+  const accessible =
+    meeting.author.id === currentUser ||
+    meeting.is_public ||
+    meeting.accessible.includes(currentUser);
   return (
     <Segment>
       <List divided relaxed>
         <List.Item>
-          <Button
-            fluid
-            className="meetingName"
-            onClick={() => history.push(`/meeting/${meeting.id}`)}
-          >
-            {meeting.title}
-          </Button>
+          {accessible ? (
+            <Segment.Group horizontal>
+              <Segment>
+                <Image src={`/api/user/${meeting.author.id}/profile/`} avatar />
+              </Segment>
+              <Segment>{meeting.title}</Segment>
+              <Segment>{meeting.content}</Segment>
+              <Segment compact>
+                <Button onClick={() => history.push(`/meeting/${meeting.id}`)}>
+                  Go to Detail!
+                </Button>
+              </Segment>
+            </Segment.Group>
+          ) : (
+            // <Button
+            //   fluid
+            //   className="meetingName"
+            //   onClick={() => history.push(`/meeting/${meeting.id}`)}
+            // >
+            //   {meeting.title}
+            // </Button>
+            <Segment>
+              <Icon name="lock" />
+            </Segment>
+          )}
         </List.Item>
       </List>
     </Segment>
@@ -26,7 +48,7 @@ function MeetingList(props) {
   const [time, setTime] = useState(false);
   const [tag, setTag] = useState(false);
 
-  const { history, meetinglist } = props;
+  const { history, meetinglist, currentUser } = props;
 
   return (
     <div style={{ marginTop: '2em', marginLeft: '15em', marginRight: '5em' }}>
@@ -103,7 +125,12 @@ function MeetingList(props) {
       <Segment>
         {meetinglist &&
           meetinglist.map((meeting) => (
-            <Meeting meeting={meeting} history={history} key={meeting.id} />
+            <Meeting
+              meeting={meeting}
+              history={history}
+              key={meeting.id}
+              currentUser={currentUser}
+            />
           ))}
       </Segment>
 
