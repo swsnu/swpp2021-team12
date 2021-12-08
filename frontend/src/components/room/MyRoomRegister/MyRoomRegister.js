@@ -13,6 +13,7 @@ function MyRoomRegister(props) {
   const [dates, setDates] = useState([]);
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
   const [address, setAddress] = useState(room ? room.address : '');
+  const [location, setLocation] = useState(null);
   const [confirmDisable, setConfirmDisable] = useState(false);
   const [addressCheck, setAddressCheck] = useState(false);
 
@@ -52,7 +53,9 @@ function MyRoomRegister(props) {
       setCapacity(room.capacity);
       setAddress(room.address);
       const dateList = [];
-      room.dates.forEach((date) => {dateList.push(date.date);});
+      room.dates.forEach((date) => {
+        dateList.push(date.date);
+      });
       setDates(dateList);
     }
   }, [room]);
@@ -120,6 +123,9 @@ function MyRoomRegister(props) {
               addressHandler={(addr) => {
                 setAddress(addr);
               }}
+              locationHandler={(locat) => {
+                setLocation(locat);
+              }}
               addressCheck={addressCheck}
             />
           </Grid>
@@ -132,6 +138,7 @@ function MyRoomRegister(props) {
                   description,
                   capacity,
                   address,
+                  location,
                   dates,
                   history,
                 );
