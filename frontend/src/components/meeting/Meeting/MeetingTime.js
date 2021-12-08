@@ -13,7 +13,7 @@ function MeetingTime(props) {
       onOpen={() => setIsTime(true)}
       open={isTime}
       trigger={
-        <Button id="time-button" size="small">
+        <Button id="time-button" size="small" primary={time}>
           Time
         </Button>
       }
@@ -22,6 +22,7 @@ function MeetingTime(props) {
       <Modal.Description>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDateTimePicker
+            autoOk={true}
             id="timepicker"
             displayStaticWrapperAs="desktop"
             openTo="day"

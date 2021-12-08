@@ -12,11 +12,8 @@ function Meeting(props) {
   const [maxMembers, setMaxMembers] = useState(10);
   const [isDisable, setIsDisable] = useState(false);
   const [scope, setScope] = useState(null);
-  const [location, setLocation] = useState({
-    position: { lat: 37.45644261269604, lng: 126.94975418851041 },
-    description: 'Welcome to new Meetnig!',
-  });
-  const [time, setTime] = useState(new Date());
+  const [location, setLocation] = useState(null);
+  const [time, setTime] = useState(null);
 
   const [detailImageFile, setDetailImageFile] = useState(null);
   const [detailImageUrl, setDetailImageUrl] = useState(null);
@@ -51,7 +48,7 @@ function Meeting(props) {
       setContent(existingMeeting.content);
       setMaxMembers(existingMeeting.maxMembers);
       setLocation(existingMeeting.location);
-      setTime(existingMeeting.time);
+      setTime(new Date(existingMeeting.time));
       setScope({
         isPublic: existingMeeting.is_public,
         selectedClubs: existingMeeting.accessible_clubs,
@@ -61,7 +58,6 @@ function Meeting(props) {
   }, [existingMeeting, existingPhoto]);
 
   useEffect(() => {
-    console.log(isDisable);
     if (title === '' || content === '' || !scope || !location || !time) {
       setIsDisable(true);
     } else {
@@ -130,7 +126,7 @@ function Meeting(props) {
                   size="small"
                   className="ConfirmButton"
                   id="confirm-button"
-                  disabled={false}
+                  disabled={isDisable}
                   onClick={() =>
                     onClickConfirmHandler(
                       title,
@@ -166,6 +162,7 @@ function Meeting(props) {
           </Grid.Column>
           <Grid.Column>
             <Grid centered style={{ padding: '8em ' }} vertical>
+              {time && <p>{time.toLocaleString()}</p>}
               <Photo
                 isCircular={false}
                 photo={detailImageUrl}

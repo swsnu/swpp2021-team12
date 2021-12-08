@@ -46,7 +46,7 @@ function MeetingMap(props) {
       onOpen={() => setIsLocation(true)}
       open={isLocation}
       trigger={
-        <Button id="location_button" size="small">
+        <Button id="location_button" size="small" primary={selectedMarker}>
           Location
         </Button>
       }

@@ -39,7 +39,7 @@ function MeetingScope(props) {
       onOpen={() => setIsScope(true)}
       open={isScope}
       trigger={
-        <Button id="scope_button" size="small">
+        <Button id="scope_button" size="small" primary={existingScope}>
           Scope
         </Button>
       }

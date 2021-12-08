@@ -11,7 +11,7 @@ import axios from 'axios';
 import MeetingDetailPage from './MeetingDetailPage';
 
 jest.mock('axios');
-const runAllPromises = () => new Promise(setImmediate);
+// const runAllPromises = () => new Promise(setImmediate);
 describe('<MeetingDetailPage />', () => {
   jest.spyOn(window, 'alert').mockImplementation(() => {});
   const mockStore = configureMockStore();
