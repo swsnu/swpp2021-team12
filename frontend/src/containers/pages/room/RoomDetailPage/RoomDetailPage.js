@@ -14,6 +14,10 @@ function RoomDetailPage(props) {
         currentUser: auth.auth,
     }));
 
+    const createRequest = () => {
+        
+    }
+
     const createComment = (content, articleId) => {
         axios
             .post(`/api/comment/`, { content, section: 'room', articleId })
@@ -61,6 +65,7 @@ function RoomDetailPage(props) {
             comments={comments} 
             currentUser={parseInt(currentUser, 10)} 
             articleId={parseInt(id, 10)}
+            createRequest={createRequest}
             createComment={createComment}
             editComment={editComment}
             deleteComment={deleteComment}
