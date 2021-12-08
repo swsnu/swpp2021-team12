@@ -5,6 +5,7 @@ import Club from '../../../../components/club/Club/Club';
 import PageTemplate from '../../../common/PageTemplate';
 
 function ClubEditPage(props) {
+
   const { params } = props.match;
   const { club } = props.location.state;
   const onClickConfirmHandler = (title, content, membersToKick, history) => {
@@ -30,12 +31,6 @@ function ClubEditPage(props) {
       .catch(() => window.alert('Error occured!'));
   };
 
-  const mockMembers = [
-    { id: 1, name: 'kang' },
-    { id: 2, name: 'kim' },
-    { id: 3, name: 'dom' },
-  ];
-
   return (
     <PageTemplate>
       <Club
@@ -43,7 +38,6 @@ function ClubEditPage(props) {
         isEdit={true}
         onClickDeleteHandler={onClickDeleteHandler}
         onClickConfirmHandler={onClickConfirmHandler}
-        mockMembers={mockMembers}
       />
     </PageTemplate>
   );

@@ -37,6 +37,7 @@ function Main(props) {
   const [roomBubble, setRoomBubble] = useState([]);
 
   const roomMarkers = () =>
+    roomBubble &&
     roomBubble.map((room) => (
       <div key={room.id}>
         <MapMarker
@@ -85,6 +86,7 @@ function Main(props) {
     ));
 
   const meetingMarkers = () =>
+    meetingBubble &&
     meetingBubble.map((meeting) => (
       <div key={meeting.id}>
         <MapMarker

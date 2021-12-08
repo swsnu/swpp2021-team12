@@ -13,6 +13,7 @@ import { withRouter } from 'react-router-dom';
 function Club(props) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [members, setMembers] = useState([]);
   const [isDisable, setIsDisable] = useState(true);
   const [membersToKick, setMembersToKick] = useState([]);
 
@@ -22,11 +23,11 @@ function Club(props) {
     onClickDeleteHandler,
     isEdit,
     history,
-    mockMembers,
   } = props;
 
   useEffect(() => {
     if (existingClub) {
+      setMembers(existingClub.members);
       setTitle(existingClub.title);
       setContent(existingClub.content);
     }
@@ -45,7 +46,7 @@ function Club(props) {
       <Segment style={{ padding: '8em 5em' }} vertical>
         <Grid columns="1" style={{ padding: '1em 20em' }}>
           <Grid.Column>
-            <h1>Create Your Club!</h1>
+            <h1>{isEdit ? 'Edit Your Club!' : 'Create You Club!'}</h1>
             <br />
             <Form id="club-form">
               <Form.Input
@@ -65,7 +66,7 @@ function Club(props) {
                 <Grid centered>
                   <Header>Members</Header>
                   <List divided verticalAlign="middle">
-                    {mockMembers.map((member) => (
+                    {members.map((member) => (
                       <List.Item key={member.id}>
                         <List.Content floated="right">
                           {membersToKick.includes(member.id) ? (

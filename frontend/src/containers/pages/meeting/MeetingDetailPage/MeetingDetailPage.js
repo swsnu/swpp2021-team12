@@ -20,6 +20,7 @@ function MeetingDetailPage(props) {
       .get(`/api/meeting/${id}/`)
       .then((res) => {
         setMeetingDetail(res.data);
+        console.log(res.data);
       })
       .then(() => {
         axios.get(`/api/comment/meeting/${id}/`).then((res) => {
@@ -34,16 +35,52 @@ function MeetingDetailPage(props) {
       });
   }, [refresh]);
 
+  const commentList = () => (
+    <>
+      <CommentList
+        currentUser={currentUser}
+        comments={comments}
+        articleId={parseInt(id, 10)}
+        createComment={(content, articleId) => {
+          axios
+            .post(`/api/comment/`, {
+              content,
+              section: 'meeting',
+              articleId,
+            })
+            .then(setRefresh(!refresh))
+            .catch(() => {
+              window.alert('Error occured while creating a new comment');
+            });
+        }}
+        editComment={(content, commentId) => {
+          axios
+            .put(`/api/comment/${commentId}/`, {
+              content,
+            })
+            .then(setRefresh(!refresh))
+            .catch(() => {
+              window.alert('Error occured while editing a comment');
+            });
+        }}
+        deleteComment={(commentId) => {
+          axios
+            .delete(`/api/comment/${commentId}/`)
+            .then(setRefresh(!refresh))
+            .catch(() => {
+              window.alert('Error occured whild deleting a comment');
+            });
+        }}
+      />
+    </>
+  );
+
   return (
     <div className="MeetingDetailPage">
-      {/* TODO => non-accessible member direct url get out
-
-       (meetingDetail.accessible_members.includes(currentUser) ||
-      meetingDetail.author.id === currentUser || meetingDetail.is_public) ?  */}
       <PageTemplate>
         <MeetingDetail
           currentUser={parseInt(currentUser, 10)}
-          meetingDetail={meetingDetail}
+          meetingDetailData={meetingDetail}
           meetingPhoto={meetingPhoto}
           onClickDeleteButton={() => {
             axios
@@ -63,41 +100,7 @@ function MeetingDetailPage(props) {
                 window.alert('Error occured while making toggle');
               });
           }}
-        />
-        <CommentList
-          currentUser={currentUser}
-          comments={comments}
-          articleId={parseInt(id, 10)}
-          createComment={(content, articleId) => {
-            axios
-              .post(`/api/comment/`, {
-                content,
-                section: 'meeting',
-                articleId,
-              })
-              .then(setRefresh(!refresh))
-              .catch(() => {
-                window.alert('Error occured while creating a new comment');
-              });
-          }}
-          editComment={(content, commentId) => {
-            axios
-              .put(`/api/comment/${commentId}/`, {
-                content,
-              })
-              .then(setRefresh(!refresh))
-              .catch(() => {
-                window.alert('Error occured while editing a comment');
-              });
-          }}
-          deleteComment={(commentId) => {
-            axios
-              .delete(`/api/comment/${commentId}/`)
-              .then(setRefresh(!refresh))
-              .catch(() => {
-                window.alert('Error occured whild deleting a comment');
-              });
-          }}
+          commentList={commentList}
         />
       </PageTemplate>
     </div>
