@@ -7,6 +7,10 @@ from .models import Room, Date
 
 # Register new Room
 def register_room(request):
+    if request.method == 'GET':
+        room_list = [room for room in Room.objects.all().values()]
+        return JsonResponse(room_list, safe=False)
+
     if request.method == 'POST':
         user = request.user
         # Json data load from request
@@ -33,7 +37,7 @@ def register_room(request):
             new_date.save()
         return HttpResponse(status=201)
     else:
-        return HttpResponseNotAllowed(['POST'])
+        return HttpResponseNotAllowed(['GET', 'POST'])
 
 # Get an user's room data
 def room(request, room_id):
