@@ -11,7 +11,7 @@ function MeetingDetailPage(props) {
   const [comments, setComments] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
-    currentUser: auth.auth,
+    currentUser: parseInt(auth.auth, 10),
   }));
   const { history } = props;
   const { id } = props.match.params;
@@ -36,6 +36,10 @@ function MeetingDetailPage(props) {
 
   return (
     <div className="MeetingDetailPage">
+      {/* TODO => non-accessible member direct url get out
+
+       (meetingDetail.accessible_members.includes(currentUser) ||
+      meetingDetail.author.id === currentUser || meetingDetail.is_public) ?  */}
       <PageTemplate>
         <MeetingDetail
           currentUser={parseInt(currentUser, 10)}
@@ -61,12 +65,16 @@ function MeetingDetailPage(props) {
           }}
         />
         <CommentList
-          currentUser={parseInt(currentUser, 10)}
+          currentUser={currentUser}
           comments={comments}
           articleId={parseInt(id, 10)}
           createComment={(content, articleId) => {
             axios
-              .post(`/api/comment/`, { content, section: 'meeting', articleId })
+              .post(`/api/comment/`, {
+                content,
+                section: 'meeting',
+                articleId,
+              })
               .then(setRefresh(!refresh))
               .catch(() => {
                 window.alert('Error occured while creating a new comment');
