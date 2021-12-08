@@ -13,3 +13,15 @@ class Room(models.Model):
     address = models.TextField()
     dates = models.TextField(null=True)
     # access scope
+
+class Date(models.Model):
+    date = models.CharField(max_length=30)
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name='date',
+    )
+    current_mem_num = models.IntegerField(default=0)
+    year = models.CharField(max_length=4)
+    month = models.CharField(max_length=4)
+    day = models.CharField(max_length=4)

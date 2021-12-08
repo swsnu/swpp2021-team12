@@ -16,8 +16,8 @@ function MyRoom(props) {
     const dateList = [];
     dates.forEach((date) => {
       dateList.push({
-        date,
-        avaliableSlot: capacity,
+        date: date.date,
+        avaliableSlot: date.current_mem_num,
         totalSlot: capacity,
       });
     });
