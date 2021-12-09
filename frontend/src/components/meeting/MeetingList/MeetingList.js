@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Button, List, Modal, Segment, Icon, Header } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Button, List, Segment, Icon, Header } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import MeetingSearch from './MeetingSearch';
 
 function Meeting({ meeting, history, currentUser }) {
   const accessible =
@@ -37,88 +38,37 @@ function Meeting({ meeting, history, currentUser }) {
 }
 
 function MeetingList(props) {
-  const [open, setOpen] = useState(false);
-  const [location, setLocation] = useState(false);
-  const [time, setTime] = useState(false);
-  const [tag, setTag] = useState(false);
-
+  const [currentList, setCurrentList] = useState(null);
   const { history, meetinglist, currentUser } = props;
+
+  const onClickFilterHandler = (keyword) => {
+    const input = keyword.toUpperCase();
+    let searchList;
+    if (input === '') {
+      searchList = meetinglist;
+    } else {
+      searchList = currentList.filter((meeting) => {
+        if (meeting.title.toUpperCase().indexOf(input) > -1) {
+          return true;
+        }
+        return false;
+      });
+    }
+    setCurrentList(searchList);
+  };
+
+  useEffect(() => {
+    if (meetinglist) {
+      setCurrentList(meetinglist);
+    }
+  }, [meetinglist]);
 
   return (
     <div style={{ marginTop: '2em', marginLeft: '15em', marginRight: '5em' }}>
-      <Modal
-        className="modal"
-        onOpen={() => setOpen(true)}
-        open={open}
-        trigger={
-          <Button
-            className="filterButton"
-            onClick={() => {
-              setLocation(true);
-              setTime(false);
-              setTag(false);
-            }}
-          >
-            Filter
-          </Button>
-        }
-      >
-        <Modal.Header>Filter</Modal.Header>
-        <Modal.Description>
-          <Button
-            className="location"
-            onClick={() => {
-              setLocation(true);
-              setTime(false);
-              setTag(false);
-            }}
-          >
-            Location
-          </Button>
-          <Button
-            className="time"
-            onClick={() => {
-              setLocation(false);
-              setTime(true);
-              setTag(false);
-            }}
-          >
-            Time
-          </Button>
-          <Button
-            className="tag"
-            onClick={() => {
-              setLocation(false);
-              setTime(false);
-              setTag(true);
-            }}
-          >
-            #Tag
-          </Button>
-        </Modal.Description>
-        <Modal.Description>
-          {location === true && <h1>Should contain Map</h1>}
-          {time === true && <h1>Should contain Calendar</h1>}
-          {tag === true && <h1>Should contain list of tags</h1>}
-        </Modal.Description>
-        <Modal.Actions>
-          <Button className="back" onClick={() => setOpen(false)}>
-            Back
-          </Button>
-          <Button
-            className="confirm"
-            content="Confirm"
-            labelPosition="right"
-            icon="checkmark"
-            onClick={() => setOpen(false)}
-            positive
-          />
-        </Modal.Actions>
-      </Modal>
-
+      <MeetingSearch onClickFilterHandler={onClickFilterHandler} />
       <Segment>
-        {meetinglist &&
-          meetinglist.map((meeting) => (
+        {currentList &&
+          currentList.map((meeting) => (
             <Meeting
               meeting={meeting}
               history={history}

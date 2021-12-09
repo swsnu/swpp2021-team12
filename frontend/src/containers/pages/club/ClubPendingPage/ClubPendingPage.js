@@ -9,7 +9,7 @@ import ClubPending from '../../../../components/club/ClubPending/ClubPending';
 
 function ClubPendingPage(props) {
   const [pendings, setPendings] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
   // const { currentUser } = useSelector(({ auth }) => ({
   //   currentUser: parseInt(auth.auth, 10),
   // }));
@@ -20,7 +20,7 @@ function ClubPendingPage(props) {
     axios.get(`/api/club/${params.id}/pending/`).then((res) => {
       setPendings(res.data);
     });
-  }, [refresh]);
+  }, []);
   return (
     <div className="ClubPendingPage">
       <PageTemplate>
@@ -74,7 +74,11 @@ function ClubPendingPage(props) {
                       pending_id: id,
                       accept_or_refuse: acceptOrRefuse,
                     })
-                    .then(setRefresh(!refresh))
+                    .then(() => {
+                      setPendings(
+                        pendings.filter((request) => request.id !== id),
+                      );
+                    })
                     .catch(() => {
                       window.alert(
                         'Error occured while handling a pending request',

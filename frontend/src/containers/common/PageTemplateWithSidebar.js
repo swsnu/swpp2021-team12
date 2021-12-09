@@ -3,7 +3,9 @@ import { withRouter } from 'react-router-dom';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
 import PageTemplate from './PageTemplate';
 
-function PageTemplateWithSidebar({ children, history }) {
+function PageTemplateWithSidebar(props) {
+  const { children, history, type } = props;
+
   const meetingItems = () => (
     <Sidebar
       as={Menu}
@@ -29,6 +31,43 @@ function PageTemplateWithSidebar({ children, history }) {
       >
         <Icon name="calendar alternate" />
         My Meetnigs
+      </Menu.Item>
+      <Menu.Item
+        id="myclublist-item"
+        as="a"
+        onClick={() => history.push('/club')}
+      >
+        <Icon name="address book outline" />
+        My Club List
+      </Menu.Item>
+    </Sidebar>
+  );
+
+  const clubItems = () => (
+    <Sidebar
+      as={Menu}
+      animation="overlay"
+      icon="labeled"
+      inverted
+      vertical
+      visible
+      width="thin"
+    >
+      <Menu.Item
+        id="item_meetinglist"
+        as="a"
+        onClick={() => history.push('/meeting')}
+      >
+        <Icon name="list" />
+        Show Whole Meetings
+      </Menu.Item>
+      <Menu.Item
+        id="item_clublist"
+        as="a"
+        onClick={() => history.push('/club/search')}
+      >
+        <Icon name="calendar alternate" />
+        Show Whole Club List
       </Menu.Item>
       <Menu.Item
         id="myclublist-item"
@@ -70,37 +109,23 @@ function PageTemplateWithSidebar({ children, history }) {
     </Sidebar>
   );
 
+  function ChooseSideBar() {
+    if (type === 'meeting') {
+      return meetingItems();
+    }
+    if (type === 'club') {
+      return clubItems();
+    }
+    if (type === 'room') {
+      return roomItems();
+    }
+  }
+
   return (
     <div>
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
-          <Sidebar
-            as={Menu}
-            animation="overlay"
-            icon="labeled"
-            inverted
-            vertical
-            visible
-            width="thin"
-          >
-            <Menu.Item
-              id="item_myprofile"
-              as="a"
-              onClick={() => history.push('/mypage')}
-            >
-              <Icon name="list" />
-              My Profile
-            </Menu.Item>
-            <Menu.Item
-              id="item_myroom"
-              as="a"
-              onClick={() => history.push('/mypage/room')}
-            >
-              <Icon name="address book outline" />
-              My Room
-            </Menu.Item>
-          </Sidebar>
-
+          <ChooseSideBar />
           <Sidebar.Pusher>
             <Segment
               textAlign="center"
