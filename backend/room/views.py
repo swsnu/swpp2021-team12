@@ -79,8 +79,9 @@ def host_room(request):
         date_list = list(room.date.all().values('date', 'current_mem_num'))
         pending_list = []
         for request in RoomRequest.objects.all():
-            if(request.request_date.room.id == room_id):
+            if(request.request_date.room.id == room.id):
                 pending = {
+                    'id': request.id,
                     'requester': {
                         'id': request.requester.id,
                         'name': request.requester.name,
@@ -156,3 +157,57 @@ def host_room(request):
 
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+
+
+def create_pending(request, room_id):
+    user = request.user
+    # create a pending request
+    if request.method == 'POST':
+        try:
+            room = Room.objects.get(id=room_id)
+            body = request.body.decode()
+            date = json.loads(body)['date']
+        except (Room.DoesNotExist) as e:
+            return HttpResponseNotFound()
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+        year = date[0:4]
+        month = date[4:6]
+        day = date[6:8]
+        date_object = room.date.get(year=year, month=month, day=day)
+        # date_object = Date.objects.get(year=year, month=month, day=day, room=room)
+        request =  RoomRequest(requester=user, content='Hello!', request_date=date_object)
+        request.save()
+        return HttpResponse(status=201)
+
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+def handle_pending(request):
+    user = request.user
+    if request.method == 'PUT':
+        try:
+            room = Room.objects.get(host_id=user.id)
+            body = request.body.decode()
+            pending_id = json.loads(body)['pending_id']
+            pending_request = RoomRequest.objects.get(id=pending_id)
+            accept_or_refuse = json.loads(body)['accept_or_refuse']
+        except (Room.DoesNotExist):
+            return HttpResponseNotFound()
+        except (RoomRequest.DoesNotExist):
+            return HttpResponseNotFound()
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+
+        # accept
+        date = pending_request.request_date
+        available_capacity = room.capacity - date.current_mem_num
+        if accept_or_refuse == 1 and available_capacity > 0:
+            date.current_mem_num += 1
+            date.save()
+        pending_request.delete()
+        return HttpResponse(status=200)
+    
+    else:
+        return HttpResponseNotAllowed(['PUT'])
+

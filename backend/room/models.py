@@ -34,7 +34,7 @@ class RoomRequest(models.Model):
         on_delete=models.CASCADE,
         related_name='requester_of_room'
     )
-    content = models.CharField(max_length=200)
+    content = models.CharField(max_length=200, default='Hello!')
     request_date = models.ForeignKey(
         Date,
         on_delete=models.CASCADE,

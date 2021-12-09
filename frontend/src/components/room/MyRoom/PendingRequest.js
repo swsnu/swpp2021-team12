@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import MyRoomPending from '../MyRoomPending/MyRoomPending';
 
-function PendingRequest() {
+function PendingRequest({ pendings, onClickHandleRequest }) {
+  console.log(pendings);
   const [open, setOpen] = useState(false);
-  const ExamplePending = [
+  const examplePending = [
     {
+      id: 1,
       requester: {
         id: 1,
         name: 'Pigeon',
@@ -16,6 +18,7 @@ function PendingRequest() {
       date: '2021-12-17Tblahblah',
     },
     {
+      id: 2,
       requester: {
         id: 2,
         name: 'Gon',
@@ -23,9 +26,10 @@ function PendingRequest() {
         self_intro: 'gongle',
       },
       content: 'Operating System is easy',
-      date: '9999-9999Tblahblah',
+      date: '9999-99-99Tblahblah',
     },
   ];
+  console.log(examplePending);
 
   return (
     <Modal
@@ -41,7 +45,11 @@ function PendingRequest() {
       <Modal.Header>Request List</Modal.Header>
       <Modal.Content image>
         <Modal.Description>
-          <MyRoomPending pendinglist={ExamplePending} />
+          <MyRoomPending
+            pendinglist={pendings}
+            onClickHandleRequest={onClickHandleRequest}
+          />
+          {/* <MyRoomPending pendinglist={examplePending} /> */}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
