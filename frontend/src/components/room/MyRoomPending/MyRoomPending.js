@@ -1,31 +1,31 @@
 import React from 'react';
 import { Button, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import UserInfo from '../../UserInfo';
 
-function Pending({ pending }) {
+function Pending({ pending, onClickHandleRequest }) {
   return (
     <Segment>
       <Segment.Group horizontal style={{ marginLeft: '10em' }}>
         <Segment>
-          <h3>Name</h3>
-          {pending.name}
+          <UserInfo user={pending.requester} />
         </Segment>
-        <Segment>
+        {/* <Segment>
           <h3>Content</h3>
           {pending.content}
-        </Segment>
+        </Segment> */}
         <Segment>
           <h3>Time</h3>
-          {pending.time}
-        </Segment>
-        <Segment>
-          <h3>#People</h3>
-          {pending.people}
+          {pending.date.substr(0, 10)}
         </Segment>
         <Segment compact>
           <Button.Group vertical>
-            <Button primary>Accept</Button>
-            <Button>Refuse</Button>
+            <Button onClick={() => onClickHandleRequest(pending.id, 1)} primary>
+              Accept
+            </Button>
+            <Button onClick={() => onClickHandleRequest(pending.id, 0)}>
+              Refuse
+            </Button>
           </Button.Group>
         </Segment>
       </Segment.Group>
@@ -34,22 +34,27 @@ function Pending({ pending }) {
 }
 
 function MyRoomPending(props) {
-  const { history, pendinglist } = props;
+  const { history, pendinglist, onClickHandleRequest } = props;
   return (
     <div>
       <Segment>
         {pendinglist &&
           pendinglist.map((pending) => (
-            <Pending history={history} pending={pending} key={pending.id} />
+            <Pending
+              history={history}
+              pending={pending}
+              onClickHandleRequest={onClickHandleRequest}
+              key={pending.id}
+            />
           ))}
       </Segment>
-      <Button
+      {/* <Button
         className="BackButton"
         onClick={() => history.push('/mypage/room')}
       >
         {' '}
         Back{' '}
-      </Button>
+      </Button> */}
     </div>
   );
 }

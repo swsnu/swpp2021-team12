@@ -27,3 +27,16 @@ class Date(models.Model):
     year = models.CharField(max_length=4)
     month = models.CharField(max_length=4)
     day = models.CharField(max_length=4)
+
+class RoomRequest(models.Model):
+    requester = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='requester_of_room'
+    )
+    content = models.CharField(max_length=200, default='Hello!')
+    request_date = models.ForeignKey(
+        Date,
+        on_delete=models.CASCADE,
+        related_name='request_date'
+    )
