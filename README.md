@@ -12,7 +12,7 @@ Status](https://sonarcloud.io/api/project_badges/measure?project=swsnu_swpp2021-
 Backend
 
 cd backend/
-pip3 install Pillow
+pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
 ```
