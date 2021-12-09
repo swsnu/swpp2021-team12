@@ -6,5 +6,6 @@ urlpatterns = [
     path('<int:room_id>/', views.room, name='room'),
     path('host/', views.host_room, name='host_room'),
     path('<int:room_id>/pending/', views.create_pending, name='create_pending'),
-    path('host/pending/', views.handle_pending, name='handle_pending')
+    path('host/pending/', views.handle_pending, name='handle_pending'),
+    path('user/<int:user_id>/', views.user_room, name='user_room'),
 ]
