@@ -6,71 +6,74 @@ import RoomTemplate from '../RoomTemplate';
 import RoomDetail from '../../../../components/room/RoomDetail/RoomDetail';
 
 function RoomDetailPage(props) {
-    const [room, setRoom] = useState();
-    const [comments, setComments] = useState(null);
-    const [refresh, setRefresh] = useState(false);
-    const {id} = props.match.params;
-    const { currentUser } = useSelector(({ auth }) => ({
-        currentUser: auth.auth,
-    }));
+  const [room, setRoom] = useState();
+  const [comments, setComments] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+  const { id } = props.match.params;
+  const { currentUser } = useSelector(({ auth }) => ({
+    currentUser: auth.auth,
+  }));
 
-    const createRequest = () => {
-        
-    }
+  const createRequest = (reqDate) => {
+    axios
+      .post(`/api/room/${id}/pending/`, { date: reqDate })
+      .then(window.alert(`Successfully created a request on ${reqDate} !!`))
+      .then(setRefresh(!refresh));
+  };
 
-    const createComment = (content, articleId) => {
-        axios
-            .post(`/api/comment/`, { content, section: 'room', articleId })
-            .then(setRefresh(!refresh))
-            .catch(() => {
-            window.alert('Error occured while creating a new comment');
-        });
-    }
+  const createComment = (content, articleId) => {
+    axios
+      .post(`/api/comment/`, { content, section: 'room', articleId })
+      .then(setRefresh(!refresh))
+      .catch(() => {
+        window.alert('Error occured while creating a new comment');
+      });
+  };
 
-    const editComment = (content, commentId) => {
-        axios
-            .put(`/api/comment/${commentId}/`, {
-                content,
-            })
-            .then(setRefresh(!refresh))
-            .catch(() => {
-                window.alert('Error occured while editing a comment');
-            });
-    }
+  const editComment = (content, commentId) => {
+    axios
+      .put(`/api/comment/${commentId}/`, {
+        content,
+      })
+      .then(setRefresh(!refresh))
+      .catch(() => {
+        window.alert('Error occured while editing a comment');
+      });
+  };
 
-    const deleteComment = (commentId) => {
-        axios
-            .delete(`/api/comment/${commentId}/`)
-            .then(setRefresh(!refresh))
-            .catch(() => {
-                window.alert('Error occured whild deleting a comment');
-            });
-    }
+  const deleteComment = (commentId) => {
+    axios
+      .delete(`/api/comment/${commentId}/`)
+      .then(setRefresh(!refresh))
+      .catch(() => {
+        window.alert('Error occured whild deleting a comment');
+      });
+  };
 
-    useEffect(() => {
-        axios.get(`/api/room/${id}/`)
-            .then((res) => {
-                setRoom(res.data);
-            })
-        axios.get(`/api/comment/room/${id}/`)
-            .then((res) => {
-                setComments(res.data);
-            })
-    }, [refresh])
+  useEffect(() => {
+    axios.get(`/api/room/${id}/`).then((res) => {
+      setRoom(res.data);
+    });
+    axios.get(`/api/comment/room/${id}/`).then((res) => {
+      setComments(res.data);
+    });
+  }, [refresh]);
 
-    return (
-        <RoomTemplate>
-            {room && <RoomDetail 
-            room={room} 
-            comments={comments} 
-            currentUser={parseInt(currentUser, 10)} 
-            articleId={parseInt(id, 10)}
-            createRequest={createRequest}
-            createComment={createComment}
-            editComment={editComment}
-            deleteComment={deleteComment}
-            />}
-        </RoomTemplate>
-    )
+  return (
+    <RoomTemplate>
+      {room && (
+        <RoomDetail
+          room={room}
+          comments={comments}
+          currentUser={parseInt(currentUser, 10)}
+          articleId={parseInt(id, 10)}
+          createRequest={createRequest}
+          createComment={createComment}
+          editComment={editComment}
+          deleteComment={deleteComment}
+        />
+      )}
+    </RoomTemplate>
+  );
 }
 export default RoomDetailPage;
