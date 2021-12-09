@@ -15,6 +15,7 @@ function MyRoomRegister(props) {
   const [address, setAddress] = useState(room ? room.address : '');
   const [location, setLocation] = useState(null);
   const [confirmDisable, setConfirmDisable] = useState(false);
+  const [addressCheck, setAddressCheck] = useState(false);
 
   const onClickBackHandler = () => {
     if (!room) {
@@ -35,11 +36,13 @@ function MyRoomRegister(props) {
     if (
       title !== '' &&
       description !== '' &&
-      dates &&
+      dates.length > 0 &&
       capacity > 0 &&
       address !== ''
     ) {
       setConfirmDisable(false);
+    } else {
+      setConfirmDisable(true);
     }
   }, [title, description, dates, capacity, address]);
 
@@ -56,6 +59,12 @@ function MyRoomRegister(props) {
       setDates(dateList);
     }
   }, [room]);
+
+  useEffect(() => {
+    if(address !== '') {
+      setAddressCheck(true);
+    }
+  }, [address])
 
   return (
     <div className="MyRoomRegister">
@@ -100,9 +109,15 @@ function MyRoomRegister(props) {
               id="my-room-register-capacity-input"
               type="number"
               value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value < 0) {
+                  setCapacity(0);
+                } else {
+                setCapacity(e.target.value)
+                }
+              }}
             />
-            <Form.Button>Access Scope</Form.Button>
+            <Form.Button disabled={true}>Access Scope</Form.Button>
             <RoomMap
               address={address}
               addressHandler={(addr) => {
@@ -111,6 +126,7 @@ function MyRoomRegister(props) {
               locationHandler={(locat) => {
                 setLocation(locat);
               }}
+              addressCheck={addressCheck}
             />
           </Grid>
           <Grid centered style={{ marginTop: '2em' }}>

@@ -24,7 +24,7 @@ function RoomMap(props) {
     setSearchedAddress(data.address);
   };
 
-  const { address, addressHandler, locationHandler } = props;
+  const { address, addressHandler, locationHandler,addressCheck  } = props;
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -69,7 +69,7 @@ function RoomMap(props) {
       className="locationModal"
       onOpen={() => setIsAddress(true)}
       open={isAddress}
-      trigger={<Button size="small">Address</Button>}
+      trigger={<Button primary={addressCheck} size="small">Address</Button>}
     >
       <Modal.Header>Address</Modal.Header>
       <Modal.Description>
