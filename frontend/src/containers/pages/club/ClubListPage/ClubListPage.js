@@ -17,14 +17,7 @@ function ClubListPage(props) {
 
   useEffect(() => {
     axios.get('/api/club/').then((res) => {
-      setClubs(
-        res.data,
-        // res.data.filter(
-        //   (club) =>
-        //     club.author.id === currentUser ||
-        //     club.members.find((member) => member.id === currentUser),
-        // ),
-      );
+      setClubs(res.data);
     });
   }, []);
 
@@ -79,11 +72,6 @@ function ClubListPage(props) {
               <ClubList
                 currentUser={parseInt(currentUser, 10)}
                 clubs={clubs}
-                // clubs={clubs.filter(
-                //   (club) =>
-                //     club.author.id === currentUser ||
-                //     club.members.find((member) => member.id === currentUser),
-                // )}
                 history={history}
                 onClickDeleteButton={(id) => {
                   axios
