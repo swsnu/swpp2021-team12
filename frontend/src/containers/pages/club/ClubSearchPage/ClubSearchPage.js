@@ -8,7 +8,7 @@ import ClubSearch from '../../../../components/club/ClubSearch';
 
 function ClubSearchPage(props) {
   const [clubList, setClubList] = useState([]);
-  const [refresh, setRefresh] = useState(false);
+  //* const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
     currentUser: auth.auth,
   }));
@@ -23,7 +23,7 @@ function ClubSearchPage(props) {
       .catch(() => {
         alert('Error while getting club list!!');
       });
-  }, [refresh]);
+  }, []);
 
   return (
     <PageTemplate>
@@ -75,18 +75,39 @@ function ClubSearchPage(props) {
               onClickDeleteButton={(id) => {
                 axios
                   .delete(`/api/club/${id}/`)
-                  .then(setRefresh(!refresh))
+                  .then(() => {
+                    setClubList(clubList.filter((x) => x.id !== id));
+                  })
                   .catch(() => {
                     window.alert('Error occured while deletion');
                   });
               }}
               onClickToggleButton={(id, joinOrQuit) => {
-                axios
-                  .put(`/api/club/${id}/toggle/`, { join_or_quit: joinOrQuit })
-                  .then(setRefresh(!refresh))
-                  .catch(() => {
-                    window.alert('Error occured while join/quitting club');
-                  });
+                if (joinOrQuit) {
+                  if (window.confirm('Sending join request to this club')) {
+                    axios
+                      .put(`/api/club/${id}/toggle/`, {
+                        join_or_quit: joinOrQuit,
+                      })
+                      .then(() => {
+                        window.location.replace('/club/search');
+                      })
+                      .catch(() => {
+                        window.alert('error occured while joining club!');
+                      });
+                  }
+                } else if (window.confirm('Are you sure quitting this club?')) {
+                  axios
+                    .put(`/api/club/${id}/toggle/`, {
+                      join_or_quit: joinOrQuit,
+                    })
+                    .then(() => {
+                      window.location.replace('/club/search');
+                    })
+                    .catch(() => {
+                      window.alert('error occured while quitting club!');
+                    });
+                }
               }}
             />
           </Segment>

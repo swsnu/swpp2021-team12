@@ -10,9 +10,11 @@ function SignUp(props) {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidName, setIsValidName] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isValidPasswordCheck, setIsValidPasswordCheck] = useState(true);
   const { onClickConfirmButton, history } = props;
   const onClickSignInButton = () => history.push('/sign_in');
-  const mailReg = /^[^@\s]+@[^@.\s]+.[a-zA-Z]{2,3}$/;
+  const mailReg =
+    /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
 
   return (
     <Segment placeholder>
@@ -55,7 +57,10 @@ function SignUp(props) {
               placeholder="Name"
               error={
                 !isValidName && name
-                  ? { content: 'Please enter your name', pointing: 'below' }
+                  ? {
+                      content: 'Your name should contain at least 3 characters',
+                      pointing: 'below',
+                    }
                   : null
               }
               onChange={(e) => {
@@ -75,7 +80,23 @@ function SignUp(props) {
               label="Password"
               placeholder="Password"
               type="password"
-              onChange={(e) => setPassword(e.target.value)}
+              error={
+                !isValidPassword && password
+                  ? {
+                      content:
+                        'Your password should contain at least 6 characters',
+                      pointing: 'below',
+                    }
+                  : null
+              }
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (e.target.value.length >= 6) {
+                  setIsValidPassword(true);
+                } else {
+                  setIsValidPassword(false);
+                }
+              }}
             />
             <Form.Input
               id="input_passwordCheck"
@@ -85,7 +106,7 @@ function SignUp(props) {
               placeholder="PasswordCheck"
               type="password"
               error={
-                !isValidPassword && checkPassword
+                !isValidPasswordCheck && checkPassword
                   ? {
                       content: "PasswordCheck doesn't match with Password",
                       pointing: 'below',
@@ -94,17 +115,10 @@ function SignUp(props) {
               }
               onChange={(e) => {
                 setCheckPassword(e.target.value);
-
-                if (password && password === e.target.value) {
-                  if (
-                    password &&
-                    password === e.target.value &&
-                    e.target.value.length >= 6
-                  ) {
-                    setIsValidPassword(true);
-                  } else {
-                    setIsValidPassword(false);
-                  }
+                if (isValidPassword && password === e.target.value) {
+                  setIsValidPasswordCheck(true);
+                } else {
+                  setIsValidPasswordCheck(false);
                 }
               }}
             />
