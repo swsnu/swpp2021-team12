@@ -29,6 +29,9 @@ function MyRoomRegisterPage() {
             })
             .then(() => {
               history.push('/mypage/room');
+            })
+            .catch(() => {
+              alert("Error! try again");
             });
         }}
       />

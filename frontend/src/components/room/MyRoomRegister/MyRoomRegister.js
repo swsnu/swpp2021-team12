@@ -13,7 +13,7 @@ function MyRoomRegister(props) {
   const [dates, setDates] = useState([]);
   const [capacity, setCapacity] = useState(room ? room.capacity : 0);
   const [address, setAddress] = useState(room ? room.address : '');
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState();
   const [confirmDisable, setConfirmDisable] = useState(false);
   const [addressCheck, setAddressCheck] = useState(false);
 
@@ -57,6 +57,7 @@ function MyRoomRegister(props) {
         dateList.push(date.date);
       });
       setDates(dateList);
+      setLocation({lat: room.lat, lng: room.lng});
     }
   }, [room]);
 
