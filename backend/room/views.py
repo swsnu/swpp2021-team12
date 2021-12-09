@@ -113,3 +113,13 @@ def host_room(request):
 
     else:
         return HttpResponseNotAllowed(['GET', 'PUT', 'DELETE'])
+
+def user_room(request, user_id):
+    if request.method == 'GET':
+        try:
+            room = Room.objects.get(host__id=user_id)
+        except (Room.DoesNotExist):
+            return HttpResponseNotFound()
+        date_list = list(room.date.all().values('date', 'current_mem_num'))
+        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id,'lat':room.lat, 'lng':room.lng, 'dates': date_list}
+        return JsonResponse(response_dict)
