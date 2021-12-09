@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import UserInfo from '../../UserInfo';
 
 function Pending({ pending }) {
   return (
     <Segment>
       <Segment.Group horizontal style={{ marginLeft: '10em' }}>
         <Segment>
-          <h3>Name</h3>
-          {pending.name}
+          <UserInfo user={pending.requester} />
         </Segment>
         <Segment>
           <h3>Content</h3>
@@ -16,11 +16,7 @@ function Pending({ pending }) {
         </Segment>
         <Segment>
           <h3>Time</h3>
-          {pending.time}
-        </Segment>
-        <Segment>
-          <h3>#People</h3>
-          {pending.people}
+          {pending.date.substr(0, 10)}
         </Segment>
         <Segment compact>
           <Button.Group vertical>

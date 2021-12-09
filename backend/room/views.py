@@ -2,7 +2,7 @@ from json.decoder import JSONDecodeError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseNotFound, JsonResponse
 import json
-from .models import Room, Date
+from .models import Room, Date, RoomRequest
 # Create your views here.
 
 # Register new Room
@@ -50,8 +50,20 @@ def room(request, room_id):
         except (Room.DoesNotExist) as e:
             return HttpResponseNotFound()
         date_list = list(room.date.all().values('date', 'current_mem_num'))
-        # response.data = {id: int, title: string, description: string, capacity: int, address: string, host_id: int, dates: [{ date: string, current_mem_num: int }, ]}
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id,'lat':room.lat, 'lng':room.lng, 'dates': date_list}
+        # response.data = {
+        # id: int, title: string, description: string, capacity: int, address: string, host_id: int, 
+        # dates: [{ date: string, current_mem_num: int }, ]}
+        response_dict = {
+            'id':room.id,
+            'title': room.title,
+            'description': room.description,
+            'capacity': room.capacity,
+            'address': room.address,
+            'host_id': room.host.id,
+            'lat':room.lat,
+            'lng':room.lng,
+            'dates': date_list,
+        }
         return JsonResponse(response_dict)
     else:
         return HttpResponseNotAllowed(['GET'])
@@ -65,8 +77,39 @@ def host_room(request):
         except (Room.DoesNotExist) as e:
             return HttpResponseNotFound()
         date_list = list(room.date.all().values('date', 'current_mem_num'))
-        # response.data = {id: int, title: string, description: string, capacity: int, address: string, host_id: int, dates: [{ date: string, current_mem_num: int }, ]}
-        response_dict = {'id':room.id, 'title': room.title, 'description': room.description, 'capacity': room.capacity, 'address': room.address, 'host_id': room.host.id,'lat':room.lat,'lng':room.lng, 'dates': date_list}
+        pending_list = []
+        for request in RoomRequest.objects.all():
+            if(request.request_date.room.id == room_id):
+                pending = {
+                    'requester': {
+                        'id': request.requester.id,
+                        'name': request.requester.name,
+                        'email': request.requester.email,
+                        'self_intro': request.requester.self_intro
+                    },
+                    'content': request.content,
+                    'date': request.request_date.date
+                }
+                pending_list.append(pending)
+        # response.data = {
+        # id: int, title: string, description: string, capacity: int, address: string, host_id: int, 
+        # dates: [{ date: string, current_mem_num: int }, ],
+        # pendings: [{
+        #   requester: { id: int, name: string, email: string, self_intro: string }
+        #   content: string,
+        #   date: string }, ]}
+        response_dict = {
+            'id':room.id,
+            'title': room.title,
+            'description': room.description,
+            'capacity': room.capacity,
+            'address': room.address,
+            'host_id': room.host.id,
+            'lat':room.lat,
+            'lng':room.lng,
+            'dates': date_list,
+            'pendings': pending_list
+        }
         return JsonResponse(response_dict)
 
     elif request.method == 'PUT':
