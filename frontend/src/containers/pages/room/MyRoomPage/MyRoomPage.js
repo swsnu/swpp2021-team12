@@ -30,19 +30,6 @@ function MyRoomPage() {
               setRoomExists(false);
             });
           }}
-          onClickHandleRequest={(id, acceptOrRefuse) => {
-            axios
-              .put(`/api/room/host/pending/`, {
-                pending_id: id,
-                accept_or_refuse: acceptOrRefuse,
-              })
-              .then(() => {
-                setRoom(room);
-              })
-              .catch(() => {
-                'Error occured while handling a pending request';
-              });
-          }}
         />
       ) : (
         <NoRoom props />

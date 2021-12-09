@@ -56,7 +56,9 @@ function Photo(props) {
         type="file"
         accept="image/jpg,impge/png,image/jpeg"
         name="profile_img"
-        onChange={onClickFindPhotoButton}
+        onChange={(e) => {
+          onClickFindPhotoButton(e);
+        }}
       />
       <Button id="button_delete" primary onClick={onClickDeletePhotoButton}>
         Delete Photo

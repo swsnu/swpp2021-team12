@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button } from 'semantic-ui-react';
 import MyRoomPending from '../MyRoomPending/MyRoomPending';
 
-function PendingRequest({ pendings, onClickHandleRequest }) {
+function PendingRequest({ pendings }) {
   console.log(pendings);
   const [open, setOpen] = useState(false);
   const examplePending = [
@@ -45,10 +45,7 @@ function PendingRequest({ pendings, onClickHandleRequest }) {
       <Modal.Header>Request List</Modal.Header>
       <Modal.Content image>
         <Modal.Description>
-          <MyRoomPending
-            pendinglist={pendings}
-            onClickHandleRequest={onClickHandleRequest}
-          />
+          <MyRoomPending pendinglist={pendings} />
           {/* <MyRoomPending pendinglist={examplePending} /> */}
         </Modal.Description>
       </Modal.Content>
