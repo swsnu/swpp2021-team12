@@ -8,7 +8,7 @@ import Calendar from 'react-select-date';
 import PendingRequest from './PendingRequest';
 
 function MyRoom(props) {
-  const { room, onClickDeleteButton, history, onClickHandleRequest } = props;
+  const { room, onClickDeleteButton, history } = props;
   const { title, description, capacity, dates } = room;
   const [calDates, setDates] = useState([]);
 
@@ -55,10 +55,7 @@ function MyRoom(props) {
           </Button>
 
           {/* need to be implemented!! */}
-          <PendingRequest
-            pendings={room.pendings}
-            onClickHandleRequest={onClickHandleRequest}
-          />
+          <PendingRequest pendings={room.pendings} />
           <Button
             id="my-room-delete-button"
             color="red"

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import UserInfo from '../../UserInfo';
 
-function Pending({ pending, onClickHandleRequest }) {
+function Pending({ pending, pendingList, setPendingList }) {
   return (
     <Segment>
       <Segment.Group horizontal style={{ marginLeft: '10em' }}>
@@ -20,10 +21,47 @@ function Pending({ pending, onClickHandleRequest }) {
         </Segment>
         <Segment compact>
           <Button.Group vertical>
-            <Button onClick={() => onClickHandleRequest(pending.id, 1)} primary>
+            <Button
+              onClick={() => {
+                axios
+                  .put(`/api/room/host/pending/`, {
+                    pending_id: pending.id,
+                    accept_or_refuse: 1,
+                  })
+                  .then(() => {
+                    setPendingList(
+                      pendingList.filter((x) => x.id !== pending.id),
+                    );
+                  })
+                  .then(() => {
+                    window.alert('Successfully accepted!');
+                    window.location.replace('/room');
+                  })
+                  .catch(() => {
+                    'Error occured while handling a pending request';
+                  });
+              }}
+              primary
+            >
               Accept
             </Button>
-            <Button onClick={() => onClickHandleRequest(pending.id, 0)}>
+            <Button
+              onClick={() => {
+                axios
+                  .put(`/api/room/host/pending/`, {
+                    pending_id: pending.id,
+                    accept_or_refuse: 0,
+                  })
+                  .then(() => {
+                    setPendingList(
+                      pendingList.filter((x) => x.id !== pending.id),
+                    );
+                  })
+                  .catch(() => {
+                    'Error occured while handling a pending request';
+                  });
+              }}
+            >
               Refuse
             </Button>
           </Button.Group>
@@ -34,17 +72,24 @@ function Pending({ pending, onClickHandleRequest }) {
 }
 
 function MyRoomPending(props) {
-  const { history, pendinglist, onClickHandleRequest } = props;
+  const [pendingList, setPendingList] = useState(null);
+  const { history, pendinglist } = props;
+  useEffect(() => {
+    if (pendinglist) {
+      setPendingList(pendinglist);
+    }
+  }, [pendinglist]);
   return (
     <div>
       <Segment>
-        {pendinglist &&
-          pendinglist.map((pending) => (
+        {pendingList &&
+          pendingList.map((pending) => (
             <Pending
               history={history}
               pending={pending}
-              onClickHandleRequest={onClickHandleRequest}
               key={pending.id}
+              pendingList={pendingList}
+              setPendingList={setPendingList}
             />
           ))}
       </Segment>
