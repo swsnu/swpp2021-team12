@@ -39,7 +39,11 @@ function MeetingScope(props) {
       onOpen={() => setIsScope(true)}
       open={isScope}
       trigger={
-        <Button id="scope_button" size="small" primary={existingScope}>
+        <Button
+          id="scope_button"
+          size="small"
+          color={existingScope ? 'olive' : 'orange'}
+        >
           Scope
         </Button>
       }
@@ -72,6 +76,7 @@ function MeetingScope(props) {
       <Modal.Actions>
         <Button
           className="BackButton"
+          secondary
           onClick={() => {
             setIsScope(false);
           }}

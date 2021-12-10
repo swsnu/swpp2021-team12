@@ -14,7 +14,7 @@ function ClubDetail({
     <div className="ClubDetail" style={{ margin: '10px' }}>
       <List divided relaxed>
         <List.Item>
-          <Card>
+          <Card style={{ width: '280px' }}>
             <Card.Content>
               <Card.Header>{club.title}</Card.Header>
               <Card.Description>{club.content}</Card.Description>
@@ -34,15 +34,17 @@ function ClubDetail({
                   <Button
                     id="pending-button"
                     size="tiny"
+                    primary
                     style={{ margin: '5px' }}
                     onClick={() => history.push(`/club/${club.id}/pending`)}
                   >
-                    PENDING REQUESTS
+                    Pending Requests
                   </Button>
                   <br />
                   <Button
                     className="EditButton"
                     id="editClubButton"
+                    color="instagram"
                     onClick={() =>
                       history.push({
                         pathname: `/club/${club.id}/edit`,
@@ -50,14 +52,15 @@ function ClubDetail({
                       })
                     }
                   >
-                    EDIT
+                    Edit
                   </Button>
                   <Button
+                    color="red"
                     className="DeleteButton"
                     id="deleteClubButton"
                     onClick={() => onClickDeleteButton(club.id)}
                   >
-                    DELETE
+                    Delete
                   </Button>
                 </>
               ) : (
@@ -66,20 +69,22 @@ function ClubDetail({
                     <Button
                       className="QuitButton"
                       id="quitClubButton"
+                      color="red"
                       onClick={() => onClickToggleButton(club.id, 0)}
                     >
-                      QUIT
+                      Quit
                     </Button>
                   ) : (
                     <Button
                       className="JoinButton"
                       id="joinClubButton"
+                      primary
                       disabled={club.pendings.find(
                         (member) => member.id === currentUser,
                       )}
                       onClick={() => onClickToggleButton(club.id, 1)}
                     >
-                      JOIN
+                      Join
                     </Button>
                   )}
                 </>

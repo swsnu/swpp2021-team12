@@ -7,6 +7,7 @@ import {
   Input,
   Button,
   List,
+  Card,
 } from 'semantic-ui-react';
 import ClubDetail from './ClubDetail/ClubDetail';
 
@@ -63,29 +64,31 @@ function ClubSearch(props) {
             </Grid.Row>
             <Grid.Row>
               <List divided relaxed horizontal>
-                {searchedClubList
-                  ? searchedClubList.map((club) => (
-                      <ClubDetail
-                        key={club.id}
-                        club={club}
-                        history={history}
-                        currentUser={currentUser}
-                        isLeader={club.author.id === currentUser}
-                        onClickDeleteButton={onClickDeleteButton}
-                        onClickToggleButton={onClickToggleButton}
-                      />
-                    ))
-                  : clubList.map((club) => (
-                      <ClubDetail
-                        key={club.id}
-                        club={club}
-                        history={history}
-                        currentUser={currentUser}
-                        isLeader={club.author.id === currentUser}
-                        onClickDeleteButton={onClickDeleteButton}
-                        onClickToggleButton={onClickToggleButton}
-                      />
-                    ))}
+                <Card.Group>
+                  {searchedClubList
+                    ? searchedClubList.map((club) => (
+                        <ClubDetail
+                          key={club.id}
+                          club={club}
+                          history={history}
+                          currentUser={currentUser}
+                          isLeader={club.author.id === currentUser}
+                          onClickDeleteButton={onClickDeleteButton}
+                          onClickToggleButton={onClickToggleButton}
+                        />
+                      ))
+                    : clubList.map((club) => (
+                        <ClubDetail
+                          key={club.id}
+                          club={club}
+                          history={history}
+                          currentUser={currentUser}
+                          isLeader={club.author.id === currentUser}
+                          onClickDeleteButton={onClickDeleteButton}
+                          onClickToggleButton={onClickToggleButton}
+                        />
+                      ))}
+                </Card.Group>
               </List>
             </Grid.Row>
           </Grid>

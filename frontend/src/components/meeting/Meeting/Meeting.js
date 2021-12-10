@@ -70,7 +70,9 @@ function Meeting(props) {
       <Segment style={{ padding: '8em 5em' }} vertical>
         <Grid columns="2">
           <Grid.Column id="meeting-create-column">
-            <h1>Create New Meeting!</h1>
+            <h1>
+              {existingMeeting ? 'Edit Your Meeting!' : 'Create your meeting!'}
+            </h1>
             <br />
             <Form id="meeting-create-form">
               <Form.Input
@@ -120,7 +122,7 @@ function Meeting(props) {
                 />
                 <MeetingTime time={time} timeHandler={timeHandler} />
               </Grid>
-              <Grid centered>
+              <Grid centered style={{ marginTop: '22px' }}>
                 <Button
                   primary
                   size="small"
@@ -147,6 +149,7 @@ function Meeting(props) {
                   size="small"
                   className="BackButton"
                   id="back-button"
+                  secondary
                   onClick={() => {
                     if (meetingId) {
                       history.push(`/meeting/${meetingId}`);
@@ -162,7 +165,7 @@ function Meeting(props) {
           </Grid.Column>
           <Grid.Column>
             <Grid centered style={{ padding: '8em ' }} vertical>
-              {time && <p>{time.toLocaleString()}</p>}
+              {time && <p>{time.toLocaleString().slice(0, -3)}</p>}
               <Photo
                 isCircular={false}
                 photo={detailImageUrl}

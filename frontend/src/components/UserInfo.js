@@ -8,8 +8,6 @@ function UserInfo(props) {
     <Popup
       pinned
       on="click"
-      content={user.self_intro}
-      header={user.email}
       trigger={
         <Label as="a" color="teal" image>
           <img src={`/api/user/${user.id}/profile/`} />

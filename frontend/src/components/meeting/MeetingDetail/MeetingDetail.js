@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import {
+  Map,
+  MapMarker,
+  // CustomOverlayMap
+} from 'react-kakao-maps-sdk';
 import { withRouter } from 'react-router-dom';
 import {
   Dimmer,
@@ -10,10 +15,18 @@ import {
   Image,
   Segment,
   Icon,
+  // Popup,
 } from 'semantic-ui-react';
 import UserInfo from '../../UserInfo';
 
-// TODO: Location
+const markerSize = {
+  width: 27,
+  height: 35,
+};
+
+const starSrc =
+  'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+
 function MeetingDetail(props) {
   const [accessible, setAccessible] = useState(false);
   const [meetingDetail, setMeetingDetail] = useState(null);
@@ -48,10 +61,10 @@ function MeetingDetail(props) {
         <React.Fragment>
           {accessible ? (
             <>
-              <Segment>
+              <Segment style={{ marginTop: '50px' }}>
                 ACCESS SCOPE:
                 {meetingDetail.is_public
-                  ? 'PUBLIC'
+                  ? ' PUBLIC'
                   : meetingDetail.accessible_clubs.map((club) => (
                       <Segment key={club.id}>{club.title}</Segment>
                     ))}
@@ -59,16 +72,48 @@ function MeetingDetail(props) {
               <Container text style={{ marginTop: '4em', width: '700px' }}>
                 <Grid divided="vertically">
                   <Grid.Row centered>
-                    <Header>TITLE : {meetingDetail.title}</Header>
+                    <Header as="h1">{meetingDetail.title}</Header>
                   </Grid.Row>
                   <Grid.Row centered>
-                    <Header>DESCRIPTION : {meetingDetail.content}</Header>
+                    <Header as="h2">{meetingDetail.content}</Header>
                   </Grid.Row>
                   <Grid.Row centered>
-                HOST :
-                <UserInfo user={meetingDetail.author} />
+                    <UserInfo user={meetingDetail.author} />
+                    ...is waiting for you!!
                   </Grid.Row>
                   <Grid.Row centered>
+                    <Map
+                      center={meetingDetail.location.position}
+                      style={{ width: '100%', height: '500px' }}
+                    >
+                      <MapMarker
+                        position={meetingDetail.location.position}
+                        image={{ src: starSrc, size: markerSize }}
+                      >
+                        <p style={{ textAlign: 'center' }}>
+                          {meetingDetail.location.description}
+                        </p>
+                      </MapMarker>
+                      {/* <CustomOverlayMap
+                        position={meetingDetail.location.position}
+                      >
+                        <Popup
+                          on="click"
+                          content={meetingDetail.location.description}
+                          style={{ zIndex: '-1', position: 'relative' }}
+                          trigger={
+                            <MapMarker
+                              position={meetingDetail.location.position}
+                              image={{ src: starSrc, size: markerSize }}
+                            ></MapMarker>
+                          }
+                        >
+                          <Header as="h4">
+                            {meetingDetail.location.description}
+                          </Header>
+                        </Popup>
+                      </CustomOverlayMap> */}
+                    </Map>
                     <Segment placeholder size="small">
                       {meetingPhoto ? (
                         <div className="image_area">
@@ -86,9 +131,20 @@ function MeetingDetail(props) {
                 <Grid>
                   <Grid.Row>
                     <Container text style={{ width: '700px', background: '' }}>
+                      <Segment centered style={{}}>
+                        {meetingDetail.time && (
+                          <p>
+                            {new Date(meetingDetail.time * 1000)
+                              .toLocaleString()
+                              .slice(0, -3)}
+                          </p>
+                        )}
+                      </Segment>
                       <h5>Current Member: </h5>
                       {meetingDetail.currentMembers
-                        .filter((member) => member.id !== meetingDetail.author.id)
+                        .filter(
+                          (member) => member.id !== meetingDetail.author.id,
+                        )
                         .map((member) => (
                           <UserInfo user={member} key={member.id} />
                         ))}
@@ -101,18 +157,20 @@ function MeetingDetail(props) {
                         <Button
                           className="EditButton"
                           id="editMeetingButton"
+                          color="instagram"
                           onClick={() =>
                             history.push(`/meeting/${meetingDetail.id}/edit`)
                           }
                         >
-                          EDIT
+                          Edit
                         </Button>
                         <Button
                           className="DeleteButton"
                           id="deleteMeetingButton"
+                          color="red"
                           onClick={() => onClickDeleteButton()}
                         >
-                          DELETE
+                          Delete
                         </Button>
                       </>
                     ) : (
@@ -126,7 +184,7 @@ function MeetingDetail(props) {
                             color="red"
                             onClick={() => onClickToggleButton(0)}
                           >
-                            QUIT
+                            Quit
                           </Button>
                         ) : (
                           <Button
@@ -139,7 +197,7 @@ function MeetingDetail(props) {
                               meetingDetail.maxMembers
                             }
                           >
-                            JOIN
+                            Join
                           </Button>
                         )}
                       </>
@@ -150,7 +208,7 @@ function MeetingDetail(props) {
                       secondary
                       onClick={() => history.push('/meeting')}
                     >
-                      BACK
+                      Back
                     </Button>
                   </Grid.Row>
                   {commentList()}

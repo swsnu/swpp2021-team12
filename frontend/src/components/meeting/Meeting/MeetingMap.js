@@ -55,7 +55,11 @@ function MeetingMap(props) {
       onOpen={() => setIsLocation(true)}
       open={isLocation}
       trigger={
-        <Button id="location_button" size="small" primary={selectedMarker}>
+        <Button
+          id="location_button"
+          size="small"
+          color={selectedMarker ? 'olive' : 'orange'}
+        >
           Location
         </Button>
       }
@@ -158,6 +162,7 @@ function MeetingMap(props) {
       <Modal.Actions>
         <Button
           className="back"
+          secondary
           onClick={() => {
             setIsLocation(false);
             if (location) {

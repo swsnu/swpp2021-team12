@@ -13,7 +13,7 @@ function MeetingSearch(props) {
       trigger={<Button className="filterButton">Filter</Button>}
     >
       <Modal.Header>Filter</Modal.Header>
-      <Modal.Description>
+      <Modal.Description style={{ margin: '5px 10px' }}>
         <Button className="keyword">Keyword</Button>
         <Button
           className="time"
@@ -28,7 +28,7 @@ function MeetingSearch(props) {
         <Input
           id="search-input"
           placeholder="Search clubs by a keyword!"
-          style={{ width: '70em' }}
+          style={{ width: '95%', margin: '5px 10px' }}
           value={keyword}
           onChange={(e) => {
             setKeyword(e.target.value);

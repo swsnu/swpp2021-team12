@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 function Pending({ pending, onClickHandleButton }) {
   return (
     <Segment>
-      <Segment.Group horizontal style={{ marginLeft: '10em' }}>
+      <Segment.Group horizontal style={{}}>
         <Segment>
           <Image src={`/api/user/${pending.id}/profile/`} avatar />
         </Segment>
@@ -22,7 +22,10 @@ function Pending({ pending, onClickHandleButton }) {
             <Button onClick={() => onClickHandleButton(pending.id, 1)} primary>
               Accept
             </Button>
-            <Button onClick={() => onClickHandleButton(pending.id, 0)}>
+            <Button
+              color="red"
+              onClick={() => onClickHandleButton(pending.id, 0)}
+            >
               Refuse
             </Button>
           </Button.Group>
@@ -50,7 +53,11 @@ function ClubPending(props) {
             />
           ))}
       </Segment>
-      <Button className="BackButton" onClick={() => history.push(`/club`)}>
+      <Button
+        secondary
+        className="BackButton"
+        onClick={() => history.push(`/club`)}
+      >
         {' '}
         Back{' '}
       </Button>
