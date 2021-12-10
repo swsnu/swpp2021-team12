@@ -12,6 +12,7 @@ import {
   Icon,
 } from 'semantic-ui-react';
 import UserInfo from '../../UserInfo';
+import SimpleMap from '../../SimpleMap';
 
 // TODO: Location
 function MeetingDetail(props) {
@@ -81,9 +82,12 @@ function MeetingDetail(props) {
                         </Header>
                       )}
                     </Segment>
+                    {meetingDetailData &&
+                    <SimpleMap meeting={meetingDetailData.location.position} />
+                    }
                   </Grid.Row>
                 </Grid>
-                <Grid>
+                <Grid style={{marginTop: '18em'}}>
                   <Grid.Row>
                     <Container text style={{ width: '700px', background: '' }}>
                       <h5>Current Member: </h5>
