@@ -6,6 +6,7 @@ import Calendar from 'react-select-date';
 import CommentList from '../../comment/CommentList/CommentList';
 import RequestModal from '../../../containers/pages/room/RoomDetailPage/RequestModal';
 import UserInfo from '../../UserInfo';
+import SimpleMap from '../../SimpleMap';
 
 function RoomDetail(props) {
   const {
@@ -72,25 +73,30 @@ function RoomDetail(props) {
     <Container
       id="room-detail"
       text
-      style={{ marginTop: '4em', width: '700px' }}
+      style={{ marginTop: '4em'}}
     >
-      <Grid>
+      <Grid style={{width: '130%'}}>
         <Grid.Row centered>
           <UserInfo user={user}/>
         </Grid.Row>
         <Grid.Row centered>
           <Header id="my-room-title">{title}</Header>
         </Grid.Row>
-        <Grid.Row centered>
+        <Grid.Row columns='2'>
+          <Grid.Column>
           <Calendar
             onSelect={(date) => onSelectHandler(date)}
             showDateInputField={false}
             disableDates="past"
             duelSlotDates={calDates}
           />
+          </Grid.Column>
+          <Grid.Column style={{width: '40%'}}>
+            {room && <SimpleMap room={room}/>}
+          </Grid.Column>
         </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid style={{width: '130%'}}>
         <Grid.Row centered>
           {showRequest && (
             <RequestModal
