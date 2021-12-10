@@ -33,10 +33,6 @@ function Pending({ pending, pendingList, setPendingList }) {
                       pendingList.filter((x) => x.id !== pending.id),
                     );
                   })
-                  .then(() => {
-                    window.alert('Successfully accepted!');
-                    window.location.replace('/room');
-                  })
                   .catch(() => {
                     'Error occured while handling a pending request';
                   });

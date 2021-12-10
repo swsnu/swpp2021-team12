@@ -13,7 +13,7 @@ function Meeting(props) {
   const [isDisable, setIsDisable] = useState(false);
   const [scope, setScope] = useState(null);
   const [location, setLocation] = useState(null);
-  const [time, setTime] = useState(null);
+  const [time, setTime] = useState(Date.now());
 
   const [detailImageFile, setDetailImageFile] = useState(null);
   const [detailImageUrl, setDetailImageUrl] = useState(null);
@@ -48,7 +48,7 @@ function Meeting(props) {
       setContent(existingMeeting.content);
       setMaxMembers(existingMeeting.maxMembers);
       setLocation(existingMeeting.location);
-      setTime(new Date(existingMeeting.time));
+      setTime(new Date(existingMeeting.time * 1000));
       setScope({
         isPublic: existingMeeting.is_public,
         selectedClubs: existingMeeting.accessible_clubs,

@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.core.files.uploadedfile import SimpleUploadedFile
 from user.models import User
 from meeting.models import Meeting
+from club.models import Club
 import json
 
 class MeetingTestCase(TestCase):
@@ -12,6 +13,8 @@ class MeetingTestCase(TestCase):
 
     def test_meeting(self):
         client = Client()
+        c = Club.objects.create(title="title",content="content",author=User.objects.get(id=1))
+        c.save()
 
         # unauthenticated
         response = client.get('/api/meeting/')
@@ -45,7 +48,7 @@ class MeetingTestCase(TestCase):
         # create a new meeting
         response = client.post('/api/meeting/',
         json.dumps({'title': 'title2', 'content': 'content2', 'maxMembers': 4,'lat':1,
-        'lng':1,'description':"des",'time':10}),
+        'lng':1,'description':"des",'time':10,'is_public':True,'accessible_clubs':[1]}),
         content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
@@ -60,6 +63,9 @@ class MeetingTestCase(TestCase):
 
     def test_specified_meeting(self):
         client = Client()
+        client = Client()
+        c = Club.objects.create(title="title",content="content",author=User.objects.get(id=1))
+        c.save()
 
         # unauthenticated
         response = client.get('/api/meeting/1/')
@@ -101,7 +107,7 @@ class MeetingTestCase(TestCase):
         # edit meeting
         response = client.put('/api/meeting/' + str(meeting_id) + '/',
         json.dumps({'title': 'newTitle', 'content': 'newContent', 'maxMembers': 5,'lat':1,
-        'lng':1,'description':"des",'time':10}),
+        'lng':1,'description':"des",'time':10,'is_public':True,'accessible_clubs':[1]}),
         content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
@@ -111,7 +117,7 @@ class MeetingTestCase(TestCase):
         json.dumps({'email': 'bb@bb.bb', 'password': 'pw2'}), content_type='application/json')
         response = client.put('/api/meeting/' + str(meeting_id) + '/',
         json.dumps({'title': 'title', 'content': 'content', 'maxMembers': 4,'lat':1,
-        'lng':1,'description':"des",'time':10}),
+        'lng':1,'description':"des",'time':10,'is_public':True,'accessible_clubs':[1]}),
         content_type='application/json')
         self.assertEqual(response.status_code, 403)
         response = client.delete('/api/meeting/' + str(meeting_id) + '/')
