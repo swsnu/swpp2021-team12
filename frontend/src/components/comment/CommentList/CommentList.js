@@ -18,7 +18,6 @@ function CommentList(props) {
     createComment,
     editComment,
     deleteComment,
-    history,
   } = props;
   const [newComment, setNewComment] = useState('');
 
@@ -51,12 +50,7 @@ function CommentList(props) {
                   <Comment.Content
                     style={{ textAlign: 'left', marginLeft: '8em' }}
                   >
-                    <Comment.Author
-                      as="a"
-                      onClick={() =>
-                        history.push(`/profile/${comment.author.id}`)
-                      }
-                    >
+                    <Comment.Author as="a">
                       {comment.author.name}
                     </Comment.Author>
                     <Comment.Text>{comment.content}</Comment.Text>

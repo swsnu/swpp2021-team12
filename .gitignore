@@ -219,6 +219,7 @@ cython_debug/
 logs
 **/*.backup.*
 **/*.back.*
+coverage/
 
 node_modules
 bower_components
