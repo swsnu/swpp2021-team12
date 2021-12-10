@@ -6,6 +6,7 @@ import Calendar from 'react-select-date';
 
 import CommentList from '../../comment/CommentList/CommentList';
 import RequestModal from '../../../containers/pages/room/RoomDetailPage/RequestModal';
+import UserInfo from '../../UserInfo';
 
 function RoomDetail(props) {
   const {
@@ -19,7 +20,7 @@ function RoomDetail(props) {
     deleteComment,
     createRequest,
   } = props;
-  const { title, description, capacity, dates } = room;
+  const { title, description, capacity, dates, user } = room;
   const [calDates, setDates] = useState([]);
   const [selDate, setSelDate] = useState(null);
   const [reqDate, setReqDate] = useState(null);
@@ -28,7 +29,6 @@ function RoomDetail(props) {
 
   const onClickConfirm = (date) => {
     setReqDate(selDate);
-    console.log(reqDate);
     createRequest(date);
   };
 
@@ -77,7 +77,10 @@ function RoomDetail(props) {
       text
       style={{ marginTop: '4em', width: '700px' }}
     >
-      <Grid divided="vertically">
+      <Grid>
+        <Grid.Row centered>
+          <UserInfo user={user}/>
+        </Grid.Row>
         <Grid.Row centered>
           <Header id="my-room-title">{title}</Header>
         </Grid.Row>
