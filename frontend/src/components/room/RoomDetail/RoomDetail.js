@@ -120,6 +120,7 @@ function RoomDetail(props) {
             onClick={() => {
               history.push('/main');
             }}
+            secondary
           >
             Back
           </Button>
