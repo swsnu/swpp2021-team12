@@ -13,7 +13,7 @@ function Meeting(props) {
   const [isDisable, setIsDisable] = useState(false);
   const [scope, setScope] = useState(null);
   const [location, setLocation] = useState(null);
-  const [time, setTime] = useState(Date.now());
+  const [time, setTime] = useState(null);
 
   const [detailImageFile, setDetailImageFile] = useState(null);
   const [detailImageUrl, setDetailImageUrl] = useState(null);
