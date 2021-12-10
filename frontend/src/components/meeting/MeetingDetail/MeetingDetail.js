@@ -57,7 +57,7 @@ function MeetingDetail(props) {
   }, [meetingDetailData]);
 
   return (
-    <>
+    <div className="MeetingDetail">
       {meetingDetail ? (
         <React.Fragment>
           {accessible ? (
@@ -95,25 +95,6 @@ function MeetingDetail(props) {
                           {meetingDetail.location.description}
                         </p>
                       </MapMarker>
-                      {/* <CustomOverlayMap
-                        position={meetingDetail.location.position}
-                      >
-                        <Popup
-                          on="click"
-                          content={meetingDetail.location.description}
-                          style={{ zIndex: '-1', position: 'relative' }}
-                          trigger={
-                            <MapMarker
-                              position={meetingDetail.location.position}
-                              image={{ src: starSrc, size: markerSize }}
-                            ></MapMarker>
-                          }
-                        >
-                          <Header as="h4">
-                            {meetingDetail.location.description}
-                          </Header>
-                        </Popup>
-                      </CustomOverlayMap> */}
                     </Map>
                     <Segment placeholder size="small">
                       {meetingPhoto ? (
@@ -127,12 +108,14 @@ function MeetingDetail(props) {
                         </Header>
                       )}
                     </Segment>
-                    {meetingDetailData &&
-                    <SimpleMap meeting={meetingDetailData.location.position} />
-                    }
+                    {meetingDetailData && (
+                      <SimpleMap
+                        meeting={meetingDetailData.location.position}
+                      />
+                    )}
                   </Grid.Row>
                 </Grid>
-                <Grid style={{marginTop: '18em'}}>
+                <Grid style={{ marginTop: '18em' }}>
                   <Grid.Row>
                     <Container text style={{ width: '700px', background: '' }}>
                       <Segment centered style={{}}>
@@ -236,7 +219,7 @@ function MeetingDetail(props) {
           <Loader />
         </Dimmer>
       )}
-    </>
+    </div>
   );
 }
 

@@ -13,29 +13,37 @@ describe('<MeetingDetail />', () => {
       <BrowserRouter>
         <MeetingDetail
           currentUser={1}
-          meetingDetail={{
+          meetingDetailData={{
             id: 1,
             author: {
               id: 1,
               name: 'name 1',
+              email: 'email 1',
               self_intro: 'self 1',
             },
             title: 'title 1',
             content: 'content 1',
             currentMembers: [
               {
-                id: 1,
-                name: 'name 1',
-                self_intro: 'self 1',
-              },
-              {
                 id: 2,
                 name: 'name 2',
+                email: 'email 2',
                 self_intro: 'self 2',
               },
             ],
+            location: {
+              position: {
+                lat: 50.0,
+                lng: 50.0,
+              },
+              descriptions: 'description',
+            },
+            is_public: true,
+            accessible_members: [1],
+            accessible_clubs: [],
           }}
           meetingPhoto={'photo'}
+          commentList={jest.fn()}
         />
       </BrowserRouter>,
     );
@@ -52,29 +60,37 @@ describe('<MeetingDetail />', () => {
       <BrowserRouter>
         <MeetingDetail
           currentUser={1}
-          meetingDetail={{
+          meetingDetailData={{
             id: 1,
             author: {
               id: 1,
               name: 'name 1',
+              email: 'email 1',
               self_intro: 'self 1',
             },
             title: 'title 1',
             content: 'content 1',
             currentMembers: [
               {
-                id: 1,
-                name: 'name 1',
-                self_intro: 'self 1',
-              },
-              {
                 id: 2,
                 name: 'name 2',
+                email: 'email 2',
                 self_intro: 'self 2',
               },
             ],
+            location: {
+              position: {
+                lat: 50.0,
+                lng: 50.0,
+              },
+              descriptions: 'description',
+            },
+            is_public: true,
+            accessible_members: [1],
+            accessible_clubs: [],
           }}
           meetingPhoto={'photo'}
+          commentList={jest.fn()}
           onClickDeleteButton={spyDeleteMeeting}
         />
       </BrowserRouter>,
@@ -98,29 +114,37 @@ describe('<MeetingDetail />', () => {
       <BrowserRouter>
         <MeetingDetail
           currentUser={2}
-          meetingDetail={{
+          meetingDetailData={{
             id: 1,
             author: {
               id: 1,
               name: 'name 1',
+              email: 'email 1',
               self_intro: 'self 1',
             },
             title: 'title 1',
             content: 'content 1',
             currentMembers: [
               {
-                id: 1,
-                name: 'name 1',
-                self_intro: 'self 1',
-              },
-              {
                 id: 2,
                 name: 'name 2',
+                email: 'email 2',
                 self_intro: 'self 2',
               },
             ],
+            location: {
+              position: {
+                lat: 50.0,
+                lng: 50.0,
+              },
+              descriptions: 'description',
+            },
+            is_public: true,
+            accessible_members: [1],
+            accessible_clubs: [],
           }}
           meetingPhoto={'photo'}
+          commentList={jest.fn()}
           onClickToggleButton={spyToggle}
         />
       </BrowserRouter>,
@@ -136,28 +160,37 @@ describe('<MeetingDetail />', () => {
       <BrowserRouter>
         <MeetingDetail
           currentUser={3}
-          meetingDetail={{
+          meetingDetailData={{
             id: 1,
             author: {
               id: 1,
               name: 'name 1',
+              email: 'email 1',
               self_intro: 'self 1',
             },
             title: 'title 1',
             content: 'content 1',
             currentMembers: [
               {
-                id: 1,
-                name: 'name 1',
-                self_intro: 'self 1',
-              },
-              {
                 id: 2,
                 name: 'name 2',
+                email: 'email 2',
                 self_intro: 'self 2',
               },
             ],
+            location: {
+              position: {
+                lat: 50.0,
+                lng: 50.0,
+              },
+              descriptions: 'description',
+            },
+            is_public: true,
+            accessible_members: [1],
+            accessible_clubs: [],
           }}
+          meetingPhoto={'photo'}
+          commentList={jest.fn()}
           onClickToggleButton={spyToggle}
         />
       </BrowserRouter>,

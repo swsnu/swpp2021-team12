@@ -16,7 +16,25 @@ describe('<Club/>', () => {
       <BrowserRouter>
         <Club
           isEdit={true}
-          mockMembers={[{ id: 1, name: 'kang' }]}
+          existingClub={{
+            title: 'test title',
+            content: 'test content',
+            author: {
+              id: 1,
+              name: 'name1',
+              email: 'email1',
+              self_intro: 'self1',
+            },
+            members: [
+              {
+                id: 2,
+                name: 'name2',
+                email: 'email2',
+                self_intro: 'self2',
+              },
+            ],
+            pendings: [],
+          }}
           onClickDeleteHandler={jest.fn()}
           onClickConfirmHandler={jest.fn()}
           history={historyMock}

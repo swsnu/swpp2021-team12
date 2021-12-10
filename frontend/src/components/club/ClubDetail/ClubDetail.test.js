@@ -19,15 +19,18 @@ describe('<ClubDetail />', () => {
             author: {
               id: 1,
               name: 'name1',
+              email: 'email1',
               self_intro: 'self1',
             },
             members: [
               {
                 id: 2,
                 name: 'name2',
+                email: 'email2',
                 self_intro: 'self2',
               },
             ],
+            pendings: [],
           }}
           history={historyMock}
           currentUser={1}
@@ -52,15 +55,18 @@ describe('<ClubDetail />', () => {
             author: {
               id: 1,
               name: 'name1',
+              email: 'email1',
               self_intro: 'self1',
             },
             members: [
               {
                 id: 2,
                 name: 'name2',
+                email: 'email2',
                 self_intro: 'self2',
               },
             ],
+            pendings: [],
           }}
           history={historyMock}
           currentUser={1}
@@ -79,6 +85,12 @@ describe('<ClubDetail />', () => {
     expect(pushSpy).toHaveBeenCalledTimes(0);
   });
 
+  it('should handle pending request button', () => {
+    const editButton = component.find('#pending-button').find('button');
+    editButton.simulate('click');
+    expect(pushSpy).toHaveBeenCalledTimes(0);
+  });
+
   it('should handle quit button', () => {
     const spyToggle = jest.fn();
     component = mount(
@@ -90,15 +102,18 @@ describe('<ClubDetail />', () => {
             author: {
               id: 1,
               name: 'name1',
+              email: 'email1',
               self_intro: 'self1',
             },
             members: [
               {
                 id: 2,
                 name: 'name2',
+                email: 'email2',
                 self_intro: 'self2',
               },
             ],
+            pendings: [],
           }}
           history={historyMock}
           currentUser={2}
@@ -122,15 +137,18 @@ describe('<ClubDetail />', () => {
             author: {
               id: 1,
               name: 'name1',
+              email: 'email1',
               self_intro: 'self1',
             },
             members: [
               {
                 id: 2,
                 name: 'name2',
+                email: 'email2',
                 self_intro: 'self2',
               },
             ],
+            pendings: [],
           }}
           history={historyMock}
           currentUser={3}
