@@ -20,7 +20,6 @@ function MeetingDetailPage(props) {
       .get(`/api/meeting/${id}/`)
       .then((res) => {
         setMeetingDetail(res.data);
-        console.log(res.data);
       })
       .then(() => {
         axios.get(`/api/comment/meeting/${id}/`).then((res) => {

@@ -153,6 +153,7 @@ function MyRoomRegister(props) {
             <Form.Button
               id="my-room-register-back-button"
               onClick={onClickBackHandler}
+              secondary
             >
               Back
             </Form.Button>
