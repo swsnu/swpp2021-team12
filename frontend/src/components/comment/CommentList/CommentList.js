@@ -64,7 +64,10 @@ function CommentList(props) {
                           <Button
                             onClick={() => {
                               axios.get(`/api/room/user/${comment.author.id}/`)
-                                .then((res) => {history.push(`/room/${res.data.id}`);})
+                                .then((res) => {
+                                  if (comment.author.id === res.data.host_id) history.push(`/mypage/room`);
+                                  else history.push(`/room/${res.data.id}`);
+                                })
                                 .catch(() => {alert("Error! There is no room");});
                             }}
                           >

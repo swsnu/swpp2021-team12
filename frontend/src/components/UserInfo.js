@@ -25,7 +25,10 @@ function UserInfo(props) {
           <Button
             onClick={() => {
               axios.get(`/api/room/user/${user.id}/`)
-                .then((res) => {history.push(`/room/${res.data.id}`);})
+                .then((res) => {
+                  if (user.id === res.data.host_id) history.push(`/mypage/room`);
+                  else history.push(`/room/${res.data.id}`);
+                })
                 .catch(() => {alert("Error! There is no room");});
             }}
           >

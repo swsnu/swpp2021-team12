@@ -11,6 +11,14 @@ const spyCreate = jest.spyOn(axios, 'post').mockImplementation(() => {})
 let spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => true)
 
 const defaultProps = {
+    room: {
+        dates: ["date"],
+        address: "address",
+        location: {
+            lat: "lat",
+            lng: 'lng'
+        }
+    },
     onClickConfirmHandler: spyCreate,
 }
 
@@ -35,6 +43,7 @@ describe('<MyRoomRegister />', () => {
         const desInput = component.find('#my-room-register-description-input').find('textarea');
         desInput.simulate('change', {target: { value: 'des'}});
         const capacityInput = component.find('#my-room-register-capacity-input').find('input');
+        capacityInput.simulate('change', {target: {value: -1}});
         capacityInput.simulate('change', {target: {value: 5}});
         const confirm = component.find('#confirm-button').find('button')
         confirm.simulate('click');
@@ -48,7 +57,7 @@ describe('<MyRoomRegister />', () => {
 
         const spyProps = {
             onClickConfirmHandler: spyCreate,
-            room: {title: 'title', description:'des', capacity: 5}
+            room: {title: 'title', description:'des', capacity: 5, address: "address", location:{lat:"lat", lng: "lng"}, dates:["date"]}
         }
         const newComponent = mount(
             <BrowserRouter>
@@ -69,5 +78,14 @@ describe('<MyRoomRegister />', () => {
         spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => false)
         backButton.simulate('click');
         expect(spyConfirm).toHaveBeenCalledTimes(2);
+
+        const newComponent2 = mount(
+            <BrowserRouter>
+                <MyRoomRegister />
+            </BrowserRouter>
+        )
+
+        backButton = newComponent2.find('#my-room-register-back-button').find('button');
+        backButton.simulate('click');
     })
 })
