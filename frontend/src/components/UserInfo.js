@@ -2,8 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Label, Popup, Grid, Header, Button } from 'semantic-ui-react';
 
+import axios from 'axios';
+
 function UserInfo(props) {
-  const { user } = props;
+  const { user, history } = props;
   return (
     <Popup
       pinned
@@ -24,7 +26,9 @@ function UserInfo(props) {
           <p>{user.self_intro}</p>
           <Button
             onClick={() => {
-              window.alert('Not implemented yet. Sorry for inconvenience.');
+              axios.get(`/api/room/user/${user.id}/`)
+                .then((res) => {history.push(`/room/${res.data.id}`);})
+                .catch(() => {alert("Error! There is no room");});
             }}
           >
             Go to Room
