@@ -8,6 +8,7 @@ import {
   Form,
   Container,
   Segment,
+  Grid,
 } from 'semantic-ui-react';
 
 function CommentList(props) {
@@ -32,27 +33,44 @@ function CommentList(props) {
             comments.map((comment) => (
               <Segment key={comment.id}>
                 <Comment key={comment.id}>
-                  <Popup
-                    content={comment.author.self_intro}
-                    key={comment.author.id}
-                    header={comment.author.email}
-                    trigger={
-                      <Comment.Avatar
-                        style={{
-                          marginLeft: '10px',
-                          marginTop: '5px',
-                          width: '45px',
-                        }}
-                        src={`/api/user/${comment.author.id}/profile/`}
-                      />
-                    }
+                  <Comment.Avatar
+                    style={{
+                      borderStyle: 'outset',
+                      marginLeft: '20px',
+                      width: '50px',
+                      height: '50px',
+                    }}
+                    src={`/api/user/${comment.author.id}/profile/`}
                   />
                   <Comment.Content
                     style={{ textAlign: 'left', marginLeft: '8em' }}
                   >
-                    <Comment.Author as="a">
-                      {comment.author.name}
-                    </Comment.Author>
+                    <Popup
+                      pinned
+                      on="click"
+                      trigger={
+                        <Comment.Author as="a">
+                          {comment.author.name}
+                        </Comment.Author>
+                      }
+                    >
+                      <Grid centered divided columns={1}>
+                        <Grid.Column textAlign="center">
+                          <Header as="h4">{comment.author.name}</Header>
+                          <p>{comment.author.email}</p>
+                          <p>{comment.author.self_intro}</p>
+                          <Button
+                            onClick={() => {
+                              window.alert(
+                                'Not implemented yet. Sorry for inconvenience.',
+                              );
+                            }}
+                          >
+                            Go to Room
+                          </Button>
+                        </Grid.Column>
+                      </Grid>
+                    </Popup>
                     <Comment.Text>{comment.content}</Comment.Text>
                     {currentUser === comment.author.id ? (
                       <>
@@ -71,16 +89,16 @@ function CommentList(props) {
                             }
                           }}
                         >
-                          EDIT
+                          Edit
                         </Button>
                         <Button
                           className="DeleteCommentButton"
                           id="delete-comment-button"
-                          color="orange"
+                          color="red"
                           size="mini"
                           onClick={() => deleteComment(comment.id)}
                         >
-                          DELETE
+                          Delete
                         </Button>
                       </>
                     ) : null}

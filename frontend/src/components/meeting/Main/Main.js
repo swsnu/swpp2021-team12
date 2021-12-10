@@ -185,7 +185,9 @@ function Main(props) {
               <MapMarker
                 position={location}
                 image={{ src: starSrc, size: markerSize }}
-              />
+              >
+                You are here!
+              </MapMarker>
               <MarkerClusterer averageCenter={true} minLevel={10}>
                 {meetingMarkers()}
                 {roomMarkers()}
@@ -196,7 +198,7 @@ function Main(props) {
               primary
               onClick={() => history.push('/meeting/create')}
             >
-              Create Meeting
+              Create a Meeting
             </Button>
           </Grid>
         </div>

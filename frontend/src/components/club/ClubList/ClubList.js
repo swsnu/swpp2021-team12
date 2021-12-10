@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Segment, Header } from 'semantic-ui-react';
+import { Button, Segment, Header, Card } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import ClubDetail from '../ClubDetail/ClubDetail';
 
@@ -18,7 +18,7 @@ function ClubList(props) {
     >
       <Segment>
         <Header>Created Clubs</Header>
-        <Segment.Group horizontal>
+        <Card.Group horizontal>
           {clubs &&
             clubs
               .filter((club) => club.author.id === currentUser)
@@ -32,11 +32,11 @@ function ClubList(props) {
                   onClickDeleteButton={onClickDeleteButton}
                 />
               ))}
-        </Segment.Group>
+        </Card.Group>
       </Segment>
       <Segment>
         <Header>Joined Clubs</Header>
-        <Segment.Group horizontal>
+        <Card.Group>
           {clubs &&
             clubs
               .filter((club) =>
@@ -52,23 +52,28 @@ function ClubList(props) {
                   onClickToggleButton={onClickToggleButton}
                 />
               ))}
-        </Segment.Group>
+        </Card.Group>
       </Segment>
 
       <Button
         className="SearchButton"
         onClick={() => history.push('/club/search')}
       >
-        SEARCH
+        Search
       </Button>
       <Button
+        primary
         className="CreateButton"
         onClick={() => history.push('/club/create')}
       >
-        CREATE
+        Create a Club
       </Button>
-      <Button className="BackButton" onClick={() => history.push('/main')}>
-        BACK
+      <Button
+        secondary
+        className="BackButton"
+        onClick={() => history.push('/main')}
+      >
+        Back
       </Button>
     </div>
   );

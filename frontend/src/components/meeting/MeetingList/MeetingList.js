@@ -83,8 +83,12 @@ function MeetingList(props) {
           ))}
       </Segment>
 
-      <Button className="BackButton" onClick={() => history.push('/main')}>
-        back
+      <Button
+        secondary
+        className="BackButton"
+        onClick={() => history.push('/main')}
+      >
+        Back
       </Button>
     </div>
   );

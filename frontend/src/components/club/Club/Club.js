@@ -46,7 +46,7 @@ function Club(props) {
       <Segment style={{ padding: '8em 5em' }} vertical>
         <Grid columns="1" style={{ padding: '1em 20em' }}>
           <Grid.Column>
-            <h1>{isEdit ? 'Edit Your Club!' : 'Create You Club!'}</h1>
+            <h1>{isEdit ? 'Edit Your Club!' : 'Create Your Club!'}</h1>
             <br />
             <Form id="club-form">
               <Form.Input
@@ -98,7 +98,7 @@ function Club(props) {
                   </List>
                 </Grid>
               )}
-              <Grid centered>
+              <Grid centered style={{ marginTop: '50px' }}>
                 {isEdit && (
                   <>
                     <Button
@@ -127,6 +127,7 @@ function Club(props) {
                 </Button>
                 <Button
                   size="small"
+                  secondary
                   id="back-button"
                   onClick={() => {
                     history.push('/club');
