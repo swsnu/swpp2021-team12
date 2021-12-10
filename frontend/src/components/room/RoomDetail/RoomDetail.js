@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Container, Header, Button, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
@@ -23,12 +22,10 @@ function RoomDetail(props) {
   const { title, description, capacity, dates, user } = room;
   const [calDates, setDates] = useState([]);
   const [selDate, setSelDate] = useState(null);
-  const [reqDate, setReqDate] = useState(null);
   const [showRequest, setRequest] = useState(false);
   const [availableDates, setAvailableDates] = useState([]);
 
   const onClickConfirm = (date) => {
-    setReqDate(selDate);
     createRequest(date);
   };
 
