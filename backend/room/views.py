@@ -1,8 +1,9 @@
 from json.decoder import JSONDecodeError
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseForbidden, HttpResponseNotFound, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseNotFound, JsonResponse
 import json
 from .models import Room, Date, RoomRequest
+from user.models import User
 # Create your views here.
 
 # Register new Room
@@ -46,13 +47,20 @@ def register_room(request):
 def room(request, room_id):
     if request.method == 'GET':
         try:
-            room = Room.objects.get(id=room_id)
+            room = Room.objects.select_related('host').get(id=room_id)
+            user = User.objects.get(id=room.host.id)
         except (Room.DoesNotExist) as e:
             return HttpResponseNotFound()
         date_list = list(room.date.all().values('date', 'current_mem_num'))
         # response.data = {
         # id: int, title: string, description: string, capacity: int, address: string, host_id: int, 
         # dates: [{ date: string, current_mem_num: int }, ]}
+        user_dict = {
+            'id': user.id,
+            'name': user.name,
+            'email': user.email,
+            'self_intro': user.self_intro,            
+        }
         response_dict = {
             'id':room.id,
             'title': room.title,
@@ -60,6 +68,7 @@ def room(request, room_id):
             'capacity': room.capacity,
             'address': room.address,
             'host_id': room.host.id,
+            'user': user_dict,
             'lat':room.lat,
             'lng':room.lng,
             'dates': date_list,

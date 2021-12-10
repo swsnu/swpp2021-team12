@@ -14,8 +14,8 @@ function Meeting({ meeting, history, currentUser }) {
         <List.Item>
           {accessible ? (
             <Segment.Group horizontal style={{ borderColor: 'green' }}>
-              <Segment style={{ width: '70%' }}>
-                <Header size="huge">{meeting.title}</Header>
+              <Segment style={{width: '80%'}}>
+                  <Header size="huge">{meeting.title}</Header>
               </Segment>
               <Segment compact>
                 <Button
@@ -28,11 +28,11 @@ function Meeting({ meeting, history, currentUser }) {
             </Segment.Group>
           ) : (
             <Segment.Group horizontal style={{ borderColor: 'red' }}>
-              <Segment>
-                <Header size="big">{meeting.title}</Header>
+              <Segment style={{width: '76%'}}>
+                  <Header size="huge">{meeting.title}</Header>
               </Segment>
               <Segment compact>
-                <Icon size="big" name="lock" />
+                <Icon name="lock" size='big'/>
               </Segment>
             </Segment.Group>
           )}

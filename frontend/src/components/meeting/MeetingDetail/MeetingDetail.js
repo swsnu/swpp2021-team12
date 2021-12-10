@@ -18,6 +18,7 @@ import {
   // Popup,
 } from 'semantic-ui-react';
 import UserInfo from '../../UserInfo';
+import SimpleMap from '../../SimpleMap';
 
 const markerSize = {
   width: 27,
@@ -126,9 +127,12 @@ function MeetingDetail(props) {
                         </Header>
                       )}
                     </Segment>
+                    {meetingDetailData &&
+                    <SimpleMap meeting={meetingDetailData.location.position} />
+                    }
                   </Grid.Row>
                 </Grid>
-                <Grid>
+                <Grid style={{marginTop: '18em'}}>
                   <Grid.Row>
                     <Container text style={{ width: '700px', background: '' }}>
                       <Segment centered style={{}}>

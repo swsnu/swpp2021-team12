@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { Container, Header, Button, Grid } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
@@ -6,6 +5,8 @@ import Calendar from 'react-select-date';
 
 import CommentList from '../../comment/CommentList/CommentList';
 import RequestModal from '../../../containers/pages/room/RoomDetailPage/RequestModal';
+import UserInfo from '../../UserInfo';
+import SimpleMap from '../../SimpleMap';
 
 function RoomDetail(props) {
   const {
@@ -19,16 +20,13 @@ function RoomDetail(props) {
     deleteComment,
     createRequest,
   } = props;
-  const { title, description, capacity, dates } = room;
+  const { title, description, capacity, dates, user } = room;
   const [calDates, setDates] = useState([]);
   const [selDate, setSelDate] = useState(null);
-  const [reqDate, setReqDate] = useState(null);
   const [showRequest, setRequest] = useState(false);
   const [availableDates, setAvailableDates] = useState([]);
 
   const onClickConfirm = (date) => {
-    setReqDate(selDate);
-    console.log(reqDate);
     createRequest(date);
   };
 
@@ -75,22 +73,30 @@ function RoomDetail(props) {
     <Container
       id="room-detail"
       text
-      style={{ marginTop: '4em', width: '700px' }}
+      style={{ marginTop: '4em'}}
     >
-      <Grid divided="vertically">
+      <Grid style={{width: '130%'}}>
+        <Grid.Row centered>
+          <UserInfo user={user}/>
+        </Grid.Row>
         <Grid.Row centered>
           <Header id="my-room-title">{title}</Header>
         </Grid.Row>
-        <Grid.Row centered>
+        <Grid.Row columns='2'>
+          <Grid.Column>
           <Calendar
             onSelect={(date) => onSelectHandler(date)}
             showDateInputField={false}
             disableDates="past"
             duelSlotDates={calDates}
           />
+          </Grid.Column>
+          <Grid.Column style={{width: '40%'}}>
+            {room && <SimpleMap room={room}/>}
+          </Grid.Column>
         </Grid.Row>
       </Grid>
-      <Grid>
+      <Grid style={{width: '130%'}}>
         <Grid.Row centered>
           {showRequest && (
             <RequestModal
