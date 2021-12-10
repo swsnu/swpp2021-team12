@@ -10,6 +10,7 @@ import {
   Segment,
   Grid,
 } from 'semantic-ui-react';
+import axios from 'axios';
 
 function CommentList(props) {
   const {
@@ -19,6 +20,7 @@ function CommentList(props) {
     createComment,
     editComment,
     deleteComment,
+    history,
   } = props;
   const [newComment, setNewComment] = useState('');
 
@@ -61,9 +63,9 @@ function CommentList(props) {
                           <p>{comment.author.self_intro}</p>
                           <Button
                             onClick={() => {
-                              window.alert(
-                                'Not implemented yet. Sorry for inconvenience.',
-                              );
+                              axios.get(`/api/room/user/${comment.author.id}/`)
+                                .then((res) => {history.push(`/room/${res.data.id}`);})
+                                .catch(() => {alert("Error! There is no room");});
                             }}
                           >
                             Go to Room
