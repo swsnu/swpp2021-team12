@@ -11,10 +11,6 @@ function Pending({ pending, pendingList, setPendingList }) {
         <Segment>
           <UserInfo user={pending.requester} />
         </Segment>
-        {/* <Segment>
-          <h3>Content</h3>
-          {pending.content}
-        </Segment> */}
         <Segment>
           <h3>Time</h3>
           {pending.date.substr(0, 10)}
@@ -42,6 +38,7 @@ function Pending({ pending, pendingList, setPendingList }) {
               Accept
             </Button>
             <Button
+              color="red"
               onClick={() => {
                 axios
                   .put(`/api/room/host/pending/`, {
@@ -89,13 +86,6 @@ function MyRoomPending(props) {
             />
           ))}
       </Segment>
-      {/* <Button
-        className="BackButton"
-        onClick={() => history.push('/mypage/room')}
-      >
-        {' '}
-        Back{' '}
-      </Button> */}
     </div>
   );
 }

@@ -24,7 +24,7 @@ function RoomMap(props) {
     setSearchedAddress(data.address);
   };
 
-  const { address, addressHandler, locationHandler,addressCheck  } = props;
+  const { address, addressHandler, locationHandler, addressCheck } = props;
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -97,6 +97,7 @@ function RoomMap(props) {
       <Modal.Actions>
         <Button
           className="back"
+          secondary
           onClick={() => {
             setIsAddress(false);
           }}

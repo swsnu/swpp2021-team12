@@ -36,7 +36,7 @@ function MeetingSearch(props) {
         />
       </Modal.Description>
       <Modal.Actions>
-        <Button className="back" onClick={() => setOpen(false)}>
+        <Button className="back" secondary onClick={() => setOpen(false)}>
           Back
         </Button>
         <Button
