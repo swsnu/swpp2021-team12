@@ -8,30 +8,27 @@ import configureMockStore from 'redux-mock-store';
 
 import MyRoomEditPage from './MyRoomEditPage';
 
+jest.mock('axios');
 describe('<MyRoomEditPage />', () => {
-    let component;
-    const mockStore = configureMockStore();
-    const store = mockStore({
-        auth: { auth: null, authError: null },
+  let component;
+  const mockStore = configureMockStore();
+  const store = mockStore({
+    auth: { auth: null, authError: null },
+  });
+  beforeEach(() => {
+    axios.get = jest.fn().mockResolvedValue({
+      data: { title: 'title', description: 'des', capacity: 10 },
     });
-    beforeEach(() => {
-        axios.get = jest.fn().mockResolvedValue({data: {title:"title", description:"des", capacity:10}});
-        component = mount(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <MyRoomEditPage />
-                </BrowserRouter>
-            </Provider>
-        );
-    });
-    it('should render well', () => {
-        const wrapper = component.find('MyRoomRegister');
-        expect(wrapper.length).toBe(1);
-    })
-    it('should edit well', () => {
-        axios.put = jest.fn().mockResolvedValue();
-        const button = component.find('#confirm-button').find('button');
-        button.simulate('click');
-        expect(button.length).toBe(1);
-    })
-})
+    component = mount(
+      <Provider store={store}>
+        <BrowserRouter>
+          <MyRoomEditPage />
+        </BrowserRouter>
+      </Provider>,
+    );
+  });
+  it('should render well', () => {
+    const wrapper = component.find('MyRoomRegister');
+    expect(wrapper.length).toBe(1);
+  });
+});
