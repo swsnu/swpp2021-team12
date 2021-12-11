@@ -15,13 +15,13 @@ import MyProfileEditPage from './containers/pages/room/MyProfileEditPage/MyProfi
 import MyRoomPage from './containers/pages/room/MyRoomPage/MyRoomPage';
 import MyRoomRegisterPage from './containers/pages/room/MyRoomRegisterPage/MyRoomRegisterPage';
 import MyRoomEditPage from './containers/pages/room/MyRoomEditPage/MyRoomEditPage';
-import MyRoomPendingPage from './containers/pages/room/MyRoomPending/MyRoomPendingPage';
 import RoomDetailPage from './containers/pages/room/RoomDetailPage/RoomDetailPage';
 import MeetingDetailPage from './containers/pages/meeting/MeetingDetailPage/MeetingDetailPage';
 import ClubListPage from './containers/pages/club/ClubListPage/ClubListPage';
 import ClubCreatePage from './containers/pages/club/ClubCreatePage/ClubCreatePage';
 import ClubEditPage from './containers/pages/club/ClubEditPage/ClubEditPage';
 import ClubSearchPage from './containers/pages/club/ClubSearchPage/ClubSearchPage';
+import ClubPendingPage from './containers/pages/club/ClubPendingPage/ClubPendingPage';
 
 function App() {
   return (
@@ -45,15 +45,11 @@ function App() {
             component={MyRoomRegisterPage}
           />
           <Route path="/mypage/room/edit" exact component={MyRoomEditPage} />
-          <Route
-            path="/mypage/room/pending"
-            exact
-            component={MyRoomPendingPage}
-          />
           <Route path="/room/:id" exact component={RoomDetailPage} />
           <Route path="/club" exact component={ClubListPage} />
           <Route path="/club/create" exact component={ClubCreatePage} />
           <Route path="/club/:id/edit" exact component={ClubEditPage} />
+          <Route path="/club/:id/pending" exact component={ClubPendingPage} />
           <Route path="/club/search" exact component={ClubSearchPage} />
           <Redirect from="/" to="/sign_in" />
         </Switch>

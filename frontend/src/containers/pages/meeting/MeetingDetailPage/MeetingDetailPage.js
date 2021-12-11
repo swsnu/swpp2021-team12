@@ -11,7 +11,7 @@ function MeetingDetailPage(props) {
   const [comments, setComments] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { currentUser } = useSelector(({ auth }) => ({
-    currentUser: auth.auth,
+    currentUser: parseInt(auth.auth, 10),
   }));
   const { history } = props;
   const { id } = props.match.params;
@@ -34,12 +34,52 @@ function MeetingDetailPage(props) {
       });
   }, [refresh]);
 
+  const commentList = () => (
+    <>
+      <CommentList
+        currentUser={currentUser}
+        comments={comments}
+        articleId={parseInt(id, 10)}
+        createComment={(content, articleId) => {
+          axios
+            .post(`/api/comment/`, {
+              content,
+              section: 'meeting',
+              articleId,
+            })
+            .then(setRefresh(!refresh))
+            .catch(() => {
+              window.alert('Error occured while creating a new comment');
+            });
+        }}
+        editComment={(content, commentId) => {
+          axios
+            .put(`/api/comment/${commentId}/`, {
+              content,
+            })
+            .then(setRefresh(!refresh))
+            .catch(() => {
+              window.alert('Error occured while editing a comment');
+            });
+        }}
+        deleteComment={(commentId) => {
+          axios
+            .delete(`/api/comment/${commentId}/`)
+            .then(setRefresh(!refresh))
+            .catch(() => {
+              window.alert('Error occured whild deleting a comment');
+            });
+        }}
+      />
+    </>
+  );
+
   return (
     <div className="MeetingDetailPage">
       <PageTemplate>
         <MeetingDetail
           currentUser={parseInt(currentUser, 10)}
-          meetingDetail={meetingDetail}
+          meetingDetailData={meetingDetail}
           meetingPhoto={meetingPhoto}
           onClickDeleteButton={() => {
             axios
@@ -59,37 +99,7 @@ function MeetingDetailPage(props) {
                 window.alert('Error occured while making toggle');
               });
           }}
-        />
-        <CommentList
-          currentUser={parseInt(currentUser, 10)}
-          comments={comments}
-          articleId={parseInt(id, 10)}
-          createComment={(content, articleId) => {
-            axios
-              .post(`/api/comment/`, { content, section: 'meeting', articleId })
-              .then(setRefresh(!refresh))
-              .catch(() => {
-                window.alert('Error occured while creating a new comment');
-              });
-          }}
-          editComment={(content, commentId) => {
-            axios
-              .put(`/api/comment/${commentId}/`, {
-                content,
-              })
-              .then(setRefresh(!refresh))
-              .catch(() => {
-                window.alert('Error occured while editing a comment');
-              });
-          }}
-          deleteComment={(commentId) => {
-            axios
-              .delete(`/api/comment/${commentId}/`)
-              .then(setRefresh(!refresh))
-              .catch(() => {
-                window.alert('Error occured whild deleting a comment');
-              });
-          }}
+          commentList={commentList}
         />
       </PageTemplate>
     </div>

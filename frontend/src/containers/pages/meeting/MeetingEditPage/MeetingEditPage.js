@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 
 import PageTemplate from '../../../common/PageTemplate';
@@ -14,6 +15,9 @@ function MeetingEditPage(props) {
   });
   const [meetingPhoto, setMeetingPhoto] = useState(null);
   const id = parseInt(params.id, 10);
+  const { currentUser } = useSelector(({ auth }) => ({
+    currentUser: auth.auth,
+  }));
 
   const onClickConfirmHandler = async (
     title,
@@ -22,6 +26,7 @@ function MeetingEditPage(props) {
     history,
     photo,
     isImageModified,
+    scope,
     location,
     time,
   ) => {
@@ -36,6 +41,8 @@ function MeetingEditPage(props) {
         lng: location.position.lng,
         description: location.description,
         time: time.getTime() / 1000,
+        is_public: scope.isPublic,
+        accessible_clubs: scope.selectedClubs,
       });
       if (isImageModified === 1) {
         await axios({
@@ -61,8 +68,10 @@ function MeetingEditPage(props) {
           lng: location.position.lng,
           description: location.description,
           time: time.getTime() / 1000,
+          is_public: scope.isPublic,
+          accessible_clubs: scope.selectedClubs,
         })
-        .then((res) => history.push(`/meeting/${res.data.id}`));
+        .then(() => history.push(`/meeting/${id}`));
     }
   };
 
@@ -80,13 +89,22 @@ function MeetingEditPage(props) {
     });
   }, []);
 
+  const [clubs, setClubs] = useState([]);
+  useEffect(() => {
+    axios.get('/api/club/').then((res) => {
+      setClubs(res.data);
+    });
+  }, []);
+
   return (
     <PageTemplate>
       <Meeting
+        currentUser={parseInt(currentUser, 10)}
         onClickConfirmHandler={onClickConfirmHandler}
         existingMeeting={meeting}
         existingPhoto={meetingPhoto}
         meetingId={id}
+        clubs={clubs}
       />
     </PageTemplate>
   );

@@ -13,7 +13,7 @@ function MeetingTime(props) {
       onOpen={() => setIsTime(true)}
       open={isTime}
       trigger={
-        <Button id="time-button" size="small">
+        <Button id="time-button" size="small" color={time ? 'olive' : 'orange'}>
           Time
         </Button>
       }
@@ -22,6 +22,7 @@ function MeetingTime(props) {
       <Modal.Description>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <StaticDateTimePicker
+            autoOk={true}
             id="timepicker"
             displayStaticWrapperAs="desktop"
             openTo="day"
@@ -35,12 +36,24 @@ function MeetingTime(props) {
       <Modal.Actions>
         <Button
           id="back-button"
+          secondary
           onClick={() => {
             setIsTime(false);
           }}
         >
           Back
         </Button>
+        <Button
+          className="confirm"
+          content="Confirm"
+          labelPosition="right"
+          icon="checkmark"
+          disabled={!time}
+          onClick={() => {
+            setIsTime(false);
+          }}
+          positive
+        />
       </Modal.Actions>
     </Modal>
   );

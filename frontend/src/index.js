@@ -7,9 +7,12 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
+import axios from 'axios';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import rootReducer, { rootSaga } from './store/reducers';
+
+axios.get('/api/user/token');
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(

@@ -37,11 +37,12 @@ function Main(props) {
   const [roomBubble, setRoomBubble] = useState([]);
 
   const roomMarkers = () =>
+    roomBubble &&
     roomBubble.map((room) => (
       <div key={room.id}>
         <MapMarker
           id="room-marker"
-          position={room.location}
+          position={{ lat: room.lat, lng: room.lng }}
           image={{ src: roomSrc, size: markerSize }}
           onClick={() => {
             const tmp1 = roomBubble.find((x) => x.id === room.id);
@@ -51,12 +52,12 @@ function Main(props) {
           }}
         />
         {room.open && (
-          <CustomOverlayMap position={room.location}>
+          <CustomOverlayMap position={{ lat: room.lat, lng: room.lng }}>
             <Segment inverted>
               <div className="info">
                 <Header inverted>{room.title}</Header>
                 <div className="body">
-                  {room.content}
+                  {room.description}
                   <div>
                     <Button
                       id="roomdetail-button"
@@ -85,11 +86,12 @@ function Main(props) {
     ));
 
   const meetingMarkers = () =>
+    meetingBubble &&
     meetingBubble.map((meeting) => (
       <div key={meeting.id}>
         <MapMarker
           id="meeting-marker"
-          position={meeting.location}
+          position={meeting.location.position}
           image={{ src: meetingSrc, size: markerSize }}
           onClick={() => {
             const tmp1 = meetingBubble.find((x) => x.id === meeting.id);
@@ -99,17 +101,17 @@ function Main(props) {
           }}
         />
         {meeting.open && (
-          <CustomOverlayMap position={meeting.location}>
+          <CustomOverlayMap position={meeting.location.position}>
             <Segment inverted>
               <div className="info">
                 <Header inverted>{meeting.title}</Header>
                 <div className="body">
                   {meeting.content}
                   <div className="host">
-                    HOST:{meeting.author}
+                    HOST:{meeting.author.name}
                     <div className="member">
-                      current member : {meeting.current_members}/
-                      {meeting.max_members}
+                      current member : {meeting.currentMembers.length}/
+                      {meeting.maxMembers}
                     </div>
                     <div>
                       <Button
@@ -144,9 +146,14 @@ function Main(props) {
     ));
 
   useEffect(() => {
-    setMeetingBubble(meetings);
+    if (meetings) {
+      setMeetingBubble(meetings);
+    }
+    if (rooms) {
+      setRoomBubble(rooms);
+    }
     setRoomBubble(rooms);
-  }, []);
+  }, [meetings, rooms]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -178,7 +185,9 @@ function Main(props) {
               <MapMarker
                 position={location}
                 image={{ src: starSrc, size: markerSize }}
-              />
+              >
+                You are here!
+              </MapMarker>
               <MarkerClusterer averageCenter={true} minLevel={10}>
                 {meetingMarkers()}
                 {roomMarkers()}
@@ -189,7 +198,7 @@ function Main(props) {
               primary
               onClick={() => history.push('/meeting/create')}
             >
-              Create Meeting
+              Create a Meeting
             </Button>
           </Grid>
         </div>

@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 from meeting.models import Meeting
 from user.models import User, UserManager
+from club.models import Club
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest, JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from django.shortcuts import render
@@ -29,6 +30,13 @@ def meeting_(request):
                     'self_intro': member.self_intro
                 }
                 member_list.append(member_object)
+            accessible_member_list = []
+            for club in meeting.accessible_clubs.all():
+                if club.author.id not in accessible_member_list:
+                    accessible_member_list.append(club.author.id)
+                for member in club.members.all():
+                    if member.id not in accessible_member_list:
+                        accessible_member_list.append(member.id)
             meeting_all_list.append(
                 {
                     'id': meeting.id,
@@ -37,9 +45,11 @@ def meeting_(request):
                     'author': author_object,
                     'maxMembers': meeting.max_members,
                     'currentMembers': member_list,
-                    'location':{'position':{'lat':meeting.lat,'lng':meeting.lng}
-                    ,'description':meeting.description},
-                    'time':meeting.time,
+                    'location': {'position':{'lat':meeting.lat,'lng':meeting.lng},
+                    'description': meeting.description},
+                    'time': meeting.time,
+                    'is_public': meeting.is_public,
+                    'accessible_members': accessible_member_list,
                 }
             )
         return JsonResponse(meeting_all_list, safe=False)
@@ -59,8 +69,14 @@ def meeting_(request):
             meeting_lng = req_data['lng']
             meeting_description = req_data['description']
             meeting_time = req_data['time']
+            meeting_is_public = req_data['is_public']
+            meeting_accessible_clubs = req_data['accessible_clubs']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
+        accessible_club_list = []
+        for club_id in meeting_accessible_clubs:
+            accessible_club = Club.objects.get(id=club_id)
+            accessible_club_list.append(accessible_club)
         meeting = Meeting.objects.create(
             title=meeting_title,
             content=meeting_content,
@@ -70,7 +86,9 @@ def meeting_(request):
             lng = meeting_lng,
             description = meeting_description,
             time = meeting_time,
+            is_public = meeting_is_public,
         )
+        meeting.accessible_clubs.set(accessible_club_list)
         meeting.current_members.add(meeting_author)
         meeting.save()
         member_list = []
@@ -118,6 +136,20 @@ def specified_meeting(request, meeting_id):
                 'self_intro': member.self_intro
             }
             member_list.append(member_object)
+        is_public = target_meeting.is_public
+        accessible_club_list = []
+        accessible_member_list = []
+        for club in target_meeting.accessible_clubs.all():
+            club_object = {
+                'id': club.id,
+                'title': club.title
+            }
+            accessible_club_list.append(club_object)
+            if club.author.id not in accessible_member_list:
+                accessible_member_list.append(club.author.id)
+            for member in club.members.all():
+                if member.id not in accessible_member_list:
+                    accessible_member_list.append(member.id)
         response_dict = {
             'id': meeting_id,
             'title': title,
@@ -128,6 +160,9 @@ def specified_meeting(request, meeting_id):
             'location':{'position':{'lat':lat,'lng':lng}
             ,'description':description},
             'time':time,
+            'is_public': is_public,
+            'accessible_clubs': accessible_club_list,
+            'accessible_members': accessible_member_list,
         }
         return JsonResponse(response_dict)
 
@@ -149,11 +184,17 @@ def specified_meeting(request, meeting_id):
             new_lng = req_data['lng']
             new_description = req_data['description']
             new_time = req_data['time']
+            new_is_public = req_data['is_public']
+            new_accessible_clubs = req_data['accessible_clubs']
         except (KeyError, JSONDecodeError) as error:
             return HttpResponseBadRequest(error)
         if target_meeting.author.id != request.user.id:
             return HttpResponse(status=403)
         else:
+            new_club_list = []
+            for club_id in new_accessible_clubs:
+                new_club = Club.objects.get(id=club_id)
+                new_club_list.append(new_club)
             target_meeting.title = new_title
             target_meeting.content = new_content
             target_meeting.max_members = new_maxMembers
@@ -161,6 +202,8 @@ def specified_meeting(request, meeting_id):
             target_meeting.lng = new_lng
             target_meeting.description = new_description
             target_meeting.time = new_time
+            target_meeting.is_public = new_is_public
+            target_meeting.accessible_clubs.set(new_club_list)
             target_meeting.save()
             return HttpResponse(status=200)
 

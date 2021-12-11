@@ -1,42 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon, Menu, Segment, Sidebar } from 'semantic-ui-react';
-import axios from 'axios';
-import Main from '../../../../components/meeting/Main/Main';
-import PageTemplate from '../../../common/PageTemplate';
-import * as meetingAPI from '../../../../lib/api/meetings';
-import roomAPI from '../../../../lib/api/room';
+// import { useSelector } from 'react-redux';
 
-function MainPage(props) {
-  const [meetings, setMeetings] = useState(null);
-  const [rooms, setRooms] = useState(null);
+import * as axios from 'axios';
+
+import PageTemplate from '../../../common/PageTemplate';
+import ClubPending from '../../../../components/club/ClubPending/ClubPending';
+
+function ClubPendingPage(props) {
+  const [pendings, setPendings] = useState([]);
+  // const [refresh, setRefresh] = useState(false);
+  // const { currentUser } = useSelector(({ auth }) => ({
+  //   currentUser: parseInt(auth.auth, 10),
+  // }));
   const { history } = props;
+  const { params } = props.match;
 
   useEffect(() => {
-    const meetingReducer = [];
-    const roomReducer = [];
-    axios
-      .get(meetingAPI.meetings)
-      .then((res) => {
-        res.data.forEach((meeting) => {
-          meetingReducer.push({ ...meeting, open: false });
-        });
-      })
-      .then(() => {
-        setMeetings(meetingReducer);
-      });
-
-    axios
-      .get(roomAPI)
-      .then((res) => {
-        res.data.forEach((room) => {
-          roomReducer.push({ ...room, open: false });
-        });
-      })
-      .then(() => setRooms(roomReducer));
+    axios.get(`/api/club/${params.id}/pending/`).then((res) => {
+      setPendings(res.data);
+    });
   }, []);
-
   return (
-    <div className="MainPage">
+    <div className="ClubPendingPage">
       <PageTemplate>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
@@ -73,14 +59,33 @@ function MainPage(props) {
               My Club List
             </Menu.Item>
           </Sidebar>
-
           <Sidebar.Pusher>
             <Segment
               textAlign="center"
               vertical
               style={{ minHeight: 1000, padding: '1em 0em' }}
             >
-              <Main meetings={meetings} rooms={rooms} />
+              <ClubPending
+                pendings={pendings}
+                history={history}
+                onClickHandleButton={(id, acceptOrRefuse) => {
+                  axios
+                    .put(`/api/club/${params.id}/pending/`, {
+                      pending_id: id,
+                      accept_or_refuse: acceptOrRefuse,
+                    })
+                    .then(() => {
+                      setPendings(
+                        pendings.filter((request) => request.id !== id),
+                      );
+                    })
+                    .catch(() => {
+                      window.alert(
+                        'Error occured while handling a pending request',
+                      );
+                    });
+                }}
+              />
             </Segment>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
@@ -89,4 +94,4 @@ function MainPage(props) {
   );
 }
 
-export default MainPage;
+export default ClubPendingPage;

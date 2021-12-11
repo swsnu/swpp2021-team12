@@ -12,6 +12,7 @@ function MeetingMap(props) {
   const [info, setInfo] = useState(null);
   const [map, setMap] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [description, setDescription] = useState('');
 
   const { location, locationHandler } = props;
@@ -40,13 +41,25 @@ function MeetingMap(props) {
     }
   }, [location]);
 
+  useEffect(() => {
+    if (selectedMarker) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [selectedMarker]);
+
   return currentLocation ? (
     <Modal
       className="locationModal"
       onOpen={() => setIsLocation(true)}
       open={isLocation}
       trigger={
-        <Button id="location_button" size="small">
+        <Button
+          id="location_button"
+          size="small"
+          color={selectedMarker ? 'olive' : 'orange'}
+        >
           Location
         </Button>
       }
@@ -149,6 +162,7 @@ function MeetingMap(props) {
       <Modal.Actions>
         <Button
           className="back"
+          secondary
           onClick={() => {
             setIsLocation(false);
             if (location) {
@@ -167,6 +181,7 @@ function MeetingMap(props) {
           content="Confirm"
           labelPosition="right"
           icon="checkmark"
+          disabled={isDisabled}
           onClick={() => {
             setIsLocation(false);
             locationHandler(selectedMarker.position, description);

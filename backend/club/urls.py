@@ -5,4 +5,5 @@ urlpatterns = [
     path('', views.club_, name='club'),
     path('<int:club_id>/', views.specified_club, name='specified_club'),
     path('<int:club_id>/toggle/', views.toggle_club, name='toggle_club'),
+    path('<int:club_id>/pending/', views.handle_pending, name='handle_pending'),
 ]

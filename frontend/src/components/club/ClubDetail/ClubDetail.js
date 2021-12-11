@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { Button, List, Card, Popup, Image } from 'semantic-ui-react';
+import { Button, List, Card } from 'semantic-ui-react';
+import UserInfo from '../../UserInfo';
 
 function ClubDetail({
   club,
@@ -10,46 +11,40 @@ function ClubDetail({
   onClickToggleButton,
 }) {
   return (
-    <div className="ClubDetail">
+    <div className="ClubDetail" style={{ margin: '10px' }}>
       <List divided relaxed>
         <List.Item>
-          <Card>
+          <Card style={{ width: '280px' }}>
             <Card.Content>
               <Card.Header>{club.title}</Card.Header>
               <Card.Description>{club.content}</Card.Description>
               <Card.Description>
                 Leader:
-                <Popup
-                  content={club.author.self_intro}
-                  key={club.author.id}
-                  header={club.author.name}
-                  trigger={
-                    <Image
-                      src={`/api/user/${club.author.id}/profile/`}
-                      avatar
-                    />
-                  }
-                />
+                <UserInfo user={club.author} />
               </Card.Description>
             </Card.Content>
             <Card.Content extra>
               Members:
               {club.members.map((member) => (
-                <Popup
-                  content={member.self_intro}
-                  key={member.id}
-                  header={member.name}
-                  trigger={
-                    <Image src={`/api/user/${member.id}/profile/`} avatar />
-                  }
-                />
+                <UserInfo key={member.id} user={member} />
               ))}
               <br />
               {club.author.id === currentUser ? (
                 <>
                   <Button
+                    id="pending-button"
+                    size="tiny"
+                    primary
+                    style={{ margin: '5px' }}
+                    onClick={() => history.push(`/club/${club.id}/pending`)}
+                  >
+                    Pending Requests
+                  </Button>
+                  <br />
+                  <Button
                     className="EditButton"
                     id="editClubButton"
+                    color="instagram"
                     onClick={() =>
                       history.push({
                         pathname: `/club/${club.id}/edit`,
@@ -57,14 +52,15 @@ function ClubDetail({
                       })
                     }
                   >
-                    EDIT
+                    Edit
                   </Button>
                   <Button
+                    color="red"
                     className="DeleteButton"
                     id="deleteClubButton"
                     onClick={() => onClickDeleteButton(club.id)}
                   >
-                    DELETE
+                    Delete
                   </Button>
                 </>
               ) : (
@@ -73,17 +69,22 @@ function ClubDetail({
                     <Button
                       className="QuitButton"
                       id="quitClubButton"
-                      onClick={() => onClickToggleButton(club.id)}
+                      color="red"
+                      onClick={() => onClickToggleButton(club.id, 0)}
                     >
-                      QUIT
+                      Quit
                     </Button>
                   ) : (
                     <Button
                       className="JoinButton"
                       id="joinClubButton"
-                      onClick={() => onClickToggleButton(club.id)}
+                      primary
+                      disabled={club.pendings.find(
+                        (member) => member.id === currentUser,
+                      )}
+                      onClick={() => onClickToggleButton(club.id, 1)}
                     >
-                      JOIN
+                      Join
                     </Button>
                   )}
                 </>

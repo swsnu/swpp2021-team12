@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import {
   Comment,
   Header,
@@ -7,9 +8,11 @@ import {
   Form,
   Container,
   Segment,
+  Grid,
 } from 'semantic-ui-react';
+import axios from 'axios';
 
-export default function CommentList(props) {
+function CommentList(props) {
   const {
     currentUser,
     comments,
@@ -17,6 +20,7 @@ export default function CommentList(props) {
     createComment,
     editComment,
     deleteComment,
+    history,
   } = props;
   const [newComment, setNewComment] = useState('');
 
@@ -31,27 +35,48 @@ export default function CommentList(props) {
             comments.map((comment) => (
               <Segment key={comment.id}>
                 <Comment key={comment.id}>
-                  <Popup
-                    content={comment.author.self_intro}
-                    key={comment.author.email}
-                    header={comment.author.name}
-                    trigger={
-                      <Comment.Avatar
-                        style={{
-                          marginLeft: '10px',
-                          marginTop: '5px',
-                          width: '70px',
-                        }}
-                        src={`/api/user/${comment.author.id}/profile/`}
-                      />
-                    }
+                  <Comment.Avatar
+                    style={{
+                      borderStyle: 'outset',
+                      marginLeft: '20px',
+                      width: '50px',
+                      height: '50px',
+                    }}
+                    src={`/api/user/${comment.author.id}/profile/`}
                   />
                   <Comment.Content
                     style={{ textAlign: 'left', marginLeft: '8em' }}
                   >
-                    <Comment.Author as="a">
-                      {comment.author.name}
-                    </Comment.Author>
+                    <Popup
+                      pinned
+                      on="click"
+                      trigger={
+                        <Comment.Author as="a">
+                          {comment.author.name}
+                        </Comment.Author>
+                      }
+                    >
+                      <Grid centered divided columns={1}>
+                        <Grid.Column textAlign="center">
+                          <Header as="h4">{comment.author.name}</Header>
+                          <p>{comment.author.email}</p>
+                          <p>{comment.author.self_intro}</p>
+                          <Button
+                            primary
+                            onClick={() => {
+                              axios.get(`/api/room/user/${comment.author.id}/`)
+                                .then((res) => {
+                                  if (comment.author.id === res.data.host_id) history.push(`/mypage/room`);
+                                  else history.push(`/room/${res.data.id}`);
+                                })
+                                .catch(() => {alert("Error! There is no room");});
+                            }}
+                          >
+                            Go to Room
+                          </Button>
+                        </Grid.Column>
+                      </Grid>
+                    </Popup>
                     <Comment.Text>{comment.content}</Comment.Text>
                     {currentUser === comment.author.id ? (
                       <>
@@ -70,16 +95,16 @@ export default function CommentList(props) {
                             }
                           }}
                         >
-                          EDIT
+                          Edit
                         </Button>
                         <Button
                           className="DeleteCommentButton"
                           id="delete-comment-button"
-                          color="orange"
+                          color="red"
                           size="mini"
                           onClick={() => deleteComment(comment.id)}
                         >
-                          DELETE
+                          Delete
                         </Button>
                       </>
                     ) : null}
@@ -114,3 +139,5 @@ export default function CommentList(props) {
     </div>
   );
 }
+
+export default withRouter(CommentList);

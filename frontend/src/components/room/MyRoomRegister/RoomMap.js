@@ -1,7 +1,7 @@
 /* global kakao */
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker, MarkerClusterer } from 'react-kakao-maps-sdk';
-import { Modal, Button, Dimmer, Loader } from 'semantic-ui-react';
+import { Modal, Button, Dimmer, Loader, Form } from 'semantic-ui-react';
 import DaumPostcode from 'react-daum-postcode';
 
 const postCodeStyle = {
@@ -19,11 +19,12 @@ function RoomMap(props) {
   const [map, setMap] = useState(null);
   const [searchedAddress, setSearchedAddress] = useState('');
   const [searchedMarker, setSearchedMarker] = useState(null);
+  const [location, setLocation] = useState(null);
   const onCompletePost = (data) => {
     setSearchedAddress(data.address);
   };
 
-  const { address, addressHandler } = props;
+  const { address, addressHandler, locationHandler, addressCheck } = props;
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -51,6 +52,7 @@ function RoomMap(props) {
           position: { lat: result[0].y, lng: result[0].x },
           info: searchedAddress,
         });
+        setLocation({ lat: result[0].y, lng: result[0].x });
         map.setBounds(bounds);
       });
     }
@@ -67,7 +69,7 @@ function RoomMap(props) {
       className="locationModal"
       onOpen={() => setIsAddress(true)}
       open={isAddress}
-      trigger={<Button size="small">Address</Button>}
+      trigger={<Form.Button primary={addressCheck}>Address</Form.Button>}
     >
       <Modal.Header>Address</Modal.Header>
       <Modal.Description>
@@ -95,6 +97,7 @@ function RoomMap(props) {
       <Modal.Actions>
         <Button
           className="back"
+          secondary
           onClick={() => {
             setIsAddress(false);
           }}
@@ -109,6 +112,7 @@ function RoomMap(props) {
           onClick={() => {
             setIsAddress(false);
             addressHandler(searchedAddress);
+            locationHandler(location);
           }}
           positive
         />

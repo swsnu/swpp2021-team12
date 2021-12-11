@@ -16,8 +16,8 @@ function MyRoom(props) {
     const dateList = [];
     dates.forEach((date) => {
       dateList.push({
-        date,
-        avaliableSlot: capacity,
+        date: date.date,
+        avaliableSlot: date.current_mem_num,
         totalSlot: capacity,
       });
     });
@@ -49,14 +49,19 @@ function MyRoom(props) {
         <Grid.Row centered columns="3" style={{ marginTop: '2em' }}>
           <Button
             id="my-room-edit-button"
+            color="instagram"
             onClick={() => history.push('/mypage/room/edit')}
           >
             Edit
           </Button>
 
           {/* need to be implemented!! */}
-          <PendingRequest />
-          <Button id='my-room-delete-button' color="red" onClick={onClickDeleteButton}>
+          <PendingRequest pendings={room.pendings} />
+          <Button
+            id="my-room-delete-button"
+            color="red"
+            onClick={onClickDeleteButton}
+          >
             Delete
           </Button>
         </Grid.Row>
