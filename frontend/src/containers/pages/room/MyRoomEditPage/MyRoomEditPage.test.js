@@ -8,7 +8,22 @@ import configureMockStore from 'redux-mock-store';
 
 import MyRoomEditPage from './MyRoomEditPage';
 
-jest.mock('axios');
+const spyCreate = jest.spyOn(axios, 'post').mockImplementation(() => {})
+const defaultProps = {
+    room: {
+        title: "title",
+        description: "des",
+        capacity: 10,
+        dates: ["date"],
+        address: "address",
+        location: {
+            lat: "lat",
+            lng: 'lng'
+        },
+    },
+    onClickConfirmHandler: spyCreate,
+}
+
 describe('<MyRoomEditPage />', () => {
   let component;
   const mockStore = configureMockStore();
@@ -19,16 +34,26 @@ describe('<MyRoomEditPage />', () => {
     axios.get = jest.fn().mockResolvedValue({
       data: { title: 'title', description: 'des', capacity: 10 },
     });
-    component = mount(
-      <Provider store={store}>
-        <BrowserRouter>
-          <MyRoomEditPage />
-        </BrowserRouter>
-      </Provider>,
-    );
-  });
-  it('should render well', () => {
-    const wrapper = component.find('MyRoomRegister');
-    expect(wrapper.length).toBe(1);
-  });
-});
+
+    beforeEach(() => {
+        axios.get = jest.fn().mockResolvedValue({data: {title:"title", description:"des", capacity:10, dates:["date"], address: "address", location: {lat: "lat", lng: "lng"}}});
+        axios.put = jest.fn().mockResolvedValueOnce()
+                            .mockRejectedValue()
+        component = mount(
+            <Provider store={store}>
+                <BrowserRouter>
+                    <MyRoomEditPage {...defaultProps}/>
+                </BrowserRouter>
+            </Provider>
+        );
+    });
+    it('should render well', () => {
+        const wrapper = component.find('MyRoomRegister');
+        expect(wrapper.length).toBe(1);
+    })
+    it('should edit well', () => {
+        const button = component.find('#confirm-button').find('button');
+        button.simulate('click');
+        expect(button.length).toBe(1);
+    })
+})

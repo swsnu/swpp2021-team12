@@ -18,7 +18,12 @@ function SimpleMap (props) {
     return (
         <Map
         center={location}
-        style={{ width: '100%', height: '100%'}}
+        style={{ width: '480px', height: '480px'}}
+        onCreate={(map) => {
+            setTimeout(() => {
+                map.relayout();
+            }, [500])
+        }}
         zoomable={false}
         draggable={false}
         >

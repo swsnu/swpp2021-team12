@@ -11,8 +11,16 @@ const spyCreate = jest.spyOn(axios, 'post').mockImplementation(() => {});
 let spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => true);
 
 const defaultProps = {
-  onClickConfirmHandler: spyCreate,
-};
+    room: {
+        dates: ["date"],
+        address: "address",
+        location: {
+            lat: "lat",
+            lng: 'lng'
+        }
+    },
+    onClickConfirmHandler: spyCreate,
+}
 
 describe('<MyRoomRegister />', () => {
   let component;
@@ -29,23 +37,18 @@ describe('<MyRoomRegister />', () => {
     expect(wrapper.length).toBe(1);
   });
 
-  it('should post room well', () => {
-    const titleInput = component
-      .find('#my-room-register-title-input')
-      .find('input');
-    titleInput.simulate('change', { target: { value: 'title' } });
-    const desInput = component
-      .find('#my-room-register-description-input')
-      .find('textarea');
-    desInput.simulate('change', { target: { value: 'des' } });
-    const capacityInput = component
-      .find('#my-room-register-capacity-input')
-      .find('input');
-    capacityInput.simulate('change', { target: { value: 5 } });
-    const confirm = component.find('#confirm-button').find('button');
-    confirm.simulate('click');
-    expect(spyCreate).toHaveBeenCalledTimes(0);
-  });
+    it('should post room well', () => {
+        const titleInput = component.find('#my-room-register-title-input').find('input');
+        titleInput.simulate('change', {target: { value: 'title'}});
+        const desInput = component.find('#my-room-register-description-input').find('textarea');
+        desInput.simulate('change', {target: { value: 'des'}});
+        const capacityInput = component.find('#my-room-register-capacity-input').find('input');
+        capacityInput.simulate('change', {target: {value: -1}});
+        capacityInput.simulate('change', {target: {value: 5}});
+        const confirm = component.find('#confirm-button').find('button')
+        confirm.simulate('click');
+        expect(spyCreate).toHaveBeenCalledTimes(1);
+    });
 
   it('should handle back button well', () => {
     let backButton = component
@@ -54,15 +57,19 @@ describe('<MyRoomRegister />', () => {
     backButton.simulate('click');
     expect(spyConfirm).toHaveBeenCalledTimes(0);
 
-    const spyProps = {
-      onClickConfirmHandler: spyCreate,
-      room: { title: 'title', description: 'des', capacity: 5, dates: [1] },
-    };
-    const newComponent = mount(
-      <BrowserRouter>
-        <MyRoomRegister {...spyProps} />
-      </BrowserRouter>,
-    );
+        const spyProps = {
+            onClickConfirmHandler: spyCreate,
+            room: {title: 'title', description:'des', capacity: 5, address: "address", location:{lat:"lat", lng: "lng"}, dates:["date"]}
+        }
+        const newComponent = mount(
+            <BrowserRouter>
+                <MyRoomRegister {...spyProps} />
+            </BrowserRouter>
+        );
+        
+        backButton = newComponent.find('#my-room-register-back-button').find('button');
+        backButton.simulate('click');
+        expect(spyConfirm).toHaveBeenCalledTimes(0);
 
     backButton = newComponent
       .find('#my-room-register-back-button')
@@ -75,11 +82,17 @@ describe('<MyRoomRegister />', () => {
       .find('input');
     titleInput.simulate('change', { target: { value: 'changed' } });
 
-    backButton.simulate('click');
-    expect(spyConfirm).toHaveBeenCalledTimes(1);
+        spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => false)
+        backButton.simulate('click');
+        expect(spyConfirm).toHaveBeenCalledTimes(2);
 
-    spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => false);
-    backButton.simulate('click');
-    expect(spyConfirm).toHaveBeenCalledTimes(2);
-  });
-});
+        const newComponent2 = mount(
+            <BrowserRouter>
+                <MyRoomRegister />
+            </BrowserRouter>
+        )
+
+        backButton = newComponent2.find('#my-room-register-back-button').find('button');
+        backButton.simulate('click');
+    })
+})
