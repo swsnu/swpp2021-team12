@@ -24,7 +24,28 @@ describe('<ClubEditPage/>', () => {
           <ClubEditPage
             match={{ params: 1 }}
             location={{
-              state: { club: { id: 1, title: 'title', content: 'content' } },
+              state: {
+                club: {
+                  id: 1,
+                  title: 'test title',
+                  content: 'test content',
+                  author: {
+                    id: 1,
+                    name: 'name1',
+                    email: 'email1',
+                    self_intro: 'self1',
+                  },
+                  members: [
+                    {
+                      id: 2,
+                      name: 'name2',
+                      email: 'email2',
+                      self_intro: 'self2',
+                    },
+                  ],
+                  pendings: [],
+                },
+              },
             }}
           />
         </BrowserRouter>
@@ -48,9 +69,7 @@ describe('<ClubEditPage/>', () => {
       }),
     );
     const confirmButton = component.find('#confirm-button').find('button');
-    const pendingButton = component.find('#pending-button').find('button');
     const deleteButton = component.find('#delete-button').find('button');
-    pendingButton.simulate('click');
     deleteButton.simulate('click');
     confirmButton.simulate('click');
     axios.put.mockImplementation(() =>
