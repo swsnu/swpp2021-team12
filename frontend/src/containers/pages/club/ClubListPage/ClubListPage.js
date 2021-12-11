@@ -21,10 +21,6 @@ function ClubListPage(props) {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(clubs);
-  }, [clubs]);
-
   return (
     <div className="ClubListPage">
       <PageTemplate>

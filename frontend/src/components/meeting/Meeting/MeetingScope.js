@@ -22,8 +22,6 @@ function MeetingScope(props) {
   };
   useEffect(() => {
     if (existingScope) {
-      console.log(existingScope);
-      console.log(myClubs);
       setIsPublic(existingScope.isPublic);
       setSelectedClubs(
         existingScope.selectedClubs

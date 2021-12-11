@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 import MeetingEditPage from './MeetingEditPage';
 
 jest.mock('axios');
-const runAllPromises = () => new Promise(setImmediate);
+// const runAllPromises = () => new Promise(setImmediate);
 describe('<MeetingEditPage />', () => {
   jest.spyOn(window, 'alert').mockImplementation(() => {});
   const mockStore = configureMockStore();
