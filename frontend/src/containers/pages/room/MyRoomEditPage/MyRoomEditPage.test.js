@@ -25,11 +25,16 @@ const defaultProps = {
 }
 
 describe('<MyRoomEditPage />', () => {
-    let component;
-    const mockStore = configureMockStore();
-    const store = mockStore({
-        auth: { auth: null, authError: null },
+  let component;
+  const mockStore = configureMockStore();
+  const store = mockStore({
+    auth: { auth: null, authError: null },
+  });
+  beforeEach(() => {
+    axios.get = jest.fn().mockResolvedValue({
+      data: { title: 'title', description: 'des', capacity: 10 },
     });
+
     beforeEach(() => {
         axios.get = jest.fn().mockResolvedValue({data: {title:"title", description:"des", capacity:10, dates:["date"], address: "address", location: {lat: "lat", lng: "lng"}}});
         axios.put = jest.fn().mockResolvedValueOnce()

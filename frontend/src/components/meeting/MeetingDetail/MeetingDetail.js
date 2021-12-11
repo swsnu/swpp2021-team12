@@ -56,7 +56,7 @@ function MeetingDetail(props) {
   }, [meetingDetailData]);
 
   return (
-    <>
+    <div className="MeetingDetail">
       {meetingDetail ? (
         <React.Fragment>
           {accessible ? (
@@ -94,25 +94,6 @@ function MeetingDetail(props) {
                           {meetingDetail.location.description}
                         </p>
                       </MapMarker>
-                      {/* <CustomOverlayMap
-                        position={meetingDetail.location.position}
-                      >
-                        <Popup
-                          on="click"
-                          content={meetingDetail.location.description}
-                          style={{ zIndex: '-1', position: 'relative' }}
-                          trigger={
-                            <MapMarker
-                              position={meetingDetail.location.position}
-                              image={{ src: starSrc, size: markerSize }}
-                            ></MapMarker>
-                          }
-                        >
-                          <Header as="h4">
-                            {meetingDetail.location.description}
-                          </Header>
-                        </Popup>
-                      </CustomOverlayMap> */}
                     </Map>
                     <Segment placeholder size="small">
                       {meetingPhoto ? (
@@ -232,7 +213,7 @@ function MeetingDetail(props) {
           <Loader />
         </Dimmer>
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 
-import React from "react";
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import * as axios from 'axios';
 
-import MyRoomRegister from "./MyRoomRegister";
+import MyRoomRegister from './MyRoomRegister';
 
-const spyCreate = jest.spyOn(axios, 'post').mockImplementation(() => {})
-let spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => true)
+const spyCreate = jest.spyOn(axios, 'post').mockImplementation(() => {});
+let spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => true);
 
 const defaultProps = {
     room: {
@@ -23,19 +23,19 @@ const defaultProps = {
 }
 
 describe('<MyRoomRegister />', () => {
-    let component;
-    beforeEach(() => {
-        component = mount(
-            <BrowserRouter>
-                <MyRoomRegister {...defaultProps} />
-            </BrowserRouter>
-        )
-    })
+  let component;
+  beforeEach(() => {
+    component = mount(
+      <BrowserRouter>
+        <MyRoomRegister {...defaultProps} />
+      </BrowserRouter>,
+    );
+  });
 
-    it('should render without error', () => {
-        const wrapper = component.find('MyRoomRegister');
-        expect(wrapper.length).toBe(1);
-    });
+  it('should render without error', () => {
+    const wrapper = component.find('MyRoomRegister');
+    expect(wrapper.length).toBe(1);
+  });
 
     it('should post room well', () => {
         const titleInput = component.find('#my-room-register-title-input').find('input');
@@ -50,10 +50,12 @@ describe('<MyRoomRegister />', () => {
         expect(spyCreate).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle back button well', () => {
-        let backButton = component.find('#my-room-register-back-button').find('button');
-        backButton.simulate('click');
-        expect(spyConfirm).toHaveBeenCalledTimes(0);
+  it('should handle back button well', () => {
+    let backButton = component
+      .find('#my-room-register-back-button')
+      .find('button');
+    backButton.simulate('click');
+    expect(spyConfirm).toHaveBeenCalledTimes(0);
 
         const spyProps = {
             onClickConfirmHandler: spyCreate,
@@ -69,11 +71,16 @@ describe('<MyRoomRegister />', () => {
         backButton.simulate('click');
         expect(spyConfirm).toHaveBeenCalledTimes(0);
 
-        const titleInput = newComponent.find('#my-room-register-title-input').find('input');
-        titleInput.simulate('change', {target: { value: 'changed'}});
+    backButton = newComponent
+      .find('#my-room-register-back-button')
+      .find('button');
+    backButton.simulate('click');
+    expect(spyConfirm).toHaveBeenCalledTimes(0);
 
-        backButton.simulate('click');
-        expect(spyConfirm).toHaveBeenCalledTimes(1);
+    const titleInput = newComponent
+      .find('#my-room-register-title-input')
+      .find('input');
+    titleInput.simulate('change', { target: { value: 'changed' } });
 
         spyConfirm = jest.spyOn(window, 'confirm').mockImplementation(() => false)
         backButton.simulate('click');

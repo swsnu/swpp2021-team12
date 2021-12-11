@@ -23,6 +23,7 @@ function UserInfo(props) {
           <p>{user.email}</p>
           <p>{user.self_intro}</p>
           <Button
+            primary
             onClick={() => {
               axios.get(`/api/room/user/${user.id}/`)
                 .then((res) => {

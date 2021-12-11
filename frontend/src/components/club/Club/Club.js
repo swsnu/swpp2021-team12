@@ -103,6 +103,7 @@ function Club(props) {
                   <>
                     <Button
                       id="delete-button"
+                      color="red"
                       onClick={() => onClickDeleteHandler(history)}
                     >
                       Delete

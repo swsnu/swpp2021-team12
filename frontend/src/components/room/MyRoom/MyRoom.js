@@ -49,6 +49,7 @@ function MyRoom(props) {
         <Grid.Row centered columns="3" style={{ marginTop: '2em' }}>
           <Button
             id="my-room-edit-button"
+            color="instagram"
             onClick={() => history.push('/mypage/room/edit')}
           >
             Edit

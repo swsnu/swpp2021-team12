@@ -62,6 +62,7 @@ function CommentList(props) {
                           <p>{comment.author.email}</p>
                           <p>{comment.author.self_intro}</p>
                           <Button
+                            primary
                             onClick={() => {
                               axios.get(`/api/room/user/${comment.author.id}/`)
                                 .then((res) => {
