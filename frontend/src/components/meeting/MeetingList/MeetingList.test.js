@@ -61,26 +61,26 @@ describe('<MeetingList />', () => {
     expect(backButton.length).toBe(1);
   });
 
-  xit('should redirect to detail page when the detail button is clicked', () => {
-    const historyMock = { push: jest.fn() };
-    component = mount(
-      <BrowserRouter>
-        <MeetingList
-          currentUser={1}
-          meetinglist={[
-            {
-              id: 1,
-              author: { id: 1 },
-              is_public: true,
-              accessible_members: [1],
-            },
-          ]}
-          history={historyMock}
-        />
-      </BrowserRouter>,
-    );
-    const detailButton = component.find('.detailButton').find('button');
-    detailButton.simulate('click');
-    expect(detailButton.length).toBe(1);
-  });
+  //   xit('should redirect to detail page when the detail button is clicked', () => {
+  //     const historyMock = { push: jest.fn() };
+  //     component = mount(
+  //       <BrowserRouter>
+  //         <MeetingList
+  //           currentUser={1}
+  //           meetinglist={[
+  //             {
+  //               id: 1,
+  //               author: { id: 1 },
+  //               is_public: true,
+  //               accessible_members: [1],
+  //             },
+  //           ]}
+  //           history={historyMock}
+  //         />
+  //       </BrowserRouter>,
+  //     );
+  //     const detailButton = component.find('.detailButton').find('button');
+  //     detailButton.simulate('click');
+  //     expect(detailButton.length).toBe(1);
+  //   });
 });

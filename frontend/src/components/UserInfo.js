@@ -23,10 +23,16 @@ function UserInfo(props) {
           <p>{user.email}</p>
           <p>{user.self_intro}</p>
           <Button
+            primary
             onClick={() => {
-              axios.get(`/api/room/user/${user.id}/`)
-                .then((res) => {history.push(`/room/${res.data.id}`);})
-                .catch(() => {alert("Error! There is no room");});
+              axios
+                .get(`/api/room/user/${user.id}/`)
+                .then((res) => {
+                  history.push(`/room/${res.data.id}`);
+                })
+                .catch(() => {
+                  alert('Error! There is no room');
+                });
             }}
           >
             Go to Room

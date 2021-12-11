@@ -95,7 +95,7 @@ function MyProfileEdit(props) {
             >
               Confirm
             </Button>
-            <Button id="button_back" primary onClick={onClickBackButton}>
+            <Button id="button_back" secondary onClick={onClickBackButton}>
               Back
             </Button>
           </Container>

@@ -45,7 +45,7 @@ describe('<Main />', () => {
   });
 
   it('should render without error', () => {
-    console.log(component.debug());
+    // console.log(component.debug());
     const wrapper = component.find('.Main');
     expect(wrapper.length).toBe(1);
   });

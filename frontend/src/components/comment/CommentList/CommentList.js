@@ -62,10 +62,16 @@ function CommentList(props) {
                           <p>{comment.author.email}</p>
                           <p>{comment.author.self_intro}</p>
                           <Button
+                            primary
                             onClick={() => {
-                              axios.get(`/api/room/user/${comment.author.id}/`)
-                                .then((res) => {history.push(`/room/${res.data.id}`);})
-                                .catch(() => {alert("Error! There is no room");});
+                              axios
+                                .get(`/api/room/user/${comment.author.id}/`)
+                                .then((res) => {
+                                  history.push(`/room/${res.data.id}`);
+                                })
+                                .catch(() => {
+                                  alert('Error! There is no room');
+                                });
                             }}
                           >
                             Go to Room

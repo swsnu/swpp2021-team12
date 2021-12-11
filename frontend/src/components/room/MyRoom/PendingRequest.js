@@ -3,33 +3,7 @@ import { Modal, Button } from 'semantic-ui-react';
 import MyRoomPending from '../MyRoomPending/MyRoomPending';
 
 function PendingRequest({ pendings }) {
-  console.log(pendings);
   const [open, setOpen] = useState(false);
-  const examplePending = [
-    {
-      id: 1,
-      requester: {
-        id: 1,
-        name: 'Pigeon',
-        email: 'chicken@chicken.com',
-        self_intro: 'cock-a-doodle-doo',
-      },
-      content: 'I want to join',
-      date: '2021-12-17Tblahblah',
-    },
-    {
-      id: 2,
-      requester: {
-        id: 2,
-        name: 'Gon',
-        email: 'swpp@snu.ac.kr',
-        self_intro: 'gongle',
-      },
-      content: 'Operating System is easy',
-      date: '9999-99-99Tblahblah',
-    },
-  ];
-  console.log(examplePending);
 
   return (
     <Modal
@@ -46,7 +20,6 @@ function PendingRequest({ pendings }) {
       <Modal.Content image>
         <Modal.Description>
           <MyRoomPending pendinglist={pendings} />
-          {/* <MyRoomPending pendinglist={examplePending} /> */}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
