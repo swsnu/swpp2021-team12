@@ -219,6 +219,8 @@ logs
 **/*.backup.*
 **/*.back.*
 coverage/
+my_settings.py
+locustfile.py
 
 node_modules
 bower_components
