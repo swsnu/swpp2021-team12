@@ -25,12 +25,16 @@ function UserInfo(props) {
           <Button
             primary
             onClick={() => {
-              axios.get(`/api/room/user/${user.id}/`)
+              axios
+                .get(`/api/room/user/${user.id}/`)
                 .then((res) => {
-                  if (user.id === res.data.host_id) history.push(`/mypage/room`);
-                  else history.push(`/room/${res.data.id}`);
+                  if (user.id === res.data.host_id)
+                    history.push(`/room/${res.data.id}`);
+                  else history.push(`/mypage/room`);
                 })
-                .catch(() => {alert("Error! There is no room");});
+                .catch(() => {
+                  alert('Error! There is no room');
+                });
             }}
           >
             Go to Room
