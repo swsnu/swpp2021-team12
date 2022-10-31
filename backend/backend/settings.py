@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import my_settings
+# import my_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,8 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'qyw_u5k&#%3p+&%f5rgzc+06+%57-fl*ak!1&j@-wqoaiz7yqn'
-SECRET_KEY = my_settings.SECRET_KEY
+SECRET_KEY = 'qyw_u5k&#%3p+&%f5rgzc+06+%57-fl*ak!1&j@-wqoaiz7yqn'
+# SECRET_KEY = my_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,15 +81,15 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'OPTIONS': {
-#            'read_default_file': './mysql.cnf',
-#        },
-#    }
-#}
-DATABASES = my_settings.DATABASES
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'OPTIONS': {
+           'read_default_file': './mysql.cnf',
+       },
+   }
+}
+# DATABASES = my_settings.DATABASES
 
 
 # Password validation
