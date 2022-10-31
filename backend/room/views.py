@@ -1,6 +1,7 @@
 from json.decoder import JSONDecodeError
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseNotFound, JsonResponse
+from django.views.decorators.cache import cache_page
 import json
 from .models import Room, Date, RoomRequest
 from user.models import User
@@ -44,6 +45,7 @@ def register_room(request):
         return HttpResponseNotAllowed(['GET', 'POST'])
 
 # Get an user's room data
+@cache_page(60*15)
 def room(request, room_id):
     if request.method == 'GET':
         try:
