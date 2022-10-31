@@ -11,6 +11,12 @@ MeetHub is the place where people get together. Everyone in MeetHub can share th
 First, you can share your room with your friends. Make or join a club, and register your room. It will appear on the map and club members can make a reservation for hanging out with you. At the same time, you can also find your friend’s room and do the same things.
 Second, you can find your mates on MeetHub. For example, you may want to order a delivery food. If you live alone, the delivery fee and lowest-price for an order are very burdensome. Then you can gather your mates like you on MeetHub. Make a meeting and let other people around you find your meeting on the map. Not only for delivery, but also for whatever you wanna share together, you can make an ‘offer’ to gather your mates.
 
+
+
+Click below img to watch introduction video on Youtube!!
+
+[![Video Label](http://img.youtube.com/vi/ukyCkStp-BQ/0.jpg)](https://youtu.be/ukyCkStp-BQ)
+
 ### Core Features
 
 ## Meeting
