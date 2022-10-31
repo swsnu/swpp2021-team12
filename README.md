@@ -15,7 +15,7 @@ Second, you can find your mates on MeetHub. For example, you may want to order a
 
 Click below img to watch introduction video on Youtube!!
 
-[![Video Label](http://img.youtube.com/vi/OFDI3plKJnY/0.jpg)](https://youtu.be/OFDI3plKJnY)
+[![Video Label](http://img.youtube.com/vi/OFDI3plKJnY/1.jpg)](https://youtu.be/OFDI3plKJnY)
 
 ### Core Features
 
